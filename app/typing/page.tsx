@@ -1,8 +1,10 @@
 "use client";
-import { useTimer } from "../utils/timer";
+import { useKeyboardSchortcuts } from "../hooks/useKeyboardShortcuts";
+import { useTimer } from "../hooks/useTimer";
 
 export default function TypingArea() {
   const { text, handleChange, handleStop, duration } = useTimer();
+  const { handleKeyDown } = useKeyboardSchortcuts();
 
   return (
     <div className="flex flex-col items-center-safe justify-center p-10">
@@ -11,12 +13,7 @@ export default function TypingArea() {
         <textarea
             value={text}
             onChange={handleChange}
-            onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                e.preventDefault(); // do not add new line
-                handleStop();
-                }
-            }}
+            onKeyDown={handleKeyDown}
             placeholder="Zacznij pisać..."
             className="border-2 border-gray-300 rounded-md p-3 mb-4 resize-none shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-amber-100 transition duration-200"
             rows={2}
@@ -29,6 +26,9 @@ export default function TypingArea() {
         </button>
         </div>
         {duration > 0 && <p>Czas pisania: {duration} sekund</p>}
+        <div className="mt-500">
+            <h3> Jestem daleko </h3>
+        </div>
     </div>
   );
 }
