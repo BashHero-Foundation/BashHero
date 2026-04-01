@@ -4,15 +4,28 @@ import { useTimer } from "../hooks/useTimer";
 import { useLevel } from "../hooks/useLevel";
 
 export default function TypingArea() {
-  const { text, handleChange, duration, targetText } = useTimer();
+  const { text, handleChange, duration } = useTimer();
   const { handleKeyDown } = useKeyboardSchortcuts();
   const { level } = useLevel("level-1");
+
+  if (!level) return null;
+
+  const targetText = level.commands[4].text;
 
   return (
     <div className="flex flex-col items-center-safe justify-center p-10">
         <div className="flex flex-col items-center mb-10 gap-2">
-            <h1 className="text-3xl text-blue-800"> { level?.title } </h1>
+            <h1 className="text-3xl font-bold text-blue-800"> { level?.title } </h1>
             <p> { level?.description }</p>
+            <div className="flex gap-2 items-center font-sans">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200 uppercase tracking-wider">
+                {level?.difficulty}
+            </span>
+
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                {level?.category}
+            </span>
+            </div>
         </div>
         <h2> Tekst do wpisywania</h2>
         <p className="font-bold text-xl"> {targetText} </p>
