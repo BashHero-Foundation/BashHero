@@ -1,0 +1,35 @@
+
+{
+  "levels": [
+    {
+      "id": "level-1",
+      "title": "Podstawowe poruszanie się",
+      "description": "Ćwiczymy cd w różnych sytuacjach",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 5, 
+      "commands": [
+        {
+          "text": "cd /home/projekt",
+          "hint": "Idź do katalogu projekt"
+        },
+        {
+          "text": "cd ..",
+          "hint": "Cofnij się o katalog"
+        },
+        {
+          "text": "cd projekt_zaliczeniowy",
+          "hint": "Przejdź do innego katalogu"
+        },
+        {
+          "text": "ls",
+          "hint": "Wyświetl wszystkie pliki"
+        },
+        {
+          "text": "cd app/lib/modules",
+          "hint": "Sprawdź moduły"
+        }
+      ]
+    }
+  ]
+}
