@@ -1,4 +1,5 @@
 import TypingArea from "./typing/page";  
+import ScormStatus from "./scorm/scorm_utils";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       <div>
         <TypingArea></TypingArea>
       </div>
-    
+      <ScormStatus></ScormStatus>
     </div>
   );
 }
