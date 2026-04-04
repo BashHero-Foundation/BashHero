@@ -3,7 +3,16 @@
 import { useState, useEffect } from 'react';
 import { SCORM } from "pipwerks-scorm-api-wrapper";
 
-const scorm_student_name_field = "cmi.core.student_name";
+export const SCORM_FIELDS = {
+    STUDENT_ID: "cmi.core.student_id",
+    STUDENT_NAME: "cmi.core.student_name",
+
+    LESSON_STATUS: "cmi.core.lesson_status",
+
+    INTERACTION_ID: (n: number) => `cmi.interactions.${n}.id` as const,
+    INTERACTION_TYPE: (n: number) => `cmi.interactions.${n}.type` as const,
+    INTERACTION_RESULT: (n: number) => `cmi.interactions.${n}.result` as const,
+} as const;
 
 export default function ScormStatus() {
     const [scormConnected, setScormConnected] = useState(false);
@@ -15,7 +24,7 @@ export default function ScormStatus() {
         if (isConnected) {
             setScormConnected(true);
 
-            setScormStudentName(SCORM.get(scorm_student_name_field));
+            setScormStudentName(SCORM.get(SCORM_FIELDS.STUDENT_NAME));
         }
 
         return () => {
