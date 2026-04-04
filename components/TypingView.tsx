@@ -1,11 +1,11 @@
 "use client";
-import { useKeyboardSchortcuts } from "../hooks/useKeyboardShortcuts";
-import { useTypingLevel } from "../hooks/useTypingLevel";
-import { useLevel } from "../hooks/useLevelData";
-import { Menu } from "../../components/menu";
+import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
+import { useTypingLevel } from "../app/hooks/useTypingLevel";
+import { Menu } from "./menu";
+import { Level } from "@/app/types";
 
-export default function TypingArea() {
-    const { level } = useLevel("level-1");
+export function TypingView({ level }: { level: Level }) {
+
     const {
         text,
         handleChange,
@@ -34,11 +34,11 @@ export default function TypingArea() {
             <p> { level.description }</p>
             <div className="flex gap-2 items-center font-sans">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200 uppercase tracking-wider">
-                {level?.difficulty}
+                {level.difficulty}
             </span>
 
             <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
-                {level?.category}
+                {level.category}
             </span>
             </div>
         </div>
