@@ -11,3 +11,9 @@
 1. same as in **Uruchomienie** `npm i`
 2. staticly build with `npm run build`
 3. congratulations, uve just created static build in `out/` directory
+
+## Creating scorm package
+
+1. same as in **Staticly build**
+2. zip scorm package `zip -r bashhero_scormpackage.zip imsmanifest.xml out`
+3. congratulations, scorm package created with name `bashhero_scormpackage.zip`
