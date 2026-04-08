@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { SCORM } from "pipwerks-scorm-api-wrapper";
 
 export const SCORM_FIELDS = {
+    SUSPEND_DATA: "cmi.suspend_data",
+
     STUDENT_ID: "cmi.core.student_id",
     STUDENT_NAME: "cmi.core.student_name",
 
@@ -17,20 +19,42 @@ export const SCORM_FIELDS = {
 export default function ScormStatus() {
     const [scormConnected, setScormConnected] = useState(false);
     const [scormStudentName, setScormStudentName] = useState("");
+    const [testVaslue, setTestValue] = useState("");
+
+    const saveTest = () => {
+        SCORM.set(SCORM_FIELDS.SUSPEND_DATA, "passed");
+        setTestValue(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
+        console.log("hello log");
+        console.log(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
+    };
+
+    const checkTest = () => {
+        setTestValue(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
+        console.log("hello log");
+        console.log(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
+    };
 
     useEffect(() => {
-        const isConnected = SCORM.init();
-
-        if (isConnected) {
+        SCORM.init();
+        if (SCORM.connection.isActive) {
             setScormConnected(true);
 
             setScormStudentName(SCORM.get(SCORM_FIELDS.STUDENT_NAME));
+
+            setTestValue(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
+
+            console.log(testVaslue);
+        }
+        else {
+            setScormConnected(false);
         }
 
         return () => {
             if (SCORM.connection.isActive) {
-                SCORM.save();
-                SCORM.quit();
+                setScormConnected(true);
+            }
+            else {
+                setScormConnected(false);
             }
         };
     }, []);
@@ -39,6 +63,9 @@ export default function ScormStatus() {
         <div>
             {scormConnected && (<p className="font-retro">hello {scormStudentName}</p>)}
             <p className="font-retro">scorm connection status: {scormConnected ? "connected" : "disconnected"}</p>
+            <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">save SUSPEND_DATA with passed</button>
+            <button onClick={checkTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">check SUSPEND_DATA</button>
+            <p>scorm SUSPEND_DATA value {testVaslue}</p>
         </div>
     );
 }
