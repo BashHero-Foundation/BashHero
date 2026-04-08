@@ -1,3 +1,13 @@
+## Simple scorm bulid
+
+just run script
+```bash
+chmod +x build_scorm.sh
+./build_scorm.sh
+```
+
+and copy `bashhero_scormpackage.zip` to your prefered lms system.
+
 ## Uruchomienie
 
 1. Sklonuj repozytorium 
