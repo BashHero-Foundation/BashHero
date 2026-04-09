@@ -1,6 +1,17 @@
-## Simple scorm bulid
+# Bash Hero
+
+## Simple scorm package bulid (linux / mac / wsl)
+
+### with docker
 
 just run script
+```bash
+docker build --output . . 
+```
+
+### without docker
+
+u need to have node installed
 ```bash
 chmod +x build_scorm.sh
 ./build_scorm.sh
