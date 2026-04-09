@@ -26,6 +26,7 @@ export default function ScormStatus() {
         setTestValue(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
         console.log("hello log");
         console.log(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
+        SCORM.save();
     };
 
     const checkTest = () => {
