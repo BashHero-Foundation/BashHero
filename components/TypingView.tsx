@@ -17,6 +17,38 @@ export function TypingView({ level }: { level: Level }) {
     } = useTypingLevel(level?.commands || []);
   const { handleKeyDown } = useKeyboardSchortcuts();
 
+  const correctedText = () => {
+    const result = [];
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      let className = "";
+
+     if (char === currentCommand.text[i]) {
+        className = "text-black-500";
+      } else {
+        className = "text-red-500 bg-red-100";
+      }
+
+      result.push(
+        <span key={`character-${i}`} className={className}>
+          {char}
+        </span>
+      );
+    }
+
+    const remaining = currentCommand.text.slice(text.length);
+    if (remaining) {
+      result.push(
+        <span key="full-text" className="text-gray-400">
+          {remaining}
+        </span>
+      );
+    }
+
+    return result;
+  };
+
   if (!level) return <div className="flex items-center text-5xl text-gray-500 justify-center h-screen"> Level not found :( </div>;
 
   return (
@@ -48,18 +80,18 @@ export function TypingView({ level }: { level: Level }) {
         
         <div className="relative font-mono text-xl p-4 border-2 border-gray-300 rounded-md shadow-sm focus-within:border-blue-900 transition duration-200">
             
-            {/* Text to be typed */}
-            <div className="absolute inset-0 p-4 text-gray-300 pointer-events-none whitespace-pre-wrap">
-            {currentCommand.text}
+            {/* Text to be typed & text being typed */}
+            <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
+            {correctedText()}
             </div>
 
-            {/* Actual typing text */}
+            {/* Typing handler */}
             <textarea
             value={text}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             spellCheck="false"
-            className="relative z-10 w-full bg-transparent text-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
+            className="relative z-10 w-full bg-transparent text-transparent caret-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
             rows={2}
             />
         </div>
