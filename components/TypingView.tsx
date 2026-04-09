@@ -3,6 +3,7 @@ import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
+import TextCorrecter from "./TextCorrecter";
 
 export function TypingView({ level }: { level: Level }) {
 
@@ -16,38 +17,6 @@ export function TypingView({ level }: { level: Level }) {
         isFinished
     } = useTypingLevel(level?.commands || []);
   const { handleKeyDown } = useKeyboardSchortcuts();
-
-  const correctedText = () => {
-    const result = [];
-
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      let className = "";
-
-     if (char === currentCommand.text[i]) {
-        className = "text-black-500";
-      } else {
-        className = "text-red-500 bg-red-100";
-      }
-
-      result.push(
-        <span key={`character-${i}`} className={className}>
-          {char}
-        </span>
-      );
-    }
-
-    const remaining = currentCommand.text.slice(text.length);
-    if (remaining) {
-      result.push(
-        <span key="full-text" className="text-gray-400">
-          {remaining}
-        </span>
-      );
-    }
-
-    return result;
-  };
 
   if (!level) return <div className="flex items-center text-5xl text-gray-500 justify-center h-screen"> Level not found :( </div>;
 
@@ -82,7 +51,7 @@ export function TypingView({ level }: { level: Level }) {
             
             {/* Text to be typed & text being typed */}
             <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
-            {correctedText()}
+            <TextCorrecter text={text} currentCommand={currentCommand} />
             </div>
 
             {/* Typing handler */}
