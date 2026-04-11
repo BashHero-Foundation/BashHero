@@ -19,7 +19,7 @@ export const SCORM_FIELDS = {
 export default function ScormStatus() {
     const [scormConnected, setScormConnected] = useState(false);
     const [scormStudentName, setScormStudentName] = useState("");
-    const [testVaslue, setTestValue] = useState("");
+    const [testValue, setTestValue] = useState("");
 
     const saveTest = () => {
         SCORM.set(SCORM_FIELDS.SUSPEND_DATA, "passed");
@@ -36,7 +36,9 @@ export default function ScormStatus() {
     };
 
     useEffect(() => {
-        SCORM.init();
+        if (!SCORM.init()) {
+            console.log("Something went wrong during scorm connection");
+        }
         if (SCORM.connection.isActive) {
             setScormConnected(true);
 
@@ -44,7 +46,7 @@ export default function ScormStatus() {
 
             setTestValue(SCORM.get(SCORM_FIELDS.SUSPEND_DATA));
 
-            console.log(testVaslue);
+            console.log(testValue);
         }
         else {
             setScormConnected(false);
@@ -52,6 +54,7 @@ export default function ScormStatus() {
 
         return () => {
             if (SCORM.connection.isActive) {
+                SCORM.quit();
                 setScormConnected(true);
             }
             else {
@@ -66,7 +69,7 @@ export default function ScormStatus() {
             <p className="font-retro">scorm connection status: {scormConnected ? "connected" : "disconnected"}</p>
             <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">save SUSPEND_DATA with passed</button>
             <button onClick={checkTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">check SUSPEND_DATA</button>
-            <p>scorm SUSPEND_DATA value {testVaslue}</p>
+            <p>scorm SUSPEND_DATA value {testValue}</p>
         </div>
     );
 }
