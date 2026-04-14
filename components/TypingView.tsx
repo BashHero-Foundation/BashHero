@@ -3,6 +3,7 @@ import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
+import  TextCorrecter  from "./TextCorrecter";
 
 export function TypingView({ level }: { level: Level }) {
 
@@ -50,7 +51,7 @@ export function TypingView({ level }: { level: Level }) {
             
             {/* Text to be typed */}
             <div className="absolute inset-0 p-4 text-gray-300 pointer-events-none whitespace-pre-wrap">
-            {currentCommand.text}
+            <TextCorrecter text={text} currentCommand={currentCommand} />
             </div>
 
             {/* Actual typing text */}
