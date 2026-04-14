@@ -1,9 +1,11 @@
 "use client";
+import Link from 'next/link';
 import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
 import  TextCorrecter  from "./TextCorrecter";
+import FinishedLevelButtons from './FinishedLevelButtons';
 
 export function TypingView({ level }: { level: Level }) {
 
@@ -69,15 +71,18 @@ export function TypingView({ level }: { level: Level }) {
 
         {isFinished && 
         <div className="flex flex-col items-center mt-7"> 
-            <h3 className="font-bold text-2xl text-blue-800 mb-3"> Gratulacje !!</h3> 
-            <p className="font-semibold text-xl tracking-wider">Czas pisania: {duration} sekund</p>
+            <h3 className="font-bold text-2xl text-blue-800"> Gratulacje !!</h3> 
 
-            <div className="mt-9 font-extrabold tracking-wider"> 
+            {/* Points*/}
+            <div className="mt-5 font-extrabold tracking-wider"> 
                 <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
                     <span className=" text-3xl"> +{level.points}</span>
                     <span className="text-xl"> points</span>
                 </span>
             </div>
+
+            <FinishedLevelButtons/>
+
         </div> }
         </div>
     </div>
