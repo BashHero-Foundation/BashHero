@@ -11,3 +11,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return <TypingView level={level} />;
 }
+
+export async function generateStaticParams() {
+  return levelsData.levels.map((level) => ({
+    id: level.id.toString(),
+  }));
+}

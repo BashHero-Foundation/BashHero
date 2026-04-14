@@ -2,7 +2,7 @@
 {
   "levels": [
     {
-      "id": "level-1",
+      "id": "1",
       "title": "1 Podstawowe poruszanie się",
       "description": "Ćwiczymy cd w różnych sytuacjach",
       "difficulty": "easy",
@@ -33,7 +33,7 @@
     },
 
     {
-      "id": "level-2",
+      "id": "2",
       "title": "2 Zaawansowana nawigacja",
       "description": "Szybkie przeskakiwanie między katalogami przy użyciu skrótów.",
       "difficulty": "easy",
@@ -72,7 +72,7 @@
     },
 
     {
-      "id": "test",
+      "id": "00",
       "title": "007 TEST",
       "description": "Ćwiczymy cd w różnych sytuacjach i nie tylko, bo bedziemy uczyc sie na prawde wielu niesamowitych rzeczy, ktore pozwola na rozbudownie wlasnych umiejetnosci nie tylko programistycznych ale takze umiejetnosci obcowania z narzedzienm klawiatury, tak bardzo waznym i potrzebnym w pracy programisty ",
       "difficulty": "easy-peasy",
