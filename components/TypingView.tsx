@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
@@ -19,7 +20,20 @@ export function TypingView({ level }: { level: Level }) {
   const { handleKeyDown } = useKeyboardSchortcuts();
 
   const WPM = useLevelMetrics({commands: level?.commands || [], duration: typing.duration});
-  console.log("WPM", WPM.toFixed(2), "duration", typing.duration);
+
+  // Save stats to localStorage when level is finished
+  useEffect(() => {
+    if (typing.isFinished && typing.duration > 0) {
+      const stats = {
+        levelId: level.id,
+        duration: typing.duration,
+        WPM: Math.round(WPM),
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem(`level_${level.id}_stats`, JSON.stringify(stats));
+    }
+  }, [typing.isFinished, typing.duration, WPM, level.id, level.title]);
+
 
   if (!level) return <div className="flex items-center text-5xl text-gray-500 justify-center h-screen"> Level not found :( </div>;
 
@@ -48,12 +62,15 @@ export function TypingView({ level }: { level: Level }) {
         </div>
         <div className="flex flex-col p-4 w-full max-w-md mx-auto">
 
+
+        {/* Total commands and timer */} 
+
         <div className="flex justify-between items-center mb-2 text-sm text-gray-500 font-mono">
         <span>
             {typing.currentIndex + 1}/{typing.totalCommands}
         </span>
 
-        <span>
+        <span className="text-xl">
             ⏱️ {typing.startTime
             ? `${typing.isFinished ? typing.duration : liveTime.toFixed(1)}s`
             : "0.0s"}
@@ -82,6 +99,8 @@ export function TypingView({ level }: { level: Level }) {
 
         </div>
 
+        <FinishedLevelButtons levelId={level.id}/>
+
         {typing.isFinished && 
         <div className="flex flex-col items-center mt-7"> 
             <h3 className="font-bold text-2xl text-blue-800"> Gratulacje !!</h3> 
@@ -93,15 +112,6 @@ export function TypingView({ level }: { level: Level }) {
                     <span className="text-xl"> points</span>
                 </span>
             </div>
-
-            <div className='mt-10'> 
-            <h3 className='font-extrabold text-2xl'> STATYSTYKI </h3>
-            <p> CZAS: {typing.duration}s</p>
-            <p> WPM: {WPM.toFixed(0)}</p>
-            </div>
-
-
-            <FinishedLevelButtons/>
 
         </div> }
         </div>

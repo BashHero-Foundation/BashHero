@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function FinishedLevelButtons() {
+export default function FinishedLevelButtons({ levelId }: { levelId: string }) {
 
     // !! it has to be changed in future
     const handleReset = () => {
@@ -20,7 +20,7 @@ export default function FinishedLevelButtons() {
             ⟲ 
             </button> 
 
-            <Link href="/game" className="flex-4 text-center">
+            <Link href={`/game/${levelId}/stats`} className="flex-4 text-center">
                 <button className="w-full rounded-xl border-b-4 border-blue-600 bg-blue-800 shadow-lg
                 px-6 py-4 text-lg text-white transition hover:bg-blue-600 
                 active:border-b-0 active:translate-y-1"> 
@@ -29,10 +29,10 @@ export default function FinishedLevelButtons() {
             </Link> 
 
 
-            <Link href="/game/2" className="flex-1.5 text-center"> 
+            <Link href={`/game/${parseInt(levelId) + 1}`} className="flex-1.5 text-center"> 
             <button 
                 className="w-full rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg
-                p-2 text-lg text-white transition hover:bg-green-500 hover:text-white
+                px-3 py-4 text-lg text-white transition hover:bg-green-500 hover:text-white
                 active:scale-95 active:border-b-0 active:translate-y-1"> 
                 Kolejny poziom ⮞ 
                 </button> 

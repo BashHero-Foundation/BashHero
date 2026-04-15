@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { Command } from "../types";
-import { start } from "repl";
 
 export function useTypingLevel(commands: Command[]) {
     const [currentIndex, setCurrentIndex] = useState(0);

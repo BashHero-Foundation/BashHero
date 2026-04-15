@@ -12,7 +12,6 @@ export function useLevelMetrics({commands, duration}: LevelMetricsProps) {
     const WPM = duration > 0 && totalChars > 0 // prevent bugs
     ?(totalChars / 5) / (duration / 60)
     : 0;
-    
-    return WPM;
 
+    return WPM;
 }
