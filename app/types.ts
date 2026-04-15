@@ -20,11 +20,20 @@ export type LevelMetricsProps = {
 
 export interface LevelStats {
   levelId: string;
-  levelTitle: string;
   duration: number;
   WPM: number;
   timestamp: string;
 }
+
+export type LevelStatsStateProps = {
+  isFinished: boolean;
+  duration: number;
+  wpm: number;
+  level: {
+    id: string;
+    title: string;
+  };
+};
 
 export interface StatsPageContentProps {
   level: {
