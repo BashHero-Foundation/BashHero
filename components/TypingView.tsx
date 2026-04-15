@@ -1,24 +1,25 @@
 "use client";
-import Link from 'next/link';
 import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
+import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
 import  TextCorrecter  from "./TextCorrecter";
 import FinishedLevelButtons from './FinishedLevelButtons';
+import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 
 export function TypingView({ level }: { level: Level }) {
 
-    const {
-        text,
-        handleChange,
-        duration,
-        currentCommand,
-        currentIndex,
-        totalCommands,
-        isFinished
-    } = useTypingLevel(level?.commands || []);
+  const typing = useTypingLevel(level?.commands || []);
+    
+  // realtime timer hook  
+  const liveTime = useLiveTimer(typing.startTime, typing.isFinished);
+  
+  // blocking shortcuts hook
   const { handleKeyDown } = useKeyboardSchortcuts();
+
+  const WPM = useLevelMetrics({commands: level?.commands || [], duration: typing.duration});
+  console.log("WPM", WPM.toFixed(2), "duration", typing.duration);
 
   if (!level) return <div className="flex items-center text-5xl text-gray-500 justify-center h-screen"> Level not found :( </div>;
 
@@ -47,19 +48,31 @@ export function TypingView({ level }: { level: Level }) {
         </div>
         <div className="flex flex-col p-4 w-full max-w-md mx-auto">
 
+        <div className="flex justify-between items-center mb-2 text-sm text-gray-500 font-mono">
+        <span>
+            {typing.currentIndex + 1}/{typing.totalCommands}
+        </span>
+
+        <span>
+            ⏱️ {typing.startTime
+            ? `${typing.isFinished ? typing.duration : liveTime.toFixed(1)}s`
+            : "0.0s"}
+        </span>
+        </div>
+
         {/* TYPING AREA - future terminal style */}    
         
         <div className="relative font-mono text-xl p-4 border-2 border-gray-300 rounded-md shadow-sm focus-within:border-blue-900 transition duration-200">
             
             {/* Text to be typed */}
             <div className="absolute inset-0 p-4 text-gray-300 pointer-events-none whitespace-pre-wrap">
-            <TextCorrecter text={text} currentCommand={currentCommand} />
+            <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
             </div>
 
             {/* Actual typing text */}
             <textarea
-            value={text}
-            onChange={handleChange}
+            value={typing.text}
+            onChange={typing.handleChange}
             onKeyDown={handleKeyDown}
             spellCheck="false"
             className="relative z-10 w-full bg-transparent text-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
@@ -69,7 +82,7 @@ export function TypingView({ level }: { level: Level }) {
 
         </div>
 
-        {isFinished && 
+        {typing.isFinished && 
         <div className="flex flex-col items-center mt-7"> 
             <h3 className="font-bold text-2xl text-blue-800"> Gratulacje !!</h3> 
 
@@ -80,6 +93,13 @@ export function TypingView({ level }: { level: Level }) {
                     <span className="text-xl"> points</span>
                 </span>
             </div>
+
+            <div className='mt-10'> 
+            <h3 className='font-extrabold text-2xl'> STATYSTYKI </h3>
+            <p> CZAS: {typing.duration}s</p>
+            <p> WPM: {WPM.toFixed(0)}</p>
+            </div>
+
 
             <FinishedLevelButtons/>
 

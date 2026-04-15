@@ -12,3 +12,8 @@ export type Level = {
   points: number;
   commands: Command[];
 };
+
+export type LevelMetricsProps = {
+  commands: Command[];
+  duration: number;
+}
