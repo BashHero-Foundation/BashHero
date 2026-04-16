@@ -19,3 +19,4 @@ export async function generateStaticParams() {
     id: level.id.toString(),
   }));
 }
+
