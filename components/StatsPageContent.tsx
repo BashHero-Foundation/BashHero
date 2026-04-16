@@ -84,7 +84,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
           {/* Navigation Buttons */}
           <div className="mt-10 flex flex-col gap-3 w-full">
             <Link href={`/game/${level.id}`} className="w-full">
-              <button className="w-full rounded-xl border-b-4 border-blue-600 bg-blue-800 shadow-lg px-6 py-3 text-lg text-white font-bold transition hover:bg-blue-600 active:border-b-0 active:translate-y-1">
+              <button className="w-full rounded-xl border-b-4 border-blue-600 bg-blue-800 shadow-lg px-6 py-3 text-lg text-white font-bold transition hover:bg-blue-600 active:border-b-0 active:translate-y-1 active:bg-blue-900">
                 ← Wróć do poziomu
               </button>
             </Link>

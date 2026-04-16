@@ -16,14 +16,14 @@ export default function FinishedLevelButtons({ levelId }: { levelId: string }) {
             onClick={handleReset}
             className="flex-1 rounded-xl border-b-4 border-gray-600 bg-gray-800 shadow-lg
             p-2 text-3xl text-gray-400 transition hover:bg-red-600 hover:text-white
-            active:scale-95 active:border-b-0 active:translate-y-1"> 
+            active:scale-95 active:border-b-0 active:translate-y-1 active:bg-red-800"> 
             ⟲ 
             </button> 
 
             <Link href={`/game/${levelId}/stats`} className="flex-4 text-center">
                 <button className="w-full rounded-xl border-b-4 border-blue-600 bg-blue-800 shadow-lg
                 px-6 py-4 text-lg text-white transition hover:bg-blue-600 
-                active:border-b-0 active:translate-y-1"> 
+                active:border-b-0 active:translate-y-1 active:bg-blue-900"> 
                 Statystyki  
                 </button> 
             </Link> 
@@ -33,7 +33,7 @@ export default function FinishedLevelButtons({ levelId }: { levelId: string }) {
             <button 
                 className="w-full rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg
                 px-3 py-4 text-lg text-white transition hover:bg-green-500 hover:text-white
-                active:scale-95 active:border-b-0 active:translate-y-1"> 
+                active:scale-95 active:border-b-0 active:translate-y-1 active:bg-green-700"> 
                 Kolejny poziom ⮞ 
                 </button> 
             </Link> 
