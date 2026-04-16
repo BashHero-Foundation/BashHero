@@ -13,22 +13,27 @@ export type Level = {
   commands: Command[];
 };
 
-export type LevelMetricsProps = {
+export interface LevelMetricsProps {
   commands: Command[];
   duration: number;
+  userText: string;
 }
 
-export interface LevelStats {
+export type LevelStats = {
   levelId: string;
   duration: number;
   WPM: number;
+  Errors: number;
+  Accuracy: number;
   timestamp: string;
 }
 
-export type LevelStatsStateProps = {
+export interface LevelStatsStateProps {
   isFinished: boolean;
   duration: number;
   wpm: number;
+  errors: number;
+  accuracy: number;
   level: {
     id: string;
     title: string;

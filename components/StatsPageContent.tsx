@@ -49,16 +49,30 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
             <div className="w-full space-y-6">
 
             {/* Duration */}
-              <div className="flex justify-between items-center p-4 bg-linear-to-r from-green-100 to-emerald-50 rounded-lg border border-green-200">
-                <span className="text-lg font-semibold text-gray-700">Czas:</span>
+              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-green-100 to-emerald-50 rounded-lg border border-green-200">
+                <span className="text-lg font-semibold text-gray-700">Czas</span>
                 <span className="text-3xl font-bold text-green-600">{stats.duration.toFixed(2)}s</span>
               </div>
 
               {/* WPM */}
-              <div className="flex justify-between items-center p-4 bg-linear-to-r from-blue-100 to-purple-50 rounded-lg border border-blue-200">
-                <span className="text-lg font-semibold text-gray-700">WPM:</span>
+              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-purple-50 rounded-lg border border-blue-200">
+                <span className="text-lg font-semibold text-gray-700">WPM</span>
                 <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
               </div>
+
+              {/* Errors 
+              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
+                <span className="text-lg font-semibold text-gray-700">Błędy</span>
+                <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
+              </div>
+              */}
+
+              {/* Accuracy 
+              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
+                <span className="text-lg font-semibold text-gray-700">Dokładność</span>
+                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}</span>
+              </div>
+              */}
 
               {/* Timestamp */}
               <div className="text-center text-sm text-gray-500 mt-4">

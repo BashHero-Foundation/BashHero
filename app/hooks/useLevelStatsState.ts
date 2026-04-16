@@ -5,6 +5,8 @@ export function useLevelStatsState({
     isFinished,
     duration,
     wpm,
+    errors,
+    accuracy,
     level
 }: LevelStatsStateProps) {
 
@@ -15,6 +17,8 @@ export function useLevelStatsState({
       levelId: level.id,
       duration,
       WPM: Math.round(wpm),
+      Errors: errors,
+      Accuracy: accuracy,
       timestamp: new Date().toISOString()
     };
 
@@ -22,5 +26,5 @@ export function useLevelStatsState({
       `level_${level.id}_stats`,
       JSON.stringify(stats)
     );
-  }, [isFinished, duration, wpm, level.id, level.title]);
+  }, [isFinished, duration, wpm, errors, accuracy, level.id, level.title]);
 }

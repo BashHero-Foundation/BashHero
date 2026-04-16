@@ -21,13 +21,15 @@ export function TypingView({ level }: { level: Level }) {
     const { handleKeyDown } = useKeyboardSchortcuts();
 
     // metrics hook
-    const WPM = useLevelMetrics({commands: level?.commands || [], duration: typing.duration});
+    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, userText: typing.text});
 
     // save stats hook
     useLevelStatsState({
         isFinished: typing.isFinished,
         duration: typing.duration,
-        wpm: WPM,
+        wpm: metrics.WPM,
+        errors: metrics.errors,
+        accuracy: metrics.accuracy,
         level: {
             id: level.id,
             title: level.title
