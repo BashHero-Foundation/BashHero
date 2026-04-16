@@ -98,7 +98,7 @@ export function TypingView({ level }: { level: Level }) {
             </div>
 
             </div>
-
+            
             <FinishedLevelButtons levelId={level.id}/>
 
             {typing.isFinished && 
