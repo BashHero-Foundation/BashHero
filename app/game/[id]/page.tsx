@@ -1,0 +1,22 @@
+import levelsData from "../../levels/chapter1.json";
+import { TypingView } from "@/components/TypingView";
+
+export const dynamicParams = false;
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const {id} = await params
+  const level = levelsData.levels.find(l => l.id === id);
+
+  if (!level) {
+    return <h1 className="flex justify-center text-4xl text-gray-300"> Level not found :(</h1>;
+  }
+
+  return <TypingView level={level} />;
+}
+
+export async function generateStaticParams() {
+  return levelsData.levels.map((level) => ({
+    id: level.id.toString(),
+  }));
+}
+
