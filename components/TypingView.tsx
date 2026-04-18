@@ -3,6 +3,7 @@ import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
+import TextCorrecter from "./TextCorrecter";
 
 export function TypingView({ level }: { level: Level }) {
 
@@ -48,18 +49,18 @@ export function TypingView({ level }: { level: Level }) {
         
         <div className="relative font-mono text-xl p-4 border-2 border-gray-300 rounded-md shadow-sm focus-within:border-blue-900 transition duration-200">
             
-            {/* Text to be typed */}
-            <div className="absolute inset-0 p-4 text-gray-300 pointer-events-none whitespace-pre-wrap">
-            {currentCommand.text}
+            {/* Text to be typed & text being typed */}
+            <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
+            <TextCorrecter text={text} currentCommand={currentCommand} />
             </div>
 
-            {/* Actual typing text */}
+            {/* Typing handler */}
             <textarea
             value={text}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             spellCheck="false"
-            className="relative z-10 w-full bg-transparent text-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
+            className="relative z-10 w-full bg-transparent text-transparent caret-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
             rows={2}
             />
         </div>
