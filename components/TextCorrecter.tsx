@@ -1,4 +1,4 @@
-export default function TextCorrecter({ text, currentCommand }) {
+export default function TextCorrecter({ text, currentCommand }: { text: string; currentCommand: { text: string } }) {
     const result = []
 
     for (let i = 0; i < text.length; i++) {
