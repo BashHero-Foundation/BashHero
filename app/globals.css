@@ -1,15 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 @import "tailwindcss";
 
+
+@theme {
+
+    /* BACKGROUND header, footer, other  */
+  --color-bg-main: #1A1953;
+  --color-bg-surface: #121a2b;
+
+  /* TEXT */
+  --color-text-primary: #e6edf3;
+  --color-text-secondary: #9fb0c3;
+
+  /* BUTTONS menu and other */
+  --color-btn-primary-bg: var(--color-primary);
+  --color-btn-primary-text: #ffffff;
+
+  /* STATES for typing view */
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+
+  /* UI future terminal style */
+  --color-terminal-border: #26324d;
+  --color-terminal-bg: #ffffff;
+  --color-terminal-main-text: #000000;
+  --color-terminal-ghost-text: #000000;
+
+}
+
 @theme {
   --font-retro: 'Press Start 2P', cursive;
 }
 
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
 @theme inline {
   --color-background: var(--background);
