@@ -1,5 +1,6 @@
 import { StatsPageContent } from "@/components/StatsPageContent";
 import levelsData from "../../../levels/chapter1.json";
+import { notFound } from "next/navigation";
 
 export const dynamicParams = false;
 
@@ -13,9 +14,7 @@ export default async function StatsPage({ params }: StatsPageProps) {
 
   if (!level) {
     return (
-      <div className="flex items-center text-5xl text-gray-500 justify-center h-screen">
-        Level not found :(
-      </div>
+      notFound()
     );
   }
 

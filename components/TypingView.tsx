@@ -51,7 +51,7 @@ export function TypingView({ level }: { level: Level }) {
 
             <div className="flex flex-col items-center mb-10 gap-2">
                 <h1 className="text-3xl font-bold text-text-secondary"> { level.title } </h1>
-                <p> { level.description }</p>
+                <p className="text-text-neutral"> { level.description }</p>
                 <div className="flex gap-2 mt-2 items-center font-sans">
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-badge-primary-to text-badge-primary-text border border-badge-primary-border uppercase tracking-wider">
                     {level.difficulty}

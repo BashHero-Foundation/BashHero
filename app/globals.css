@@ -8,6 +8,7 @@
   ex. --color-badge-neutral-text (Text for neutral badge) */
   
   /* BACKGROUND header, footer, other  */
+  --color-bg-body: #F7FCFF;
   --color-bg-main: #1A1953;
   --color-bg-surface: #F7FAFF;
   --color-element-border: #121a2b;
@@ -19,7 +20,7 @@
   --color-text-secondary: #162E93;
   --color-text-neutral: #6B6A6A;
 
-  /* BUTTONS menu and other */
+  /* BUTTONS, MENU and other */
   --color-btn-primary-bg: var(--color-text-secondary);
   --color-btn-primary-border: #2F2FE4;
   --color-btn-primary-bg-hover: #2F2FE4;
@@ -47,6 +48,7 @@
   --color-terminal-wrong-bg: #ffabab;
 
 }
+
 
 @theme {
   --font-retro: 'Press Start 2P', cursive;
