@@ -2,7 +2,7 @@
 import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
-import { Menu } from "./menu";
+import { Menu } from "./Menu";
 import { Level } from "@/app/types";
 import  TextCorrecter  from "./TextCorrecter";
 import FinishedLevelButtons from './FinishedLevelButtons';
@@ -41,7 +41,7 @@ export function TypingView({ level }: { level: Level }) {
 
     return (
         <div className="flex h-screen">
-            <div className="w-1/6 p-4 border-r border-gray-300">
+            <div className="w-1/6 p-4 border-r border-border-separator">
                 <Menu />
             </div>
 
@@ -50,14 +50,14 @@ export function TypingView({ level }: { level: Level }) {
             {/* LEVEL INFO */}    
 
             <div className="flex flex-col items-center mb-10 gap-2">
-                <h1 className="text-3xl font-bold text-blue-800"> { level.title } </h1>
+                <h1 className="text-3xl font-bold text-text-secondary"> { level.title } </h1>
                 <p> { level.description }</p>
-                <div className="flex gap-2 items-center font-sans">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200 uppercase tracking-wider">
+                <div className="flex gap-2 mt-2 items-center font-sans">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-badge-primary-to text-badge-primary-text border border-badge-primary-border uppercase tracking-wider">
                     {level.difficulty}
                 </span>
 
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
                     {level.category}
                 </span>
                 </div>
@@ -67,7 +67,7 @@ export function TypingView({ level }: { level: Level }) {
 
             {/* Total commands and timer */} 
 
-            <div className="flex justify-between items-center mb-2 text-sm text-gray-500 font-mono">
+            <div className="flex justify-between items-center mb-2 text-sm text-text-neutral font-mono">
             <span>
                 {typing.currentIndex + 1}/{typing.totalCommands}
             </span>
@@ -81,10 +81,10 @@ export function TypingView({ level }: { level: Level }) {
 
             {/* TYPING AREA - future terminal style */}    
             
-            <div className="relative font-mono text-xl p-4 border-2 border-gray-300 rounded-md shadow-sm focus-within:border-blue-900 transition duration-200">
+            <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
                 
                 {/* Text to be typed */}
-                <div className="absolute inset-0 p-4 text-gray-300 pointer-events-none whitespace-pre-wrap">
+                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
                 <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
                 </div>
 
@@ -94,7 +94,7 @@ export function TypingView({ level }: { level: Level }) {
                 onChange={typing.handleChange}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
+                className="relative z-10 w-full bg-transparent text-terminal-main-text focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
                 rows={2}
                 />
             </div>
@@ -105,7 +105,7 @@ export function TypingView({ level }: { level: Level }) {
 
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
-                <h3 className="font-bold text-2xl text-blue-800"> Gratulacje !!</h3> 
+                <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3> 
 
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 

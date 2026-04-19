@@ -4,27 +4,47 @@
 
 @theme {
 
-    /* BACKGROUND header, footer, other  */
+  /* !! Add in order: --color-Object–Variant–Property !!
+  ex. --color-badge-neutral-text (Text for neutral badge) */
+  
+  /* BACKGROUND header, footer, other  */
   --color-bg-main: #1A1953;
-  --color-bg-surface: #121a2b;
+  --color-bg-surface: #F7FAFF;
+  --color-element-border: #121a2b;
+
+  --color-border-separator: #E0DDED;
 
   /* TEXT */
-  --color-text-primary: #e6edf3;
-  --color-text-secondary: #9fb0c3;
+  --color-text-primary: #FDFCFF;
+  --color-text-secondary: #162E93;
+  --color-text-neutral: #6B6A6A;
 
   /* BUTTONS menu and other */
-  --color-btn-primary-bg: var(--color-primary);
+  --color-btn-primary-bg: var(--color-text-secondary);
+  --color-btn-primary-border: #2F2FE4;
+  --color-btn-primary-bg-hover: #2F2FE4;
   --color-btn-primary-text: #ffffff;
 
-  /* STATES for typing view */
-  --color-success: #22c55e;
-  --color-danger: #ef4444;
+
+  /* STATS and BADGES*/
+  --color-badge-primary-from: #B8CEFF;
+  --color-badge-primary-to: #D6DEFF;
+  --color-badge-primary-border: #AAC2FA;
+  --color-badge-primary-text: #2053C9;
+
+  --color-badge-neutral-bg: #edebeb;
+  --color-badge-neutral-text: #5E5E5E;
+  --color-badge-neutral-border: #a8a8a8;
 
   /* UI future terminal style */
   --color-terminal-border: #26324d;
   --color-terminal-bg: #ffffff;
+
   --color-terminal-main-text: #000000;
-  --color-terminal-ghost-text: #000000;
+  --color-terminal-ghost-text: #878686;
+  --color-terminal-success: #22c55e;
+  --color-terminal-wrong: #ef4444;
+  --color-terminal-wrong-bg: #ffabab;
 
 }
 

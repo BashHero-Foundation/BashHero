@@ -6,9 +6,9 @@ export default function TextCorrecter({ text, currentCommand }: { text: string; 
       let className = ""
 
      if (char === currentCommand.text[i]) {
-        className = "text-black-500"
+        className = "text-terminal-main-text"
       } else {
-        className = "text-red-500 bg-red-100"
+        className = "text-terminal-wrong bg-terminal-wrong-bg"
       }
 
       result.push(
@@ -21,7 +21,7 @@ export default function TextCorrecter({ text, currentCommand }: { text: string; 
     const remaining = currentCommand.text.slice(text.length)
     if (remaining) {
       result.push(
-        <span key="full-text" className="text-gray-400">
+        <span key="full-text" className="text-terminal-ghost-text">
           {remaining}
         </span>
       )

@@ -21,8 +21,8 @@ export default function FinishedLevelButtons({ levelId }: { levelId: string }) {
             </button> 
 
             <Link href={`/game/${levelId}/stats`} className="flex-4 text-center">
-                <button className="w-full rounded-xl border-b-4 border-blue-600 bg-blue-800 shadow-lg
-                px-6 py-4 text-lg text-white transition hover:bg-blue-600 
+                <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg shadow-lg
+                px-6 py-4 text-lg text-btn-primary-text transition hover:bg-btn-primary-bg-hover
                 active:border-b-0 active:translate-y-1"> 
                 Statystyki  
                 </button> 
@@ -32,7 +32,7 @@ export default function FinishedLevelButtons({ levelId }: { levelId: string }) {
             <Link href={`/game/${parseInt(levelId) + 1}`} className="flex-1.5 text-center"> 
             <button 
                 className="w-full rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg
-                px-3 py-4 text-lg text-white transition hover:bg-green-500 hover:text-white
+                px-3 py-4 text-lg text-text-primary transition hover:bg-green-500 hover:text-white
                 active:scale-95 active:border-b-0 active:translate-y-1"> 
                 Kolejny poziom ⮞ 
                 </button> 
