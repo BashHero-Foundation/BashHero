@@ -4,7 +4,6 @@ import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
-import  TextCorrecter  from "./TextCorrecter";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
@@ -129,7 +128,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             ) : (
                 <p className="mt-6 text-gray-500 font-semibold">To byl ostatni poziom</p>
             )}
-        </div> }
+
         </div>
     );
 }
