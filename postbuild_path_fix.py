@@ -4,28 +4,25 @@ import re
 
 out_dir = Path.cwd() / "out"
 
-path_regex = re.compile(r'(href|src|content)="\/([^"]*)"')
+path_regex = re.compile(r'(<a .*href=")\/([^"]*)"')
 
 for html_file_path in list(out_dir.rglob("*.html")):
     print("reapathing: ", html_file_path)
     html_dir = html_file_path.parent
 
-    relative_path = os.path.relpath(out_dir, html_dir)
-
     html_content = html_file_path.read_text(encoding="utf-8")
 
     def replace_path(match: re.Match):
-        attribute = match.group(1)
-        abs_path = match.group(2)
-        
-        if abs_path.startswith('/'):
-            return match.group(0)
-        if abs_path.endswith('/'):
-            return f'{attribute}="{relative_path}/{abs_path}index.html"'
-        
-        return f'{attribute}="{relative_path}/{abs_path}"'
-
+        path = match.group(2)
+        return f'{match.group(1)}./{re.sub("/", "-", path)}.html"'
 
     html_content = path_regex.sub(replace_path, html_content)
     
     html_file_path.write_text(html_content, encoding='utf-8')
+
+    if html_dir != out_dir:
+        print(f"moving: {html_file_path}")
+
+        relative_path = os.path.relpath(html_dir, out_dir)
+
+        os.rename(html_file_path, f"{out_dir}/{re.sub("/", "-", relative_path)}.html")
