@@ -4,8 +4,9 @@ import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
 import TextCorrecter from "./TextCorrecter";
+import Link from "next/link";
 
-export function TypingView({ level }: { level: Level }) {
+export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
     const {
         text,
@@ -78,6 +79,14 @@ export function TypingView({ level }: { level: Level }) {
                     <span className="text-xl"> points</span>
                 </span>
             </div>
+
+            {nextLevelId ? (
+                <Link href={`/game/${nextLevelId}`} className="mt-6 rounded-xl bg-blue-700 px-6 py-3 text-white font-semibold hover:bg-blue-800 transition">
+                    Następny poziom
+                </Link>
+            ) : (
+                <p className="mt-6 text-gray-500 font-semibold">To byl ostatni poziom</p>
+            )}
         </div> }
         </div>
     </div>
