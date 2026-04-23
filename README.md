@@ -11,7 +11,7 @@ docker build --output . .
 
 ### without docker
 
-u need to have node installed
+u need to have node and python3 installed
 ```bash
 chmod +x build_scorm.sh
 ./build_scorm.sh
