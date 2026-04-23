@@ -1,32 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 @import "tailwindcss";
 
+
 @theme {
   --font-retro: 'Press Start 2P', cursive;
 }
 
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* !! Add in order: --color-Object–Variant–Property !!
+  ex. --color-badge-neutral-text (Text for neutral badge) */
+  
+  /* BACKGROUND header, footer, other  */
+  --color-bg-body: #F7FCFF;
+  --color-bg-main: #1A1953;
+  --color-bg-surface: #F7FAFF;
+  --color-element-border: #121a2b;
+
+  --color-border-separator: #E0DDED;
+
+  /* TEXT */
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-neutral: var(--text-neutral);
+  
+
+  /* BUTTONS, MENU and other */
+  --color-btn-primary-bg: var(--color-text-secondary);
+  --color-btn-primary-border: #2F2FE4;
+  --color-btn-primary-bg-hover: #2F2FE4;
+  --color-btn-primary-text: #ffffff;
+
+
+  /* STATS and BADGES*/
+  --color-badge-primary-from: #B8CEFF;
+  --color-badge-primary-to: #D6DEFF;
+  --color-badge-primary-border: #AAC2FA;
+  --color-badge-primary-text: #2053C9;
+
+  --color-badge-neutral-bg: #edebeb;
+  --color-badge-neutral-text: #5E5E5E;
+  --color-badge-neutral-border: #a8a8a8;
+
+  /* UI future terminal style */
+  --color-terminal-border: #26324d;
+  --color-terminal-bg: #ffffff;
+
+  --color-terminal-main-text: #000000;
+  --color-terminal-ghost-text: #878686;
+  --color-terminal-success: #22c55e;
+  --color-terminal-wrong: #ef4444;
+  --color-terminal-wrong-bg: #ffabab;
+  
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --text-primary: #FDFCFF;
+    --text-secondary: #162E93;
+    --text-neutral: #6B6A6A;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  .theme-lavender {
+    --text-primary: black;
+    --text-secondary: #162E93;
+    --text-neutral: #6B6A6A;
+  }
+
+  .theme-olive {
+    --text-primary: black;
+    --text-secondary: #162E93;
+    --text-neutral: #6B6A6A;
+  }
 }

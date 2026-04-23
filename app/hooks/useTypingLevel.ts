@@ -8,26 +8,14 @@ export function useTypingLevel(commands: Command[]) {
     const [startTime, setStartTime] = useState<number | null>(null);
     const [duration, setDuration] = useState(0);
 
-    const isFinished = currentIndex >= commands.length || (currentIndex === commands.length - 1 && duration > 0);
-
     const currentCommand = commands[currentIndex];
-    if (!currentCommand) {
-        return {
-            text: '',
-            handleChange: () => {},
-            duration: 0,
-            currentCommand: { text: '' },
-            currentIndex: 0,
-            totalCommands: 0,
-            isFinished: false,
-            reset: () => {}
-        };
-    }
-
     const targetText = currentCommand?.text || "";
 
+    const isFinished = currentIndex >= commands.length || (currentIndex === commands.length - 1 && duration > 0);
+
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (isFinished) return; // do not allow to change text if level is finished
+        if (isFinished || !currentCommand) return; // do not allow to change text if level is finished
+        
         const newText = e.target.value;
 
         if (newText.length > 2 * targetText.length) return; // not allow to write more
@@ -63,6 +51,7 @@ export function useTypingLevel(commands: Command[]) {
             text,
             handleChange,
             duration,
+            startTime,
             currentCommand,
             currentIndex,
             totalCommands: commands.length,

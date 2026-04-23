@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import levelsData from "../../levels/chapter1.json";
 import { TypingView } from "@/components/TypingView";
 
@@ -13,7 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     : null;
 
   if (!level) {
-    return <h1 className="flex justify-center text-4xl text-gray-300"> Level not found :(</h1>;
+    return notFound();
   }
 
   return <TypingView level={level} nextLevelId={nextLevelId} />;
