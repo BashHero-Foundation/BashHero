@@ -4,17 +4,15 @@ import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
 import { Menu } from "./menu";
 import { Level } from "@/app/types";
-<<<<<<< global-color-variables
 import  TextCorrecter  from "./TextCorrecter";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import ThemeSwitcher from "./ThemeSwitcher";
-=======
 import TextCorrecter from "./TextCorrecter";
->>>>>>> dev
+import Link from "next/link";
 
-export function TypingView({ level }: { level: Level }) {
+export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
     // main typing (level) logic hook
     const typing = useTypingLevel(level?.commands || []);
@@ -86,7 +84,6 @@ export function TypingView({ level }: { level: Level }) {
 
             {/* TYPING AREA - future terminal style */}    
             
-<<<<<<< global-color-variables
             <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
                 
                 {/* Text to be typed */}
@@ -106,23 +103,6 @@ export function TypingView({ level }: { level: Level }) {
             </div>
 
             </div>
-=======
-            {/* Text to be typed & text being typed */}
-            <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
-            <TextCorrecter text={text} currentCommand={currentCommand} />
-            </div>
-
-            {/* Typing handler */}
-            <textarea
-            value={text}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            spellCheck="false"
-            className="relative z-10 w-full bg-transparent text-transparent caret-black focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
-            rows={2}
-            />
-        </div>
->>>>>>> dev
 
             <FinishedLevelButtons levelId={level.id}/>
             <ThemeSwitcher/>
@@ -141,6 +121,15 @@ export function TypingView({ level }: { level: Level }) {
 
             </div> }
             </div>
+
+            {nextLevelId ? (
+                <Link href={`/game/${nextLevelId}`} className="mt-6 rounded-xl bg-blue-700 px-6 py-3 text-white font-semibold hover:bg-blue-800 transition">
+                    Następny poziom
+                </Link>
+            ) : (
+                <p className="mt-6 text-gray-500 font-semibold">To byl ostatni poziom</p>
+            )}
+        </div> }
         </div>
     );
 }
