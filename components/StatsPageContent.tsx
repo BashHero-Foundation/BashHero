@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu } from "./Menu";
+import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
 
 

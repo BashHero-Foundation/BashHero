@@ -2,12 +2,13 @@
 import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
-import { Menu } from "./Menu";
+import { Menu } from "./menu";
 import { Level } from "@/app/types";
 import  TextCorrecter  from "./TextCorrecter";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export function TypingView({ level }: { level: Level }) {
 
@@ -94,7 +95,7 @@ export function TypingView({ level }: { level: Level }) {
                 onChange={typing.handleChange}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-terminal-main-text focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
+                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
                 rows={2}
                 />
             </div>
@@ -102,6 +103,7 @@ export function TypingView({ level }: { level: Level }) {
             </div>
 
             <FinishedLevelButtons levelId={level.id}/>
+            <ThemeSwitcher/>
 
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 

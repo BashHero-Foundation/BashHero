@@ -3,6 +3,12 @@
 
 
 @theme {
+  --font-retro: 'Press Start 2P', cursive;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 
   /* !! Add in order: --color-Object–Variant–Property !!
   ex. --color-badge-neutral-text (Text for neutral badge) */
@@ -16,9 +22,11 @@
   --color-border-separator: #E0DDED;
 
   /* TEXT */
-  --color-text-primary: #FDFCFF;
-  --color-text-secondary: #162E93;
-  --color-text-neutral: #6B6A6A;
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-neutral: var(--text-neutral);
+  
 
   /* BUTTONS, MENU and other */
   --color-btn-primary-bg: var(--color-text-secondary);
@@ -46,32 +54,25 @@
   --color-terminal-success: #22c55e;
   --color-terminal-wrong: #ef4444;
   --color-terminal-wrong-bg: #ffabab;
-
+  
 }
 
-
-@theme {
-  --font-retro: 'Press Start 2P', cursive;
-}
-
-
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --text-primary: #FDFCFF;
+    --text-secondary: #162E93;
+    --text-neutral: #6B6A6A;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  .theme-lavender {
+    --text-primary: black;
+    --text-secondary: #162E93;
+    --text-neutral: #6B6A6A;
+  }
+
+  .theme-olive {
+    --text-primary: black;
+    --text-secondary: #162E93;
+    --text-neutral: #6B6A6A;
+  }
 }
