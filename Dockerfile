@@ -1,6 +1,6 @@
 FROM node:25-alpine AS builder
 
-RUN apk add --no-cache zip
+RUN apk add --no-cache zip python3
 
 WORKDIR /app
 
@@ -9,8 +9,7 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build
-RUN zip -r bashhero_scormpackage.zip imsmanifest.xml out
+RUN ./build_scorm.sh
 
 FROM scratch AS export-stage
 COPY --from=builder /app/bashhero_scormpackage.zip /
