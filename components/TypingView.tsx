@@ -103,8 +103,12 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             </div>
 
-            <FinishedLevelButtons levelId={level.id}/>
-            <ThemeSwitcher/>
+            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
+            <div className="mt-10">
+                <p className="font-bold p-2"> Zmiana motywu </p>
+                <ThemeSwitcher/>
+            </div>
+            
 
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
@@ -120,15 +124,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             </div> }
             </div>
-
-            {nextLevelId ? (
-                <Link href={`/game/${nextLevelId}`} className="mt-6 rounded-xl bg-blue-700 px-6 py-3 text-white font-semibold hover:bg-blue-800 transition">
-                    Następny poziom
-                </Link>
-            ) : (
-                <p className="mt-6 text-gray-500 font-semibold">To byl ostatni poziom</p>
-            )}
-
+            
         </div>
     );
 }
