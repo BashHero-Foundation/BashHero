@@ -1,6 +1,6 @@
 import ScormStatus from "./scorm/scorm_utils";
-
 export default function Home() {
+
   return (
     <div>
       <div className="flex justify-center mt-20">
