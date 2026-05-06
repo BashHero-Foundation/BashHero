@@ -1,5 +1,5 @@
 "use client";
-import { useKeyboardSchortcuts } from "../app/hooks/useKeyboardShortcuts";
+import { useKeyboardShortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
 import { Menu } from "./menu";
@@ -9,7 +9,6 @@ import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
-import Link from "next/link";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -20,7 +19,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const liveTime = useLiveTimer(typing.startTime, typing.isFinished);
     
     // blocking shortcuts hook
-    const { handleKeyDown } = useKeyboardSchortcuts();
+    const { handleKeyDown } = useKeyboardShortcuts({
+        handleEnter: typing.handleEnter,
+        }
+    );
 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, userText: typing.text});
@@ -96,7 +98,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 onChange={typing.handleChange}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap"
+                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-black"
                 rows={2}
                 />
             </div>
