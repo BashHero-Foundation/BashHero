@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import levelsData from "@/app/levels/chapter1.json";
 
 export const Menu = () => {
@@ -13,13 +12,13 @@ export const Menu = () => {
 
       <div className="mt-3 flex flex-col gap-3 rounded-xl bg-blue-950/30 p-3">
         {levelsData.levels.map((level) => (
-          <Link
+          <a
             key={level.id}
             href={`/game/${level.id}`}
             className="rounded-xl border border-blue-900 bg-blue-800 px-4 py-2 text-white font-semibold hover:bg-blue-700 transition"
           >
             {level.title}
-          </Link>
+          </a>
         ))}
       </div>
     </details>
