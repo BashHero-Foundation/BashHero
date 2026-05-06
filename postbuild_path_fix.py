@@ -4,7 +4,7 @@ import re
 
 out_dir = Path.cwd() / "out"
 
-path_regex = re.compile(r'(<a .*href=")\/([^"]*)"')
+path_regex = re.compile(r'(<a[^>]*?href=")\/([^"]*)"')
 
 for html_file_path in list(out_dir.rglob("*.html")):
     print("reapathing: ", html_file_path)
