@@ -1,6 +1,12 @@
-export function useKeyboardSchortcuts() {
+export function useKeyboardShortcuts({handleEnter}: {handleEnter: () => void}) {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        
+         if (e.key === "Enter"){
+            e.preventDefault();
+            handleEnter();
+            return;
+        }
 
         if (e.key === "Tab"){
             e.preventDefault();

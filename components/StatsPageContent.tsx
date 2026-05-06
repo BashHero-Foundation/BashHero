@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
 
@@ -97,13 +96,13 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
           {/* Navigation Buttons */}
           <div className="mt-10 flex flex-col gap-3 w-full">
-            <Link href={`/game/${level.id}`} className="w-full">
+            <a href={`/game/${level.id}`} className="w-full">
               <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
               active:border-b-0 active:translate-y-1">
                 ← Wróć do poziomu
               </button>
-            </Link>
+            </a>
 
           </div>
         </div>
