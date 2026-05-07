@@ -85,30 +85,48 @@
     --badge-neutral-text: #5E5E5E;
     --badge-neutral-border: #a8a8a8;
 
-    --color-terminal-border: #26324d;
-    --color-terminal-bg: #ffffff;
+    --terminal-border: #26324d;
+    --terminal-bg: #ffffff;
 
-    --color-terminal-main-text: #000000;
-    --color-terminal-ghost-text: #878686;
-    --color-terminal-success: #22c55e;
-    --color-terminal-wrong: #ef4444;
-    --color-terminal-wrong-bg: #ffabab;
+    --terminal-main-text: #000000;
+    --terminal-ghost-text: #878686;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
   }
 
   .theme-lavender {
-    --bg-body: #F7FCFF;
-    --bg-main: #1A1953;
-    --bg-secondary: #162E93;
-    --bg-tertiary: #6B6A6A;
-    --bg-surface: #F7FAFF;
-    --element-border: #121a2b;
+    --bg-body: #fef0ff;
+    --bg-main: #9046CF;
+    --bg-secondary: #CC59D2;
+    --bg-tertiary: #f4c9ea;
+    --bg-surface: #fef0ff;
+    --element-border: #652f94;
 
     --border-separator: #E0DDED;
 
-    --text-primary: black;
-    --text-secondary: #162E93;
-    --text-tertiary: #2F2FE4;
+    --text-primary: #FDFCFF;
+    --text-secondary: #CC59D2;
+    --text-tertiary: #F487B6;
     --text-neutral: #6B6A6A;
+
+    --badge-primary-from: #f7c5d7;
+    --badge-primary-to: #f6cbdb;
+    --badge-primary-border: #FABDD3;
+    --badge-primary-text: #e9659e;
+
+    --badge-neutral-bg: #edd8ed;
+    --badge-neutral-text: #5E5E5E;
+    --badge-neutral-border: #a08e9b;
+
+    --terminal-border: #652f94;
+    --terminal-bg: #fef0ff;
+
+    --terminal-main-text: #000000;
+    --terminal-ghost-text: #878686;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
   }
 
   .theme-olive {
@@ -138,10 +156,10 @@
     --color-terminal-border: #6E984F;
     --color-terminal-bg: #fbfff7;
 
-    --color-terminal-main-text: #000000;
-    --color-terminal-ghost-text: #878686;
-    --color-terminal-success: #22c55e;
-    --color-terminal-wrong: #ef4444;
-    --color-terminal-wrong-bg: #ffabab;
+    --terminal-main-text: #000000;
+    --terminal-ghost-text: #878686;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
   }
 }
