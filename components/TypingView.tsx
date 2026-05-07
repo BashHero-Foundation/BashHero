@@ -9,6 +9,8 @@ import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
+import SettingsSidebar from "./settings";
+import { useState } from "react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -23,6 +25,9 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         handleEnter: typing.handleEnter,
         }
     );
+
+    // settings sidebar
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, userText: typing.text});
@@ -50,6 +55,12 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
 
             <div className="w-5/6 flex flex-col items-center mt-20">
+
+            <SettingsSidebar
+            open={settingsOpen}
+            onClose={() => setSettingsOpen(false)}
+            onOpen={() => setSettingsOpen(true)}
+            />
 
             {/* LEVEL INFO */}    
 
@@ -106,10 +117,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
 
             <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
-            <div className="mt-10">
-                <p className="font-bold p-2"> Zmiana motywu </p>
-                <ThemeSwitcher/>
-            </div>
             
 
             {typing.isFinished && 
