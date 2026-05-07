@@ -99,7 +99,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
                 
                 {/* Text to be typed */}
-                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
+                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap caret-terminal-caret">
                 <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
                 </div>
 
@@ -109,7 +109,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 onChange={typing.handleChange}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-black"
+                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-terminal-caret"
                 rows={2}
                 />
             </div>

@@ -89,7 +89,7 @@ export default function SettingsSidebar({
                         </h2>
 
                         <div>
-                            <p className="font-bold mb-2">
+                            <p className="font-bold mb-2 text-text-neutral">
                                 Theme
                             </p>
 
