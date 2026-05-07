@@ -9,8 +9,26 @@ import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
+import { useRouter, usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+
+
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
+    const router = useRouter();
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const pathname = usePathname();
+    
+    const handleLevelChange = (href: string) => {
+    const normalizedHref = href.endsWith('/') ? href.slice(0, -1) : href;
+    const normalizedPathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+    if (isTransitioning || normalizedHref === normalizedPathname) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+        router.push(href);
+    }, 120);
+    };
 
     // main typing (level) logic hook
     const typing = useTypingLevel(level?.commands || []);
@@ -46,7 +64,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     return (
         <div className="flex h-screen">
             <div className="w-1/6 p-4 border-r border-border-separator">
-                <Menu />
+                <Menu onNavigate={handleLevelChange} />
             </div>
 
             <div className="w-5/6 flex flex-col items-center mt-20">
@@ -105,7 +123,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             </div>
 
-            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
+            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId} onNavigate={handleLevelChange}/>
             <div className="mt-10">
                 <p className="font-bold p-2"> Zmiana motywu </p>
                 <ThemeSwitcher/>
@@ -126,7 +144,27 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             </div> }
             </div>
-            
+            <AnimatePresence>
+                {isTransitioning && (
+                    <motion.div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.12 }}
+                    >
+                    <motion.div
+                        className="rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-white shadow-2xl"
+                        initial={{ scale: 0.9, y: 10 }}
+                        animate={{ scale: 1, y: 0 }}
+                        exit={{ scale: 0.95, opacity: 0 }}
+                        transition={{ duration: 0.12, ease: "easeOut" }}
+                    >
+                        Ładowanie poziomu...
+                    </motion.div>
+                    </motion.div>
+                )}
+                </AnimatePresence>
         </div>
     );
 }

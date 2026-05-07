@@ -2,7 +2,7 @@
 
 import levelsData from "@/app/levels/chapter1.json";
 
-export const Menu = () => {
+export const Menu = ({onNavigate}: { onNavigate: (href: string) => void }) => {
   return (
     <details className="w-full max-w-xs group" open>
       <summary className="cursor-pointer list-none rounded-xl bg-blue-900 px-4 py-3 text-white font-bold select-none flex items-center justify-between">
@@ -16,6 +16,10 @@ export const Menu = () => {
             key={level.id}
             href={`/game/${level.id}`}
             className="rounded-xl border border-blue-900 bg-blue-800 px-4 py-2 text-white font-semibold hover:bg-blue-700 transition"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate(`/game/${level.id}`);
+            }}
           >
             {level.title}
           </a>
