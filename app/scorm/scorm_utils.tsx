@@ -73,3 +73,13 @@ export default function ScormStatus() {
         </div>
     );
 }
+
+export function scormify_path(path: string): string {
+  const currentlyStaticallyBuilding = process.env.BUILDING_SCORM === 'true';
+
+  if (currentlyStaticallyBuilding) {
+    let new_path = path.slice(1).replaceAll("/", "-");
+    return "./" + new_path + ".html";
+  }
+  return path;
+}
