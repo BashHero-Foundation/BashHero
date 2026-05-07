@@ -163,3 +163,7 @@
     --terminal-wrong-bg: #ffabab;
   }
 }
+
+.settings-icon {
+  color: var(--bg-surface);
+}
