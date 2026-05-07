@@ -2,11 +2,15 @@
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
+import SettingsSidebar from "./settings";
 
 
 export function StatsPageContent({ level }: StatsPageContentProps) {
   const [stats, setStats] = useState<LevelStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // settings sidebar
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     // Get stats from localStorage
@@ -32,6 +36,12 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
       <div className="w-1/6 p-4 border-r border-border-separator ">
         <Menu />
       </div>
+
+      <SettingsSidebar
+                  open={settingsOpen}
+                  onClose={() => setSettingsOpen(false)}
+                  onOpen={() => setSettingsOpen(true)}
+      />      
 
       {/* Main Content */}
       <div className="w-5/6 flex flex-col items-center pt-20">
