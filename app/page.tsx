@@ -1,3 +1,4 @@
+"use client";
 import ScormStatus from "./scorm/scorm_utils";
 import { scormify_path } from "./scorm/scorm_utils";
 
