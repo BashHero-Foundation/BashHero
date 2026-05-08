@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "static": "./build_static.sh && npx serve out"
   },
   "dependencies": {
     "next": "16.1.6",
