@@ -1,6 +1,10 @@
 export BUILDING_SCORM="true"
 
-./build_static.sh
+echo "\n>>>NEXTJS BUILD<<<"
+npm run build
+
+echo "\n>>>FIXING PATHS<<<"
+python3 postbuild_path_fix.py
 
 echo "\n>>>REMOVING OLD PACKAGE<<<"
 rm bashhero_scormpackage.zip
