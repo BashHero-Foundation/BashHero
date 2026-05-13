@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "linux": "export BUILDING_SCORM='true' && npm run build && python3 postbuild_path_fix.py && npx serve out",
-    "bimbows": "$env:BUILDING_SCORM='true'; npm run build && python3 postbuild_path_fix.py && npx serve out"
+    "linux": "npm run build && python3 postbuild_path_fix.py && npx serve out",
+    "bimbows": "npm run build && python3 postbuild_path_fix.py && npx serve out"
   },
   "dependencies": {
     "next": "16.1.6",
