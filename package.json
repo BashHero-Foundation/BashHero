@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "static": "./build_static.sh && npx serve out",
     "linux": "export BUILDING_SCORM='true' && npm run build && python3 postbuild_path_fix.py && npx serve out",
     "bimbows": "$env:BUILDING_SCORM='true'; npm run build && python3 postbuild_path_fix.py && npx serve out"
   },
