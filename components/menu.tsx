@@ -1,6 +1,7 @@
 "use client";
 
 import levelsData from "@/app/levels/chapter1.json";
+import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export const Menu = () => {
   return (
@@ -14,7 +15,7 @@ export const Menu = () => {
         {levelsData.levels.map((level) => (
           <a
             key={level.id}
-            href={`/game/${level.id}`}
+            href={scormify_path(`/game/${level.id}`)}
             className="rounded-xl border border-blue-900 bg-blue-800 px-4 py-2 text-white font-semibold hover:bg-blue-700 transition"
           >
             {level.title}

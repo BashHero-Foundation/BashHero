@@ -1,3 +1,4 @@
+import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId: string; nextLevelId: string | null }) {
 
@@ -19,7 +20,7 @@ export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId
             ⟲ 
             </button> 
 
-            <a href={`/game/${levelId}/stats`} className="flex-4 text-center">
+            <a href={scormify_path(`/game/${levelId}/stats`)} className="flex-4 text-center">
                 <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg shadow-lg
                 px-6 py-4 text-lg text-btn-primary-text transition hover:bg-btn-primary-bg-hover
                 active:border-b-0 active:translate-y-1"> 
@@ -29,7 +30,7 @@ export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId
 
 
             {nextLevelId ? (
-                <a href={`/game/${nextLevelId}`} className="w-full flex-2 rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg
+                <a href={scormify_path(`/game/${nextLevelId}`)} className="w-full flex-2 rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg
                 px-4 py-4 text-md text-text-primary transition hover:bg-green-500 hover:text-white
                 active:border-b-0 active:translate-y-1">
                     Następny poziom

@@ -73,3 +73,8 @@ export default function ScormStatus() {
         </div>
     );
 }
+
+export function scormify_path(path: string): string {
+    let new_path = path.slice(1).replaceAll("/", "-");
+    return "./" + new_path + ".html";
+}
