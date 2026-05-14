@@ -25,4 +25,5 @@ for html_file_path in list(out_dir.rglob("*.html")):
 
         relative_path = os.path.relpath(html_dir, out_dir)
 
-        os.rename(html_file_path, f"{out_dir}/{re.sub("/", "-", relative_path)}.html")
+        new_filename = f"{re.sub('/', '-', relative_path)}.html"
+        html_file_path.rename(out_dir / new_filename)
