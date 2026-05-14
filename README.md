@@ -24,18 +24,11 @@ and copy `bashhero_scormpackage.zip` to your prefered lms system.
 
 with node and python3 installed
 
-### on linux
+### on linux / macos / wsl
 
 ```bash
 npm install
 npm run linux
-```
-
-### on bimbows :(
-
-```bash
-npm install
-npm run bimbows
 ```
 
 and go to `localhost:3000`
