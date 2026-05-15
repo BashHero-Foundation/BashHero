@@ -12,10 +12,6 @@ export default async function StatsPage({ params }: StatsPageProps) {
   const { id } = await params;
   const level = levelsData.levels.find(l => l.id === id);
 
-  if (!level) {
-    notFound();
-  }
-
   return <StatsPageContent level={level} />;
 }
 

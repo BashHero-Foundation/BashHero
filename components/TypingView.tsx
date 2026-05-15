@@ -34,9 +34,6 @@ export function TypingView({ level }: { level: Level }) {
         }
     });
 
-
-    if (!level) return <div className="flex items-center text-5xl text-gray-500 justify-center h-screen"> Level not found :( </div>;
-
     return (
         <div className="flex h-screen">
             <div className="w-1/6 p-4 border-r border-gray-300">
