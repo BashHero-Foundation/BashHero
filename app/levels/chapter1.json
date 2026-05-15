@@ -1,0 +1,98 @@
+
+{
+  "levels": [
+    {
+      "id": "1",
+      "title": "1 Podstawowe poruszanie się",
+      "description": "Ćwiczymy cd w różnych sytuacjach",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 5, 
+      "commands": [
+        {
+          "text": "cd /home/projekt",
+          "hint": "Idź do katalogu projekt"
+        },
+        {
+          "text": "cd ..",
+          "hint": "Cofnij się o katalog"
+        },
+        {
+          "text": "cd projekt_zaliczeniowy",
+          "hint": "Przejdź do innego katalogu"
+        },
+        {
+          "text": "ls",
+          "hint": "Wyświetl wszystkie pliki"
+        },
+        {
+          "text": "cd app/lib/modules",
+          "hint": "Sprawdź moduły"
+        }
+      ]
+    },
+
+    {
+      "id": "2",
+      "title": "2 Zaawansowana nawigacja",
+      "description": "Szybkie przeskakiwanie między katalogami przy użyciu skrótów.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 10,
+      "commands": [
+        {
+          "text": "cd ~",
+          "hint": "Wróć błyskawicznie do katalogu domowego użytkownika"
+        },
+        {
+          "text": "cd -",
+          "hint": "Wróć do poprzedniego katalogu, w którym byłeś przed chwilą"
+        },
+        {
+          "text": "cd ../..",
+          "hint": "Cofnij się o dwa poziomy w górę w strukturze folderów"
+        },
+        {
+          "text": "ls -a",
+          "hint": "Wyświetl wszystkie pliki, łącznie z tymi ukrytymi (z kropką na początku)"
+        },
+        {
+          "text": "cd ~/Downloads",
+          "hint": "Przejdź bezpośrednio do Pobranych z dowolnego miejsca w systemie"
+        },
+        {
+          "text": "ls -la",
+          "hint": "Wyświetl szczegółową listę plików wraz z uprawnieniami"
+        },
+        {
+          "text": "pwd",
+          "hint": "Sprawdź pełną ścieżkę aktualnego katalogu, aby się nie zgubić"
+        }
+      ]
+    },
+
+    {
+      "id": "00",
+      "title": "007 TEST",
+      "description": "Ćwiczymy cd w różnych sytuacjach i nie tylko, bo bedziemy uczyc sie na prawde wielu niesamowitych rzeczy, ktore pozwola na rozbudownie wlasnych umiejetnosci nie tylko programistycznych ale takze umiejetnosci obcowania z narzedzienm klawiatury, tak bardzo waznym i potrzebnym w pracy programisty ",
+      "difficulty": "easy-peasy",
+      "category": "",
+      "points": 50000, 
+      "commands": [
+        {
+          "text": "test",
+          "hint": "brak"
+        },
+        {
+          "text": "test",
+          "hint": "brak"
+        },
+        {
+          "text": "test",
+          "hint": "brak"
+        }
+      ]
+    }
+
+  ]
+}

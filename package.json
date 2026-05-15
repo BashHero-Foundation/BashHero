@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "linux": "npm run build && python3 postbuild_path_fix.py && npx serve out",
+    "bimbows": "npm run build && python3 postbuild_path_fix.py && npx serve out"
   },
   "dependencies": {
     "next": "16.1.6",
+    "pipwerks-scorm-api-wrapper": "^0.1.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

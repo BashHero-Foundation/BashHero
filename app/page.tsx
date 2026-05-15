@@ -1,17 +1,25 @@
-import TypingArea from "./typing/page";  
+"use client";
+import ScormStatus from "./scorm/scorm_utils";
+import { scormify_path } from "./scorm/scorm_utils";
 
 export default function Home() {
+
   return (
     <div>
-      <div className="flex flex-col justify-center items-center p-10 bg-amber-50">
-          <h1 className="font-retro text-3xl text-yellow-400 mb-2">BASH HERO </h1>
-          <p className="font-retro text-sm text-gray-400 tracking-widest"> your way to become a programist</p>
+      <div className="flex justify-center mt-20">
+        <a
+          href={scormify_path("/game/1")}
+          className="relative text-5xl font-retro px-8 py-6 border-4 border-text-secondary text-text-secondary rounded-4xl 
+          animate-bounce shadow-2xl hover:animate-pulse hover:scale-110 transition-all duration-75"
+        >
+          !! P L A Y !!
+        </a>
       </div>
 
-      <div>
-        <TypingArea></TypingArea>
+      <div className="mt-40 px-10 text-xs">
+        <ScormStatus></ScormStatus>
       </div>
-    
+
     </div>
   );
 }
