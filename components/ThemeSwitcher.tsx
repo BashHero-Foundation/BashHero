@@ -4,6 +4,7 @@ const THEMES = [
   { label: "Default", value: "" },
   { label: "Lavender", value: "theme-lavender" },
   { label: "Olive", value: "theme-olive" },
+  { label: "Dark", value: "theme-dark" },
 ];
 
 export default function ThemeDropdown() {
@@ -19,7 +20,7 @@ export default function ThemeDropdown() {
   useEffect(() => {
     const root = document.documentElement;
 
-    root.classList.remove("theme-lavender", "theme-olive");
+    root.classList.remove("theme-lavender", "theme-olive", "theme-dark");
 
     if (theme) {
       root.classList.add(theme);
@@ -33,7 +34,7 @@ export default function ThemeDropdown() {
     <select
       value={theme}
       onChange={(e) => setTheme(e.target.value)}
-      className="border rounded px-3 py-2"
+      className="border rounded px-3 py-2 text-text-neutral"
     >
       {THEMES.map((t) => (
         <option key={t.value} value={t.value}>
