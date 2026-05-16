@@ -16,7 +16,7 @@ export const Menu = () => {
           <a
             key={level.id}
             href={scormify_path(`/game/${level.id}`)}
-            className="rounded-xl border border-blue-900 bg-blue-800 px-4 py-2 text-white font-semibold hover:bg-blue-700 transition"
+            className="rounded-xl border border-btn-primary-border bg-btn-primary-bg px-4 py-2 text-text-primary font-semibold hover:bg-btn-primary-bg-hover transition"
           >
             {level.title}
           </a>
