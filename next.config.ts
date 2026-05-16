@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const currentlyStaticallyBuilding = process.env.BUILDING_SCORM === 'true';
-
 const nextConfig: NextConfig = {
   /* config options here */
   output: 'export',
@@ -9,6 +7,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  ...(currentlyStaticallyBuilding && {assetPrefix: './'})
+  assetPrefix: './',
 };
 export default nextConfig;
