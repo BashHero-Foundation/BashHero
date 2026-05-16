@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import levelsData from "../../levels/chapter1.json";
 import { TypingView } from "@/components/TypingView";
-import { notFound } from "next/navigation";
 
 export const dynamicParams = false;
 
