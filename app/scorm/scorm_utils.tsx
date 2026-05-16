@@ -75,6 +75,15 @@ export default function ScormStatus() {
 }
 
 export function scormify_path(path: string): string {
-    let new_path = path.slice(1).replaceAll("/", "-");
-    return "./" + new_path + ".html";
+    if (process.env.NEXT_PUBLIC_SCORM === "true") {
+
+        // for main pages
+        if (path === "/") return "./index.html";
+        if (path === "/game") return "./game.html";
+
+        let new_path = path.slice(1).replaceAll("/", "-");
+        return "./" + new_path + ".html";
+    }
+
+    return path;
 }
