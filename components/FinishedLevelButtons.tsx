@@ -16,7 +16,7 @@ export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId
             onClick={handleReset}
             className="flex-1 rounded-xl border-b-4 border-gray-600 bg-gray-800 shadow-lg
             p-2 text-3xl text-gray-400 transition hover:bg-red-600 hover:text-white
-            active:scale-95 active:border-b-0 active:translate-y-1"> 
+            active:scale-95 active:border-b-0 active:translate-y-1 active:bg-red-800"> 
             ⟲ 
             </button> 
 

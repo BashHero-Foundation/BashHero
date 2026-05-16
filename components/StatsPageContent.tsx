@@ -7,7 +7,6 @@ import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export function StatsPageContent({ level }: StatsPageContentProps) {
   const [stats, setStats] = useState<LevelStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Get stats from localStorage
@@ -15,16 +14,8 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
     if (savedStats) {
       setStats(JSON.parse(savedStats));
     }
-    setIsLoading(false);
   }, [level.id]);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center text-4xl text-gray-500 justify-center h-screen">
-        Ładowanie...
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-screen">
