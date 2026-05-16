@@ -26,36 +26,45 @@ export function useTypingLevel(commands: Command[]) {
         }
 
         setText(newText);
+    };
 
-        if (startTime !== null && newText === targetText) {
-            if (currentIndex < commands.length - 1) {
+    const handleEnter = () => {
+        if (isFinished || !currentCommand) return; //  not allow to change text if finished
+
+        // ------------->  text.trim() will allow spaces at start and end of text <------ to discuss on next meeting
+        if (text !== targetText) return; // nothing when not correct 
+        
+        if (currentIndex < commands.length - 1) {
             // next command
             setCurrentIndex(prev => prev + 1);
             setText('');
             } else {
             // end of level
-            const end = Date.now();
-            setDuration(Number(((end - startTime) / 1000).toFixed(2)));
+                if (startTime) {
+                    const end = Date.now();
+                    setDuration(Number(((end - startTime) / 1000).toFixed(2)));
+                }
             }
-        }
-        };
+        
+    };
 
-        const reset = () => {
-            setText('');
-            setCurrentIndex(0);
-            setStartTime(null);
-            setDuration(0);
-        };
+    const reset = () => {
+        setText('');
+        setCurrentIndex(0);
+        setStartTime(null);
+        setDuration(0);
+    };
 
-        return {
-            text,
-            handleChange,
-            duration,
-            startTime,
-            currentCommand,
-            currentIndex,
-            totalCommands: commands.length,
-            isFinished,
-            reset
-        };
+    return {
+        text,
+        handleChange,
+        handleEnter,
+        reset,
+        duration,
+        startTime,
+        currentCommand,
+        currentIndex,
+        totalCommands: commands.length,
+        isFinished
+    };
 }

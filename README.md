@@ -1,7 +1,36 @@
-## Uruchomienie
+# Bash Hero
 
-1. Sklonuj repozytorium 
-2. Następnie `npm i` - instaluje wszystkie zależności 
-3. Uruchom aplikację `npm run dev` 
+## Simple scorm package bulid (linux / mac / wsl)
 
-4. Widok pod: `http://localhost:3000`
+### with docker
+
+just run script
+```bash
+docker build --output . . 
+```
+
+### without docker
+
+u need to have node and python3 installed
+```bash
+npm install
+chmod +x build_scorm.sh
+./build_scorm.sh
+```
+
+and copy `bashhero_scormpackage.zip` to your prefered lms system.
+
+## Testing locally
+
+with node and python3 installed
+
+### on linux / macos / wsl
+
+```bash
+npm install
+npm run linux
+```
+
+and go to `localhost:3000`
+
+**`npm run dev` dont work for this project**

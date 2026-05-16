@@ -1,20 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import levelsData from "@/app/levels/chapter1.json";
+import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export const Menu = () => {
   return (
-    <div className="flex flex-col items-start gap-6 p-2">
-      {levelsData.levels.map((level) => (
-        <Link
-          key={level.id}
-          href={`/game/${level.id}`}
-          className="text-lg text-white font-semibold border border-blue-950 bg-blue-800 rounded-2xl px-4 py-2 hover:bg-blue-700 transition active:bg-blue-900"
-        >
-          {level.title}
-        </Link>
-      ))}
-    </div>
+    <details className="w-full max-w-xs group" open>
+      <summary className="cursor-pointer list-none rounded-xl bg-blue-900 px-4 py-3 text-white font-bold select-none flex items-center justify-between">
+        <span>Poziomy</span>
+        <span className="transition-transform duration-300 group-open:rotate-180">▼</span>
+      </summary>
+
+      <div className="mt-3 flex flex-col gap-3 rounded-xl bg-blue-950/30 p-3">
+        {levelsData.levels.map((level) => (
+          <a
+            key={level.id}
+            href={scormify_path(`/game/${level.id}`)}
+            className="rounded-xl border border-blue-900 bg-blue-800 px-4 py-2 text-white font-semibold hover:bg-blue-700 transition"
+          >
+            {level.title}
+          </a>
+        ))}
+      </div>
+    </details>
   );
-}
+};

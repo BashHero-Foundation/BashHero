@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import levelsData from "../../levels/chapter1.json";
 import { TypingView } from "@/components/TypingView";
 import { notFound } from "next/navigation";
@@ -6,14 +7,18 @@ export const dynamicParams = false;
 
 export default async function Page({ params }: { params: { id: string } }) {
   const {id} = await params
-  const level = levelsData.levels.find(l => l.id === id);
+  const levels = levelsData.levels;
+  const currentIndex = levels.findIndex(l => l.id === id);
+  const level = currentIndex >= 0 ? levels[currentIndex] : null;
+  const nextLevelId = currentIndex >= 0 && currentIndex < levels.length - 1 
+    ? levels[currentIndex + 1].id
+    : null;
 
   if (!level) {
-    notFound();
+    return notFound();
   }
 
-  return <TypingView level={level} />
-  
+  return <TypingView level={level} nextLevelId={nextLevelId} />;
 }
 
 export async function generateStaticParams() {
@@ -21,3 +26,4 @@ export async function generateStaticParams() {
     id: level.id.toString(),
   }));
 }
+
