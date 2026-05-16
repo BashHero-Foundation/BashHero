@@ -1,4 +1,4 @@
-export BUILDING_SCORM="true"
+export NEXT_PUBLIC_SCORM="true"
 
 echo "\n>>>NEXTJS BUILD<<<"
 npm run build
