@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "linux": "NEXT_PUBLIC_SCORM=true npm run build && python3 postbuild_path_fix.py && npx serve out",
+    "bimbows": "npm run build && python3 postbuild_path_fix.py && npx serve out"
   },
   "dependencies": {
     "next": "16.1.6",
