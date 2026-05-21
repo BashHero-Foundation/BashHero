@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import { SCORM } from "pipwerks-scorm-api-wrapper";
 
 export const SCORM_FIELDS = {
@@ -49,23 +48,32 @@ function new_objective(id: string, options?: { score?: number, min_score?: numbe
     return SCORM.save();
 }
 
-export function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+export function objective_number_from_id(id: string): number | undefined {
     if (!SCORM.connection.isActive) {
         SCORM.init();
     }
     const next_available_id = Number(SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT));
 
-    // if objective with this id already exists
     for (var i = 0; i < next_available_id; i++) {
         var objective_id = SCORM.get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
         if (objective_id == id) {
-            if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(String(i)), options?.score.toString()); }
-            if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(i)), options?.min_score.toString()); }
-            if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(i)), options?.max_score.toString()); }
-            if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(String(i)), options?.status); }
-
-            return SCORM.save();
+            return i;
         }
+    }
+    return undefined;
+}
+
+export function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+    const objective_number = objective_number_from_id(id);
+
+    // if objective with this id already exists
+    if (typeof objective_number !== 'undefined') {
+        if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
+        if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
+        if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
+        if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
+
+        return SCORM.save();
     }
     // if objective with this id dont exits
     return new_objective(id, options);

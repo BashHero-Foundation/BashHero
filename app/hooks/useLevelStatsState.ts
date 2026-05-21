@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { LevelStats, LevelStatsStateProps } from "../types";
-import { SCORM_STATUS, set_or_update_objective } from "../scorm/scorm_utils"
+import { set_level_wpm } from "../scorm/scorm_database";
 
 export function useLevelStatsState({
   isFinished,
@@ -23,7 +23,7 @@ export function useLevelStatsState({
       timestamp: new Date().toISOString()
     };
 
-    set_or_update_objective(level.id, { status: SCORM_STATUS.PASSED, score: wpm })
+    set_level_wpm(level.id, wpm)
 
     localStorage.setItem(
       `level_${level.id}_stats`,
