@@ -24,7 +24,7 @@ export const SCORM_FIELDS = {
     OBJECTIVE_STATUS: (n: string) => `cmi.objectives.${n}.status` as const,
 } as const;
 
-enum SCORM_STATUS {
+export enum SCORM_STATUS {
     PASSED = "passed",
     COMPLETED = "completed",
     FAILED = "failed",
@@ -49,7 +49,7 @@ function new_objective(id: string, options?: { score?: number, min_score?: numbe
     return SCORM.save();
 }
 
-function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+export function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
     if (!SCORM.connection.isActive) {
         SCORM.init();
     }
@@ -72,7 +72,7 @@ function set_or_update_objective(id: string, options?: { score?: number, min_sco
 }
 
 export default function ScormSandbox() {
-    
+
     const saveTest = () => {
         set_or_update_objective("nowy", { status: SCORM_STATUS.PASSED });
     };
