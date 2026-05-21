@@ -11,11 +11,11 @@ export const SCORM_FIELDS = {
     LESSON_STATUS: "cmi.core.lesson_status",
     SCORE_RAW: "cmi.core.score.raw",
     SCORE_MAX: "cmi.core.score.max",
-    SCORE_MIN: "cmi.core.scpre.min",
+    SCORE_MIN: "cmi.core.score.min",
 
-    INTERACTION_ID: (n: number) => `cmi.interactions.${n}.id` as const,
-    INTERACTION_TYPE: (n: number) => `cmi.interactions.${n}.type` as const,
-    INTERACTION_RESULT: (n: number) => `cmi.interactions.${n}.result` as const,
+    // INTERACTION_ID: (n: number) => `cmi.interactions.${n}.id` as const,
+    // INTERACTION_TYPE: (n: number) => `cmi.interactions.${n}.type` as const,
+    // INTERACTION_RESULT: (n: number) => `cmi.interactions.${n}.result` as const,
 
     OBECTIVE_COUNT: "cmi.objectives._count",
 
@@ -35,30 +35,55 @@ export enum SCORM_STATUS {
     NOT_ATTEMPTED = "not attempted",
 }
 
-function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+export function ensure_scorm_connection() {
     if (!SCORM.connection.isActive) {
         SCORM.init();
     }
+}
+
+export function safe_scorm_set(field: string, value: string): boolean {
+    ensure_scorm_connection();
+
+    try {
+        return SCORM.set(field, value);
+    } catch (error) {
+        console.warn(`scorm set failed, field: ${field}`, error);
+        return false;
+    }
+}
+export function safe_scorm_get(field: string): string | undefined {
+    ensure_scorm_connection();
+
+    try {
+        return SCORM.get(field);
+    } catch (error) {
+        console.warn(`scorm get failed, field: ${field}`, error);
+        return undefined;
+    }
+}
+
+function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+    ensure_scorm_connection();
+
     const next_available_id = SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT);
 
     SCORM.set(SCORM_FIELDS.OBJECTIVE_ID(next_available_id), id);
 
-    if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
-    if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
-    if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
-    if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
+    if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
+    if (typeof options?.status !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
 
     return SCORM.save();
 }
 
 export function objective_number_from_id(id: string): number | undefined {
-    if (!SCORM.connection.isActive) {
-        SCORM.init();
-    }
-    const next_available_id = Number(SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT));
+    ensure_scorm_connection();
+
+    const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
 
     for (var i = 0; i < next_available_id; i++) {
-        var objective_id = SCORM.get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
+        var objective_id = safe_scorm_get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
         if (objective_id == id) {
             return i;
         }
@@ -71,10 +96,10 @@ export function set_or_update_objective(id: string, options?: { score?: number, 
 
     // if objective with this id already exists
     if (typeof objective_number !== 'undefined') {
-        if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
-        if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
-        if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
-        if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
+        if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
+        if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
+        if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
+        if (typeof options?.status !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
 
         return SCORM.save();
     }
