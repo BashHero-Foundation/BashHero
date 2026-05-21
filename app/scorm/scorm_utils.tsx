@@ -9,6 +9,9 @@ export const SCORM_FIELDS = {
     STUDENT_NAME: "cmi.core.student_name",
 
     LESSON_STATUS: "cmi.core.lesson_status",
+    SCORE_RAW: "cmi.core.score.raw",
+    SCORE_MAX: "cmi.core.score.max",
+    SCORE_MIN: "cmi.core.scpre.min",
 
     INTERACTION_ID: (n: number) => `cmi.interactions.${n}.id` as const,
     INTERACTION_TYPE: (n: number) => `cmi.interactions.${n}.type` as const,
