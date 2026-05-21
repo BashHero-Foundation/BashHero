@@ -44,52 +44,42 @@ function new_objective(id: string, options?: { score?: number, min_score?: numbe
     if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
     if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
     if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
-
     if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
 
     return SCORM.save();
 }
 
-export default function ScormStatus() {
-    const [scormConnected, setScormConnected] = useState(false);
-    const [scormStudentName, setScormStudentName] = useState("");
-    const [testValue, setTestValue] = useState("");
+function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+    if (!SCORM.connection.isActive) {
+        SCORM.init();
+    }
+    const next_available_id = Number(SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT));
 
+    // if objective with this id already exists
+    for (var i = 0; i < next_available_id; i++) {
+        var objective_id = SCORM.get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
+        if (objective_id == id) {
+            if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(String(i)), options?.score.toString()); }
+            if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(i)), options?.min_score.toString()); }
+            if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(i)), options?.max_score.toString()); }
+            if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(String(i)), options?.status); }
+
+            return SCORM.save();
+        }
+    }
+    // if objective with this id dont exits
+    return new_objective(id, options);
+}
+
+export default function ScormSandbox() {
+    
     const saveTest = () => {
-
-        new_objective("nowy", { status: SCORM_STATUS.PASSED });
+        set_or_update_objective("nowy", { status: SCORM_STATUS.PASSED });
     };
-
-    useEffect(() => {
-        if (!SCORM.connection.isActive) {
-            SCORM.init();
-        }
-        if (SCORM.connection.isActive) {
-            setScormConnected(true);
-            setScormStudentName(SCORM.get(SCORM_FIELDS.STUDENT_NAME));
-            console.log(testValue);
-        }
-        else {
-            setScormConnected(false);
-        }
-
-        return () => {
-            if (SCORM.connection.isActive) {
-                SCORM.quit();
-                setScormConnected(true);
-            }
-            else {
-                setScormConnected(false);
-            }
-        };
-    }, []);
 
     return (
         <div>
-            {scormConnected && (<p className="font-retro">hello {scormStudentName}</p>)}
-            <p className="font-retro">scorm connection status: {scormConnected ? "connected" : "disconnected"}</p>
             <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">test button</button>
-            <p>value"{testValue}"</p>
         </div>
     );
 }
