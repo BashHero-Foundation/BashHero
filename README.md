@@ -13,28 +13,24 @@ docker build --output . .
 
 u need to have node and python3 installed
 ```bash
+npm install
 chmod +x build_scorm.sh
 ./build_scorm.sh
 ```
 
 and copy `bashhero_scormpackage.zip` to your prefered lms system.
 
-## Uruchomienie
+## Testing locally
 
-1. Sklonuj repozytorium 
-2. Następnie `npm i` - instaluje wszystkie zależności 
-3. Uruchom aplikację `npm run dev` 
+with node and python3 installed
 
-4. Widok pod: `http://localhost:3000`
+### on linux / macos / wsl
 
-## Staticly build
+```bash
+npm install
+npm run linux
+```
 
-1. same as in **Uruchomienie** `npm i`
-2. staticly build with `npm run build`
-3. congratulations, uve just created static build in `out/` directory
+and go to `localhost:3000`
 
-## Creating scorm package
-
-1. same as in **Staticly build**
-2. zip scorm package `zip -r bashhero_scormpackage.zip imsmanifest.xml out`
-3. congratulations, scorm package created with name `bashhero_scormpackage.zip`
+**`npm run dev` dont work for this project**
