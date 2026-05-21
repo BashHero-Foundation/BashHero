@@ -33,26 +33,21 @@ enum SCORM_STATUS {
     NOT_ATTEMPTED = "not attempted",
 }
 
-function new_objective(id: string, score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS): boolean {
+function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
     if (!SCORM.connection.isActive) {
         SCORM.init();
     }
-    if (SCORM.connection.isActive) {
-        const next_available_id = SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT);
+    const next_available_id = SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT);
 
-        SCORM.set(SCORM_FIELDS.OBJECTIVE_ID(next_available_id), id);
+    SCORM.set(SCORM_FIELDS.OBJECTIVE_ID(next_available_id), id);
 
-        if (typeof score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), score.toString()); }
-        if (typeof min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), min_score.toString()); }
-        if (typeof max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), max_score.toString()); }
+    if (typeof options?.score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
 
-        if (typeof status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), status); }
+    if (typeof options?.status !== 'undefined') { SCORM.set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
 
-        SCORM.save()
-
-        return true;
-    }
-    return false;
+    return SCORM.save();
 }
 
 export default function ScormStatus() {
@@ -62,26 +57,16 @@ export default function ScormStatus() {
 
     const saveTest = () => {
 
-        new_objective("nowy", 12, 0, 100, SCORM_STATUS.PASSED);
-    };
-
-    const checkTest = () => {
-        setTestValue(SCORM.get("cmi.objectives"));
-        // console.log("hello log");
-        // console.log(SCORM.get(SCORM_FIELDS.OBJECTIVE_ID(0)));
+        new_objective("nowy", { status: SCORM_STATUS.PASSED });
     };
 
     useEffect(() => {
-        if (!SCORM.init()) {
-            console.log("Something went wrong during scorm connection");
+        if (!SCORM.connection.isActive) {
+            SCORM.init();
         }
         if (SCORM.connection.isActive) {
             setScormConnected(true);
-
             setScormStudentName(SCORM.get(SCORM_FIELDS.STUDENT_NAME));
-
-            // setTestValue(SCORM.get(SCORM_FIELDS.OBJECTIVE_ID(3)));
-
             console.log(testValue);
         }
         else {
@@ -103,9 +88,8 @@ export default function ScormStatus() {
         <div>
             {scormConnected && (<p className="font-retro">hello {scormStudentName}</p>)}
             <p className="font-retro">scorm connection status: {scormConnected ? "connected" : "disconnected"}</p>
-            <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">save with passed</button>
-            <button onClick={checkTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">check</button>
-            <p>scorm SUSPEND_DATA value {testValue}</p>
+            <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">test button</button>
+            <p>value"{testValue}"</p>
         </div>
     );
 }
