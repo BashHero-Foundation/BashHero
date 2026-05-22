@@ -1,6 +1,7 @@
 "use client";
 
 import { SCORM } from "pipwerks-scorm-api-wrapper";
+import { set_level_wpm, update_global_score } from "./scorm_database";
 
 export const SCORM_FIELDS = {
     SUSPEND_DATA: "cmi.suspend_data",
@@ -65,9 +66,12 @@ export function safe_scorm_get(field: string): string | undefined {
 function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
     ensure_scorm_connection();
 
-    const next_available_id = SCORM.get(SCORM_FIELDS.OBECTIVE_COUNT);
+    const next_available_id = safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT);
+    if (typeof next_available_id === 'undefined') {
+        return false;
+    }
 
-    SCORM.set(SCORM_FIELDS.OBJECTIVE_ID(next_available_id), id);
+    safe_scorm_set(SCORM_FIELDS.OBJECTIVE_ID(String(next_available_id)), id);
 
     if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
     if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
@@ -81,10 +85,13 @@ export function objective_number_from_id(id: string): number | undefined {
     ensure_scorm_connection();
 
     const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
+    if (typeof next_available_id === 'undefined') {
+        return undefined;
+    }
 
     for (var i = 0; i < next_available_id; i++) {
         var objective_id = safe_scorm_get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
-        if (objective_id == id) {
+        if (typeof objective_id !== 'undefined' && objective_id == id) {
             return i;
         }
     }
@@ -94,28 +101,36 @@ export function objective_number_from_id(id: string): number | undefined {
 export function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
     const objective_number = objective_number_from_id(id);
 
-    // if objective with this id already exists
-    if (typeof objective_number !== 'undefined') {
-        if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
-        if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
-        if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
-        if (typeof options?.status !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
-
-        return SCORM.save();
+    if (typeof objective_number === 'undefined') {
+        return new_objective(id, options);
     }
-    // if objective with this id dont exits
-    return new_objective(id, options);
+    
+    if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
+    if (typeof options?.status !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
+
+    return SCORM.save();
 }
 
 export default function ScormSandbox() {
 
     const saveTest = () => {
-        set_or_update_objective("nowy", { status: SCORM_STATUS.PASSED });
+        // this is ok
+        set_or_update_objective("test1", { score: 67, status: SCORM_STATUS.PASSED });
+        set_or_update_objective("test2", { score: 67, status: SCORM_STATUS.PASSED });
+
+        update_global_score();
+
+        objective_number_from_id("test1");
+
+        // set_level_wpm("test1", 67);
+        // set_level_wpm("test2", 67);
     };
 
     return (
         <div>
-            <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">test button</button>
+            <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">create problem</button>
         </div>
     );
 }

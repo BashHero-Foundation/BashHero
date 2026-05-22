@@ -19,6 +19,8 @@ export function set_level_wpm(id: string, wpm: number): boolean {
 
         if (typeof last_wpm !== 'undefined' && Number(last_wpm) < wpm) {
             set_or_update_objective(id, {score: wpm, status: SCORM_STATUS.PASSED});
+        } else if (typeof last_wpm === 'undefined') {
+            set_or_update_objective(id, {score: wpm, status: SCORM_STATUS.PASSED});
         }
     }
     else {
@@ -28,7 +30,7 @@ export function set_level_wpm(id: string, wpm: number): boolean {
     return update_global_score();
 }
 
-function update_global_score(): boolean {
+export function update_global_score(): boolean {
     ensure_scorm_connection();
     const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
 

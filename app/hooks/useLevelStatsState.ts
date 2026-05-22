@@ -23,7 +23,7 @@ export function useLevelStatsState({
       timestamp: new Date().toISOString()
     };
 
-    set_level_wpm(level.id, wpm)
+    set_level_wpm(level.id, stats.WPM);
 
     localStorage.setItem(
       `level_${level.id}_stats`,
