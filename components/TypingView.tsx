@@ -74,8 +74,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
             </div>
 
-
-            <div className="flex flex-col w-full max-w-md mx-auto">
+            {/* TYPING AREA */}
+            <div className="flex flex-col w-full max-w-2xl mx-auto">
 
             {/* Total commands and timer */} 
 
@@ -92,7 +92,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
 
             {/* TYPING AREA - terminal */}    
-            <div className="flex flex-col w-full h-full max-h-80 bg-terminal-bg rounded-xl overflow-hidden">
+            <div className="flex flex-col w-full h-full max-h-60 bg-terminal-bg rounded-xl overflow-hidden">
 
                 {/* Top bar */} 
                 <div className="flex items-center gap-2 px-4 py-3 bg-[#363636]">
@@ -121,7 +121,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                             onKeyDown={handleKeyDown}
                             spellCheck="false"
                             className="relative z-10 w-max min-w-full bg-transparent text-transparent focus:outline-none resize-none 
-                            whitespace-pre caret-terminal-caret overflow-hidden
+                            whitespace-pre caret-terminal-caret overflow-hidden mb-20
                             "
                             style={{
                                 width: `${typing.text.length + 1}ch`,
