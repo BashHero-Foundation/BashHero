@@ -165,6 +165,37 @@
         }
       ]
       
+    },
+    {
+      "id": "6",
+      "title": "Testy",
+      "description": "Testowanie",
+      "difficulty": "hard",
+      "category": "tests",
+      "points": 0,
+      "commands": [
+        {
+          "text": "aaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaaaaaa",
+          "hint": "Nadaj plikowi uprawnienia do wykonywania"
+        },
+        {
+          "text": "asffaaaaaaaaaaaaaaaaaaaaaaa",
+          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
+        },
+        {
+          "text": "sudo",
+          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
+        },
+        {
+          "text": "whoami",
+          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
+        },
+        {
+          "text": "groups",
+          "hint": "Wyświetl listę grup, do których należysz"
+        }
+      ]
+      
     }
 
   ]

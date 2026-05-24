@@ -7,10 +7,9 @@ import { Level } from "@/app/types";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
-import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
-import { useState } from "react";
+import { useRef, useState, UIEvent } from "react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -79,7 +78,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             {/* Total commands and timer */} 
 
-            <div className="flex justify-between items-center mb-2 text-sm text-text-neutral font-mono">
+            <div className="flex justify-between items-center mb-3 text-sm text-text-neutral font-mono">
             <span>
                 {typing.currentIndex + 1}/{typing.totalCommands}
             </span>
@@ -93,10 +92,11 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             {/* TYPING AREA - future terminal style */}    
             
-            <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
+            <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg  
+            transition duration-200 overflow-hidden">
                 
                 {/* Text to be typed */}
-                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap caret-terminal-caret">
+                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre caret-terminal-caret">
                 <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
                 </div>
 
@@ -106,9 +106,15 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 onChange={typing.handleChange}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-terminal-caret"
-                rows={2}
+                className="relative z-10 w-max min-w-full bg-transparent text-transparent focus:outline-none resize-none 
+                whitespace-pre caret-terminal-caret overflow-hidden
+                "
+                style={{
+                    width: `${typing.text.length + 1}ch`,
+                }}
+                rows={1}
                 />
+
             </div>
 
             </div>
