@@ -50,7 +50,7 @@
 
   /* UI future terminal style */
   --color-terminal-border: var(--terminal-border);
-  --color-terminal-bg: var(--terminal);
+  --color-terminal-bg: var(--terminal-bg);
 
   --color-terminal-main-text: var(--terminal-main-text);
   --color-terminal-ghost-text: var(--terminal-ghost-text);
@@ -87,14 +87,14 @@
     --badge-neutral-border: #a8a8a8;
 
     --terminal-border: #26324d;
-    --terminal-bg: #ffffff;
+    --terminal-bg: #1e1e1e;
 
-    --terminal-main-text: #000000;
-    --terminal-ghost-text: #878686;
+    --terminal-main-text: #ffffff;
+    --terminal-ghost-text: #bababa;
     --terminal-success: #22c55e;
     --terminal-wrong: #ef4444;
     --terminal-wrong-bg: #ffabab;
-    --terminal-caret: #000000;
+    --terminal-caret: #ffffff;
   }
 
   .theme-lavender {
