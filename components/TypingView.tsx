@@ -9,7 +9,7 @@ import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
-import { useRef, useState, UIEvent } from "react";
+import { useRef, useState } from "react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -43,6 +43,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             title: level.title
         }
     });
+
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     return (
         <div className="flex h-screen">
@@ -92,7 +94,11 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
 
             {/* TYPING AREA - terminal */}    
-            <div className="flex flex-col w-full h-full max-h-60 bg-terminal-bg rounded-xl overflow-hidden">
+            <div 
+            className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
+            bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
+            onClick={() => textareaRef.current?.focus()}
+            >
 
                 {/* Top bar */} 
                 <div className="flex items-center gap-2 px-4 py-3 bg-[#363636]">
@@ -116,6 +122,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                             {/* Actual typing text */}
                             <div className="">
                             <textarea
+                            ref={textareaRef}
                             value={typing.text}
                             onChange={typing.handleChange}
                             onKeyDown={handleKeyDown}
