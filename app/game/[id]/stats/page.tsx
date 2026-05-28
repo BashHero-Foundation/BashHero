@@ -1,6 +1,7 @@
 import { StatsPageContent } from "@/components/StatsPageContent";
 import levelsData from "../../../levels/chapter1.json";
 import { notFound } from "next/navigation";
+import CalculatePoints from "@/components/CalculatePoints";
 
 export const dynamicParams = false;
 

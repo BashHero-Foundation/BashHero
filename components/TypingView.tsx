@@ -11,6 +11,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import { useState } from "react";
+import CalculatePoints from "@/components/CalculatePoints";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -119,11 +120,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3> 
-
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> +{level.points}</span>
+                        <span className=" text-3xl"> +{CalculatePoints(metrics.accuracy, metrics.WPM, level.points)}</span>
                         <span className="text-xl"> points</span>
                     </span>
                 </div>
