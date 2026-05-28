@@ -1,7 +1,11 @@
 "use client";
 
-import { SCORM } from "pipwerks-scorm-api-wrapper";
+import pipewerks, { SCORM } from "pipwerks-scorm-api-wrapper";
 import { set_level_wpm, update_global_score } from "./scorm_database";
+import { Unica_One } from "next/font/google";
+import { useEffect, useState } from "react";
+
+
 
 export const SCORM_FIELDS = {
     SUSPEND_DATA: "cmi.suspend_data",
@@ -37,13 +41,19 @@ export enum SCORM_STATUS {
 }
 
 export function ensure_scorm_connection() {
-    if (!SCORM.connection.isActive) {
-        SCORM.init();
+    try {
+        if (!SCORM.connection.isActive) {
+            return SCORM.init();
+        }
+        return true;
+    } catch (error) {
+        console.warn("scorm init failed", error);
+        return false;
     }
 }
 
 export function safe_scorm_set(field: string, value: string): boolean {
-    ensure_scorm_connection();
+    if (!ensure_scorm_connection()) { return false; };
 
     try {
         return SCORM.set(field, value);
@@ -53,7 +63,7 @@ export function safe_scorm_set(field: string, value: string): boolean {
     }
 }
 export function safe_scorm_get(field: string): string | undefined {
-    ensure_scorm_connection();
+    if (!ensure_scorm_connection()) { return undefined; };
 
     try {
         return SCORM.get(field);
@@ -64,7 +74,7 @@ export function safe_scorm_get(field: string): string | undefined {
 }
 
 function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
-    ensure_scorm_connection();
+    if (!ensure_scorm_connection()) { return false; };
 
     const next_available_id = safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT);
     if (typeof next_available_id === 'undefined') {
@@ -82,7 +92,7 @@ function new_objective(id: string, options?: { score?: number, min_score?: numbe
 }
 
 export function objective_number_from_id(id: string): number | undefined {
-    ensure_scorm_connection();
+    if (!ensure_scorm_connection()) { return undefined; };
 
     const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
     if (typeof next_available_id === 'undefined') {
@@ -99,12 +109,13 @@ export function objective_number_from_id(id: string): number | undefined {
 }
 
 export function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
+    if (!ensure_scorm_connection()) { return false; };
     const objective_number = objective_number_from_id(id);
 
     if (typeof objective_number === 'undefined') {
         return new_objective(id, options);
     }
-    
+
     if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
     if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
     if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
@@ -114,22 +125,27 @@ export function set_or_update_objective(id: string, options?: { score?: number, 
 }
 
 export default function ScormSandbox() {
+    const [scorm_connection, set_scorm_connection] = useState(false);
 
     const saveTest = () => {
-        // this is ok
-        set_or_update_objective("test1", { score: 67, status: SCORM_STATUS.PASSED });
-        set_or_update_objective("test2", { score: 67, status: SCORM_STATUS.PASSED });
-
-        update_global_score();
-
-        objective_number_from_id("test1");
-
-        // set_level_wpm("test1", 67);
-        // set_level_wpm("test2", 67);
+        set_level_wpm("test1", 67);
+        set_level_wpm("test2", 67);
     };
+
+    const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    useEffect(() => {
+        const try_to_connect = async () => {
+            await wait(5000);
+            set_scorm_connection(ensure_scorm_connection());
+        };
+
+        try_to_connect();
+    }, [])
 
     return (
         <div>
+            scorm: {scorm_connection ? "connected" : "disconnected"}
             <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">create problem</button>
         </div>
     );

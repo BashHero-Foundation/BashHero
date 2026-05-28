@@ -11,7 +11,7 @@ import levels_data from "../levels/chapter1.json"
 * @returns 'true' if no error
 */
 export function set_level_wpm(id: string, wpm: number): boolean {
-    ensure_scorm_connection();
+    if (!ensure_scorm_connection()) { return false; };
     const objective_number = objective_number_from_id(id);
 
     if (typeof objective_number !== 'undefined') {
@@ -31,7 +31,7 @@ export function set_level_wpm(id: string, wpm: number): boolean {
 }
 
 export function update_global_score(): boolean {
-    ensure_scorm_connection();
+    if (!ensure_scorm_connection()) { return false; };
     const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
 
     var passed_levels = 0;
