@@ -10,7 +10,7 @@ const chapters = [chapter1, chapter2, chapter3];
 
 export const Menu = () => {
 
-  const [open,setOpen] = useState(true);
+  const [open,setOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
