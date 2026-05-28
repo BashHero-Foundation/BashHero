@@ -61,20 +61,17 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-3xl font-bold text-badge-primary-text">{stats.WPM}</span>
               </div>
 
-              {/* Errors 
+              {/* Errors */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
                 <span className="text-lg font-semibold text-gray-700">Błędy</span>
                 <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
               </div>
-              */}
               
-
-              {/* Accuracy  
+              {/* Accuracy */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
                 <span className="text-lg font-semibold text-gray-700">Dokładność</span>
-                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}</span>
-              </div>  
-              */}
+                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
+              </div>
 
               <a href={scormify_path('/game')} className="text-2xl text-text-secondary font-bold hover:text-3xl duration-150"> Strona główna </a>
               
