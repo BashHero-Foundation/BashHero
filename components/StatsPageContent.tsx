@@ -71,8 +71,6 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
               </div>
 
-              <a href={scormify_path('/game')} className="text-2xl text-text-secondary font-bold hover:text-3xl duration-150"> Strona główna </a>
-              
 
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral mt-4">

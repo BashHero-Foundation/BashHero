@@ -7,10 +7,9 @@ import { Level } from "@/app/types";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
-import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -45,6 +44,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         }
     });
 
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
     return (
         <div className="flex h-screen">
                 <Menu />
@@ -72,12 +73,13 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </span>
                 </div>
             </div>
-            <div className="flex flex-col p-4 w-full max-w-md mx-auto">
 
+            {/* TYPING AREA */}
+            <div className="flex flex-col w-full max-w-2xl mx-auto">
 
             {/* Total commands and timer */} 
 
-            <div className="flex justify-between items-center mb-2 text-sm text-text-neutral font-mono">
+            <div className="flex justify-between items-center px-4 mb-3 text-lg text-text-neutral font-mono">
             <span>
                 {typing.currentIndex + 1}/{typing.totalCommands}
             </span>
@@ -89,24 +91,54 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </span>
             </div>
 
-            {/* TYPING AREA - future terminal style */}    
-            
-            <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
-                
-                {/* Text to be typed */}
-                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap caret-terminal-caret">
-                <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
+            {/* TYPING AREA - terminal */}    
+            <div 
+            className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
+            bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
+            onClick={() => textareaRef.current?.focus()}
+            >
+
+                {/* Top bar */} 
+                <div className="flex items-center gap-2 px-4 py-3 bg-[#363636]">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
 
-                {/* Actual typing text */}
-                <textarea
-                value={typing.text}
-                onChange={typing.handleChange}
-                onKeyDown={handleKeyDown}
-                spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-terminal-caret"
-                rows={2}
-                />
+                {/* Container for terminal workspace */} 
+                <div className="font-mono text-xl px-4 py-6 overflow-auto">
+
+                    <div className="flex">
+                        <span className="text-green-600 mr-4 shrink-0 select-none whitespace-pre">❯❯</span>
+
+                        <div className="relative grow"> 
+                            {/* Text to be typed */}
+                            <div className="absolute inset-0 pointer-events-none whitespace-pre caret-terminal-caret">
+                            <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
+                            </div>
+
+                            {/* Actual typing text */}
+                            <div className="">
+                            <textarea
+                            ref={textareaRef}
+                            value={typing.text}
+                            onChange={typing.handleChange}
+                            onKeyDown={handleKeyDown}
+                            spellCheck="false"
+                            className="relative z-10 w-max min-w-full bg-transparent text-transparent focus:outline-none resize-none 
+                            whitespace-pre caret-terminal-caret overflow-hidden mb-20
+                            "
+                            style={{
+                                width: `${typing.text.length + 1}ch`,
+                            }}
+                            rows={1}
+                            />
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
            
