@@ -44,13 +44,13 @@ export async function update_global_score() {
     const number_of_levels = levels_data.levels.length;
 
     if (passed_levels == number_of_levels) {
-        scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.PASSED);
+        await scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.PASSED);
     }
     else {
-        scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.INCOMPLETE);
+        await scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.INCOMPLETE);
     }
 
-    scorm_set(SCORM_FIELDS.SCORE_MIN, "0");
-    scorm_set(SCORM_FIELDS.SCORE_MAX, "1");
-    scorm_set(SCORM_FIELDS.SCORE_RAW, String(passed_levels / number_of_levels));
+    await scorm_set(SCORM_FIELDS.SCORE_MIN, "0");
+    await scorm_set(SCORM_FIELDS.SCORE_MAX, "1");
+    await scorm_set(SCORM_FIELDS.SCORE_RAW, String(passed_levels / number_of_levels));
 }

@@ -41,12 +41,12 @@ async function new_objective(id: string, options?: { score?: number, min_score?:
         return false;
     }
 
-    scorm_set(SCORM_FIELDS.OBJECTIVE_ID(String(next_available_id)), id);
+    await scorm_set(SCORM_FIELDS.OBJECTIVE_ID(String(next_available_id)), id);
 
-    if (typeof options?.score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
-    if (typeof options?.min_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
-    if (typeof options?.max_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
-    if (typeof options?.status !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
+    if (typeof options?.score !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
+    if (typeof options?.status !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
 }
 
 export async function objective_number_from_id(id: string): Promise<number | undefined> {
@@ -72,10 +72,10 @@ export async function set_or_update_objective(id: string, options?: { score?: nu
         return;
     }
 
-    if (typeof options?.score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
-    if (typeof options?.min_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
-    if (typeof options?.max_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
-    if (typeof options?.status !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
+    if (typeof options?.score !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
+    if (typeof options?.status !== 'undefined') { await scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
 }
 
 export default function ScormSandbox() {
@@ -107,15 +107,27 @@ export function scormify_path(path: string): string {
 
 import { ScormIframeMessage } from "../types";
 
-export function scorm_set(field: string, value: string) {
-    const message: ScormIframeMessage = {
-        type: "SET",
-        payload: {
-            field: field,
-            value: value
+export function scorm_set(field: string, value: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const onMessage = (event: MessageEvent) => {
+            const data = event.data;
+
+            window.removeEventListener('message', onMessage);
+
+            resolve(data);
         }
-    };
-    window.parent.postMessage(message, window.location.origin);
+
+        window.addEventListener('message', onMessage);
+
+        const message: ScormIframeMessage = {
+            type: "SET",
+            payload: {
+                field: field,
+                value: value
+            }
+        };
+        window.parent.postMessage(message, window.location.origin);
+    })
 }
 
 export function scorm_get(field: string): Promise<string> {

@@ -12,6 +12,7 @@ function handleScormIframeMessage(event) {
     if (type == "SET") {
         pipwerks.SCORM.set(field, value);
         pipwerks.SCORM.save();
+        sendToScormIframe("ok");
     }
     else if (type == "GET") {
         const result = pipwerks.SCORM.get(field);

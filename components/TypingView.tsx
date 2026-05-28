@@ -11,7 +11,6 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import { useState } from "react";
-import ScormSandbox from "@/app/scorm/scorm_utils";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -111,7 +110,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 rows={2}
                 />
             </div>
-            <ScormSandbox></ScormSandbox>
 
             </div>
 
