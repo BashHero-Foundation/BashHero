@@ -29,14 +29,14 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     // metrics hook
-    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, userText: typing.text});
+    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors});
 
     // save stats hook
     useLevelStatsState({
         isFinished: typing.isFinished,
         duration: typing.duration,
         wpm: metrics.WPM,
-        errors: metrics.errors,
+        errors: typing.errors,
         accuracy: metrics.accuracy,
         level: {
             id: level.id,
@@ -48,11 +48,9 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     return (
         <div className="flex h-screen">
-            <div className="w-1/6 p-4 border-r border-border-separator">
                 <Menu />
-            </div>
 
-            <div className="w-5/6 flex flex-col items-center mt-20">
+            <div className="flex-1 flex-col items-center mt-20 w-full">
 
             <SettingsSidebar
             open={settingsOpen}
@@ -143,9 +141,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
             </div>
 
-            </div>
+           
 
             <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
+            </div>
             
 
             {typing.isFinished && 

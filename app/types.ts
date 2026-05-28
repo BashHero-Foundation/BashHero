@@ -16,7 +16,7 @@ export type Level = {
 export interface LevelMetricsProps {
   commands: Command[];
   duration: number;
-  userText: string;
+  errors: number;
 }
 
 export type LevelStats = {
