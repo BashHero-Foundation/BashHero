@@ -25,9 +25,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
     <div className="flex h-screen">
 
       {/* Sidebar menu */}
-      <div className="w-1/6 p-4 border-r border-border-separator ">
         <Menu />
-      </div>
 
       <SettingsSidebar
                   open={settingsOpen}
@@ -36,7 +34,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
       />      
 
       {/* Main Content */}
-      <div className="w-5/6 flex flex-col items-center pt-20">
+      <div className="flex-1 flex flex-col items-center pt-20">
         {/* Level Info */}
         <div className="flex flex-col items-center mb-10 gap-2">
           <h1 className="text-3xl font-bold text-text-secondary">{level.title}</h1> 

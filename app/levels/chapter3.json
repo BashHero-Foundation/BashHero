@@ -1,0 +1,38 @@
+{
+"chapterId": "c",
+  "chapterTitle": "Rozdział 3: Uprawnienia i Właściciele",
+  "levels": [
+    {
+      "id": "5",
+      "title": "5 Uprawnienia i Właściciele",
+      "description": "Zarządzanie dostępem do plików i folderów.",
+      "difficulty": "hard",
+      "category": "permissions",
+      "points": 25,
+      "commands": [
+        {
+          "text": "chmod +x script.sh",
+          "hint": "Nadaj plikowi uprawnienia do wykonywania"
+        },
+        {
+          "text": "chmod 777 public_file.txt",
+          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
+        },
+        {
+          "text": "sudo chown root:root secret.txt",
+          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
+        },
+        {
+          "text": "whoami",
+          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
+        },
+        {
+          "text": "groups",
+          "hint": "Wyświetl listę grup, do których należysz"
+        }
+      ]
+      
+    }
+  ]
+}
+
