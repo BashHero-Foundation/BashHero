@@ -1,5 +1,6 @@
-
 {
+  "chapterId": "1",
+  "chapterTitle": "Rozdział 1: Nawigacja",
   "levels": [
     {
       "id": "1",
@@ -153,6 +154,37 @@
         },
         {
           "text": "sudo chown root:root secret.txt",
+          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
+        },
+        {
+          "text": "whoami",
+          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
+        },
+        {
+          "text": "groups",
+          "hint": "Wyświetl listę grup, do których należysz"
+        }
+      ]
+      
+    },
+    {
+      "id": "6",
+      "title": "Testy",
+      "description": "Testowanie",
+      "difficulty": "hard",
+      "category": "tests",
+      "points": 0,
+      "commands": [
+        {
+          "text": "sudo crudo mudo mundo endo bento pento jento creso lenso pasi lenti rasi cresi basi asi masi kasi",
+          "hint": "Nadaj plikowi uprawnienia do wykonywania"
+        },
+        {
+          "text": "asffaaaaaaaaaaaaaaaaaaaaaaa",
+          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
+        },
+        {
+          "text": "sudo",
           "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
         },
         {

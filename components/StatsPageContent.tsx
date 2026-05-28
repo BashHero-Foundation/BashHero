@@ -25,9 +25,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
     <div className="flex h-screen">
 
       {/* Sidebar menu */}
-      <div className="w-1/6 p-4 border-r border-border-separator ">
         <Menu />
-      </div>
 
       <SettingsSidebar
                   open={settingsOpen}
@@ -36,7 +34,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
       />      
 
       {/* Main Content */}
-      <div className="w-5/6 flex flex-col items-center pt-20">
+      <div className="flex-1 flex flex-col items-center pt-20">
         {/* Level Info */}
         <div className="flex flex-col items-center mb-10 gap-2">
           <h1 className="text-3xl font-bold text-text-secondary">{level.title}</h1> 
@@ -61,23 +59,18 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-3xl font-bold text-badge-primary-text">{stats.WPM}</span>
               </div>
 
-              {/* Errors 
+              {/* Errors */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
                 <span className="text-lg font-semibold text-gray-700">Błędy</span>
                 <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
               </div>
-              */}
               
-
-              {/* Accuracy  
+              {/* Accuracy */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
                 <span className="text-lg font-semibold text-gray-700">Dokładność</span>
-                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}</span>
-              </div>  
-              */}
+                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
+              </div>
 
-              <a href={scormify_path('/game')} className="text-2xl text-text-secondary font-bold hover:text-3xl duration-150"> Strona główna </a>
-              
 
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral mt-4">
