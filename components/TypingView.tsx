@@ -9,6 +9,8 @@ import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
+import SettingsSidebar from "./settings";
+import { useState } from "react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -23,6 +25,9 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         handleEnter: typing.handleEnter,
         }
     );
+
+    // settings sidebar
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors});
@@ -40,9 +45,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         }
     });
 
-
-    if (!level) return <div className="flex items-center text-5xl text-gray-500 justify-center h-screen"> Level not found :( </div>;
-
     return (
         <div className="flex h-screen">
             <div className="w-1/6 p-4 border-r border-border-separator">
@@ -50,6 +52,12 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
 
             <div className="w-5/6 flex flex-col items-center mt-20">
+
+            <SettingsSidebar
+            open={settingsOpen}
+            onClose={() => setSettingsOpen(false)}
+            onOpen={() => setSettingsOpen(true)}
+            />
 
             {/* LEVEL INFO */}    
 
@@ -88,7 +96,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
                 
                 {/* Text to be typed */}
-                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap">
+                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap caret-terminal-caret">
                 <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
                 </div>
 
@@ -98,7 +106,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 onChange={typing.handleChange}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-black"
+                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-terminal-caret"
                 rows={2}
                 />
             </div>
@@ -106,10 +114,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
 
             <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
-            <div className="mt-10">
-                <p className="font-bold p-2"> Zmiana motywu </p>
-                <ThemeSwitcher/>
-            </div>
             
 
             {typing.isFinished && 
