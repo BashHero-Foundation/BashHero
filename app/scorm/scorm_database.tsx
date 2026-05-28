@@ -17,13 +17,13 @@ export async function set_level_wpm(id: string, wpm: number) {
         const last_wpm = await scorm_get(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)));
 
         if (typeof last_wpm !== 'undefined' && Number(last_wpm) < wpm) {
-            set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+            await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
         } else if (typeof last_wpm === 'undefined') {
-            set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+            await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
         }
     }
     else {
-        set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+        await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
     }
 
     await update_global_score();
