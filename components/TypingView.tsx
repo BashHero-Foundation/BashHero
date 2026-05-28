@@ -25,14 +25,14 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     );
 
     // metrics hook
-    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, userText: typing.text});
+    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors});
 
     // save stats hook
     useLevelStatsState({
         isFinished: typing.isFinished,
         duration: typing.duration,
         wpm: metrics.WPM,
-        errors: metrics.errors,
+        errors: typing.errors,
         accuracy: metrics.accuracy,
         level: {
             id: level.id,
