@@ -125,27 +125,13 @@ export function set_or_update_objective(id: string, options?: { score?: number, 
 }
 
 export default function ScormSandbox() {
-    const [scorm_connection, set_scorm_connection] = useState(false);
-
-    const saveTest = () => {
-        set_level_wpm("test1", 67);
-        set_level_wpm("test2", 67);
+    const saveTest = async () => {
+        let student_name = await scorm_get(SCORM_FIELDS.STUDENT_NAME);
+        console.log("from ifrome" + student_name);
     };
-
-    const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-    useEffect(() => {
-        const try_to_connect = async () => {
-            await wait(5000);
-            set_scorm_connection(ensure_scorm_connection());
-        };
-
-        try_to_connect();
-    }, [])
 
     return (
         <div>
-            scorm: {scorm_connection ? "connected" : "disconnected"}
             <button onClick={saveTest} className="bg-red-300 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-red-600 active:bg-red-700 transition duration-200">create problem</button>
         </div>
     );
@@ -163,4 +149,41 @@ export function scormify_path(path: string): string {
     }
 
     return path;
+}
+
+import { ScormIframeMessage } from "../types";
+
+export function scorm_set(field: string, value: string) {
+    const message: ScormIframeMessage = {
+        type: "SET",
+        payload: {
+            field: field,
+            value: value
+        }
+    };
+    window.parent.postMessage(message, window.location.origin);
+}
+
+export function scorm_get(field: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const onMessage = (event: MessageEvent) => {
+            const data = event.data;
+
+            window.removeEventListener('message', onMessage);
+
+            resolve(data)
+        }
+
+        window.addEventListener('message', onMessage);
+
+        const message: ScormIframeMessage = {
+            type: "GET",
+            payload: {
+                field: field,
+                value: "",
+            }
+        }
+
+        window.parent.postMessage(message, window.location.origin);
+    })
 }
