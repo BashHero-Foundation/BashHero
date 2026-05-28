@@ -1,29 +1,19 @@
 pipwerks.SCORM.version = "1.2";
 
 function sendToScormIframe(message) {
-    const element = document.getElementById('app-iframe');
-    console.log(element);
-    element.contentWindow.postMessage(message);
+    document.getElementById('app-iframe').contentWindow.postMessage(message);
 }
 
-function handleScormIframeMessage(event){
+function handleScormIframeMessage(event) {
     const type = event.data.type;
     const field = event.data.payload.field;
     const value = event.data.payload.value;
 
-    console.log("parent received", event);
-
     if (type == "SET") {
-        console.log("found SET");
-        const set_return = pipwerks.SCORM.set(field, value);
-        const save_return = pipwerks.SCORM.save();
-
-        if (set_return && save_return) {
-
-        }
+        pipwerks.SCORM.set(field, value);
+        pipwerks.SCORM.save();
     }
     else if (type == "GET") {
-        console.log("found GET");
         const result = pipwerks.SCORM.get(field);
         sendToScormIframe(result);
     }

@@ -1,12 +1,5 @@
 "use client";
 
-import pipewerks, { SCORM } from "pipwerks-scorm-api-wrapper";
-import { set_level_wpm, update_global_score } from "./scorm_database";
-import { Unica_One } from "next/font/google";
-import { useEffect, useState } from "react";
-
-
-
 export const SCORM_FIELDS = {
     SUSPEND_DATA: "cmi.suspend_data",
 
@@ -40,67 +33,30 @@ export enum SCORM_STATUS {
     NOT_ATTEMPTED = "not attempted",
 }
 
-export function ensure_scorm_connection() {
-    try {
-        if (!SCORM.connection.isActive) {
-            return SCORM.init();
-        }
-        return true;
-    } catch (error) {
-        console.warn("scorm init failed", error);
-        return false;
-    }
-}
 
-export function safe_scorm_set(field: string, value: string): boolean {
-    if (!ensure_scorm_connection()) { return false; };
+async function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }) {
 
-    try {
-        return SCORM.set(field, value);
-    } catch (error) {
-        console.warn(`scorm set failed, field: ${field}`, error);
-        return false;
-    }
-}
-export function safe_scorm_get(field: string): string | undefined {
-    if (!ensure_scorm_connection()) { return undefined; };
-
-    try {
-        return SCORM.get(field);
-    } catch (error) {
-        console.warn(`scorm get failed, field: ${field}`, error);
-        return undefined;
-    }
-}
-
-function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
-    if (!ensure_scorm_connection()) { return false; };
-
-    const next_available_id = safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT);
+    const next_available_id = await scorm_get(SCORM_FIELDS.OBECTIVE_COUNT);
     if (typeof next_available_id === 'undefined') {
         return false;
     }
 
-    safe_scorm_set(SCORM_FIELDS.OBJECTIVE_ID(String(next_available_id)), id);
+    scorm_set(SCORM_FIELDS.OBJECTIVE_ID(String(next_available_id)), id);
 
-    if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
-    if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
-    if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
-    if (typeof options?.status !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
-
-    return SCORM.save();
+    if (typeof options?.score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(next_available_id), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(next_available_id), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(next_available_id), options?.max_score.toString()); }
+    if (typeof options?.status !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(next_available_id), options?.status); }
 }
 
-export function objective_number_from_id(id: string): number | undefined {
-    if (!ensure_scorm_connection()) { return undefined; };
-
-    const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
+export async function objective_number_from_id(id: string): Promise<number | undefined> {
+    const next_available_id = Number(await scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
     if (typeof next_available_id === 'undefined') {
         return undefined;
     }
 
     for (var i = 0; i < next_available_id; i++) {
-        var objective_id = safe_scorm_get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
+        var objective_id = await scorm_get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
         if (typeof objective_id !== 'undefined' && objective_id == id) {
             return i;
         }
@@ -108,20 +64,18 @@ export function objective_number_from_id(id: string): number | undefined {
     return undefined;
 }
 
-export function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }): boolean {
-    if (!ensure_scorm_connection()) { return false; };
-    const objective_number = objective_number_from_id(id);
+export async function set_or_update_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }) {
+    const objective_number = await objective_number_from_id(id);
 
     if (typeof objective_number === 'undefined') {
-        return new_objective(id, options);
+        await new_objective(id, options);
+        return;
     }
 
-    if (typeof options?.score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
-    if (typeof options?.min_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
-    if (typeof options?.max_score !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
-    if (typeof options?.status !== 'undefined') { safe_scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
-
-    return SCORM.save();
+    if (typeof options?.score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)), options?.score.toString()); }
+    if (typeof options?.min_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MIN_SCORE(String(objective_number)), options?.min_score.toString()); }
+    if (typeof options?.max_score !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_MAX_SCORE(String(objective_number)), options?.max_score.toString()); }
+    if (typeof options?.status !== 'undefined') { scorm_set(SCORM_FIELDS.OBJECTIVE_STATUS(String(objective_number)), options?.status); }
 }
 
 export default function ScormSandbox() {

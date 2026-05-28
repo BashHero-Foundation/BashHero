@@ -1,4 +1,4 @@
-import {ensure_scorm_connection, objective_number_from_id, safe_scorm_get, SCORM_FIELDS, SCORM_STATUS, set_or_update_objective} from "./scorm_utils";
+import { objective_number_from_id, scorm_get, scorm_set, SCORM_FIELDS, SCORM_STATUS, set_or_update_objective } from "./scorm_utils";
 import { SCORM } from "pipwerks-scorm-api-wrapper";
 
 import levels_data from "../levels/chapter1.json"
@@ -10,34 +10,32 @@ import levels_data from "../levels/chapter1.json"
 * @param wpm - u can guess what it means (words per minute)
 * @returns 'true' if no error
 */
-export function set_level_wpm(id: string, wpm: number): boolean {
-    if (!ensure_scorm_connection()) { return false; };
-    const objective_number = objective_number_from_id(id);
+export async function set_level_wpm(id: string, wpm: number) {
+    const objective_number = await objective_number_from_id(id);
 
     if (typeof objective_number !== 'undefined') {
-        const last_wpm = safe_scorm_get(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)));
+        const last_wpm = await scorm_get(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)));
 
         if (typeof last_wpm !== 'undefined' && Number(last_wpm) < wpm) {
-            set_or_update_objective(id, {score: wpm, status: SCORM_STATUS.PASSED});
+            set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
         } else if (typeof last_wpm === 'undefined') {
-            set_or_update_objective(id, {score: wpm, status: SCORM_STATUS.PASSED});
+            set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
         }
     }
     else {
-        set_or_update_objective(id, {score: wpm, status: SCORM_STATUS.PASSED});
+        set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
     }
 
-    return update_global_score();
+    await update_global_score();
 }
 
-export function update_global_score(): boolean {
-    if (!ensure_scorm_connection()) { return false; };
-    const next_available_id = Number(safe_scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
+export async function update_global_score() {
+    const next_available_id = Number(await scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
 
     var passed_levels = 0;
 
     for (var i = 0; i < next_available_id; i++) {
-        var objective_status = safe_scorm_get(SCORM_FIELDS.OBJECTIVE_STATUS(String(i)))
+        var objective_status = await scorm_get(SCORM_FIELDS.OBJECTIVE_STATUS(String(i)))
         if (objective_status == SCORM_STATUS.PASSED) {
             passed_levels++;
         }
@@ -46,15 +44,13 @@ export function update_global_score(): boolean {
     const number_of_levels = levels_data.levels.length;
 
     if (passed_levels == number_of_levels) {
-        SCORM.set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.PASSED);
+        scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.PASSED);
     }
     else {
-        SCORM.set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.INCOMPLETE);
+        scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.INCOMPLETE);
     }
 
-    SCORM.set(SCORM_FIELDS.SCORE_MIN, "0");
-    SCORM.set(SCORM_FIELDS.SCORE_MAX, "1");
-    SCORM.set(SCORM_FIELDS.SCORE_RAW, String(passed_levels / number_of_levels));
-
-    return SCORM.save();;
+    scorm_set(SCORM_FIELDS.SCORE_MIN, "0");
+    scorm_set(SCORM_FIELDS.SCORE_MAX, "1");
+    scorm_set(SCORM_FIELDS.SCORE_RAW, String(passed_levels / number_of_levels));
 }
