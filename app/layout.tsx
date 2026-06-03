@@ -42,16 +42,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased min-h-screen flex flex-col`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
         <Header/>
 
-      <main className="grow w-full bg-bg-body">
-        {children}
-      </main>
-
-        <Footer/>
+        <main className="grow w-full bg-bg-body">
+          {children}
+        </main>
 
       </body>
     </html>

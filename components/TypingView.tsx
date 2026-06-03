@@ -48,7 +48,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     return (
-        <div className="flex h-screen">
+        <div className="flex">
                 <Menu />
 
             <div className="flex-1 flex-col items-center mt-20 w-full">
