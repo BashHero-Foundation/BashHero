@@ -4,6 +4,7 @@ import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
 import SettingsSidebar from "./settings";
 import { scormify_path } from "@/app/scorm/scorm_utils";
+import { ArrowLeft } from 'lucide-react';
 
 
 export function StatsPageContent({ level }: StatsPageContentProps) {
@@ -99,7 +100,10 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
               <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
               active:border-b-0 active:translate-y-1">
-                ← Wróć do poziomu
+                <div className="flex flex-row items-center gap-5"> 
+                  <ArrowLeft size={18} strokeWidth={4} />
+                  Wróć do poziomu
+                </div>
               </button>
             </a>
 

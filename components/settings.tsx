@@ -52,7 +52,7 @@ export default function SettingsSidebar({
                     fixed top-0 right-0 h-full z-40
                     flex items-start
                     transition-transform duration-300 ease-in-out
-                    ${open ? "translate-x-0" : "translate-x-[160px]"}
+                    ${open ? "translate-x-0" : "translate-x-40"}
                 `}
             >
                 {/* Toggle button */}

@@ -11,6 +11,7 @@ import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState } from "react";
+import { Timer } from "lucide-react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -85,11 +86,17 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 {typing.currentIndex + 1}/{typing.totalCommands}
             </span>
 
-            <span className="text-xl">
-                ⏱️ {typing.startTime
+            <div className="flex flex-row items-center justify-center gap-3">
+            
+            <Timer size={25} strokeWidth={2} /> 
+            <span className="leading-none">
+            {typing.startTime
                 ? `${typing.isFinished ? typing.duration : liveTime.toFixed(1)}s`
                 : "0.0s"}
             </span>
+            
+            </div>
+            
             </div>
 
             {/* TYPING AREA - terminal */}    
