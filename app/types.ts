@@ -32,7 +32,6 @@ export type GlobalStats = {
   levelsCompleted: number;
   totalDuration: number;
   averageWPM: number;
-  bestWPM: number;
   totalErrors: number;
   averageAccuracy: number;
 };

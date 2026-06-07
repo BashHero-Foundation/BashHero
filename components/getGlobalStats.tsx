@@ -18,7 +18,6 @@ export function getGlobalStats(): GlobalStats {
       levelsCompleted: 0,
       totalDuration: 0,
       averageWPM: 0,
-      bestWPM: 0,
       totalErrors: 0,
       averageAccuracy: 0,
     };
@@ -35,10 +34,6 @@ export function getGlobalStats(): GlobalStats {
     averageWPM: Math.round(
       allStats.reduce((sum, stat) => sum + stat.WPM, 0) /
       allStats.length
-    ),
-
-    bestWPM: Math.max(
-      ...allStats.map((stat) => stat.WPM)
     ),
 
     totalErrors: allStats.reduce(
