@@ -16,6 +16,10 @@ export function GlobalStatsContent() {
     setStats(getGlobalStats());
   }, []);
 
+  function previous() {
+        window.history.back()
+    }
+
 
   return (
     <div className="flex h-screen">
@@ -76,13 +80,11 @@ export function GlobalStatsContent() {
 
           {/* Navigation Buttons */}
           <div className="mt-10 flex flex-col gap-3 w-full">
-            <a href={scormify_path(`/game/1`)} className="w-full">
-              <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
+              <button onClick={previous} className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
               active:border-b-0 active:translate-y-1">
-                ← Wróć do statystyk poziomu
+                ← Wróć
               </button>
-            </a>
 
           </div>
         </div>
