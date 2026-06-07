@@ -107,14 +107,14 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
 
                 {/* Container for terminal workspace */} 
-                <div className="font-mono text-xl px-4 py-6 overflow-auto">
+                <div className="font-mono text-xl px-4 py-6 overflow-y-auto overflow-x-hidden">
 
                     <div className="flex">
                         <span className="text-green-600 mr-4 shrink-0 select-none whitespace-pre">❯❯</span>
 
                         <div className="relative grow"> 
                             {/* Text to be typed */}
-                            <div className="absolute inset-0 pointer-events-none whitespace-pre caret-terminal-caret">
+                            <div className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-all caret-terminal-caret">
                             <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
                             </div>
 
@@ -126,13 +126,11 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                             onChange={typing.handleChange}
                             onKeyDown={handleKeyDown}
                             spellCheck="false"
-                            className="relative z-10 w-max min-w-full bg-transparent text-transparent focus:outline-none resize-none 
-                            whitespace-pre caret-terminal-caret overflow-hidden mb-20
+                            wrap="soft"
+                            className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none 
+                            whitespace-pre-wrap break-all caret-terminal-caret overflow-hidden mb-20
                             "
-                            style={{
-                                width: `${typing.text.length + 1}ch`,
-                            }}
-                            rows={1}
+                            rows={Math.ceil((typing.currentCommand.text.length+1)/48)}
                             />
                             </div>
 
