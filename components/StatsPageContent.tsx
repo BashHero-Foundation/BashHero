@@ -2,11 +2,15 @@
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
+import SettingsSidebar from "./settings";
+import { scormify_path } from "@/app/scorm/scorm_utils";
 
 
 export function StatsPageContent({ level }: StatsPageContentProps) {
   const [stats, setStats] = useState<LevelStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // settings sidebar
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     // Get stats from localStorage
@@ -14,27 +18,23 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
     if (savedStats) {
       setStats(JSON.parse(savedStats));
     }
-    setIsLoading(false);
   }, [level.id]);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center text-4xl text-gray-500 justify-center h-screen">
-        Ładowanie...
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-screen">
 
       {/* Sidebar menu */}
-      <div className="w-1/6 p-4 border-r border-border-separator ">
         <Menu />
-      </div>
+
+      <SettingsSidebar
+                  open={settingsOpen}
+                  onClose={() => setSettingsOpen(false)}
+                  onOpen={() => setSettingsOpen(true)}
+      />      
 
       {/* Main Content */}
-      <div className="w-5/6 flex flex-col items-center pt-20">
+      <div className="flex-1 flex flex-col items-center pt-20">
         {/* Level Info */}
         <div className="flex flex-col items-center mb-10 gap-2">
           <h1 className="text-3xl font-bold text-text-secondary">{level.title}</h1> 
@@ -59,19 +59,18 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-3xl font-bold text-badge-primary-text">{stats.WPM}</span>
               </div>
 
-              {/* Errors 
+              {/* Errors */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
                 <span className="text-lg font-semibold text-gray-700">Błędy</span>
                 <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
               </div>
-              */}
-
-              {/* Accuracy 
+              
+              {/* Accuracy */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
                 <span className="text-lg font-semibold text-gray-700">Dokładność</span>
-                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}</span>
+                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
               </div>
-              */}
+
 
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral mt-4">
@@ -96,7 +95,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
           {/* Navigation Buttons */}
           <div className="mt-10 flex flex-col gap-3 w-full">
-            <a href={`/game/${level.id}`} className="w-full">
+            <a href={scormify_path(`/game/${level.id}`)} className="w-full">
               <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
               active:border-b-0 active:translate-y-1">

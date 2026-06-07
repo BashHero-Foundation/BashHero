@@ -1,16 +1,21 @@
 import { notFound } from "next/navigation";
 import levelsData from "../../levels/chapter1.json";
+import chapter1 from "../../levels/chapter1.json";
+import chapter2 from "../../levels/chapter2.json";
+import chapter3 from "../../levels/chapter3.json";
 import { TypingView } from "@/components/TypingView";
+
+const chapters = [chapter1, chapter2, chapter3];
+const alllevels = chapters.flatMap(chapter => chapter.levels);
 
 export const dynamicParams = false;
 
 export default async function Page({ params }: { params: { id: string } }) {
   const {id} = await params
-  const levels = levelsData.levels;
-  const currentIndex = levels.findIndex(l => l.id === id);
-  const level = currentIndex >= 0 ? levels[currentIndex] : null;
-  const nextLevelId = currentIndex >= 0 && currentIndex < levels.length - 1 
-    ? levels[currentIndex + 1].id
+  const currentIndex = alllevels.findIndex(l => l.id === id);
+  const level = currentIndex >= 0 ? alllevels[currentIndex] : null;
+  const nextLevelId = currentIndex >= 0 && currentIndex < alllevels.length - 1 
+    ? alllevels[currentIndex + 1].id
     : null;
 
   if (!level) {
@@ -21,7 +26,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 }
 
 export async function generateStaticParams() {
-  return levelsData.levels.map((level) => ({
+  return alllevels.map((level) => ({
     id: level.id.toString(),
   }));
 }

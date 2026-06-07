@@ -1,0 +1,71 @@
+{
+"chapterId": "2",
+  "chapterTitle": "Rozdział 2: Pliki",
+  "levels": [
+    {
+      "id": "3",
+      "title": "3 Zarządzanie Plikami",
+      "description": "Tworzenie, kopiowanie i przenoszenie zasobów w terminalu.",
+      "difficulty": "medium",
+      "category": "file-management",
+      "points": 15,
+      "commands": [
+        {
+          "text": "mkdir nowe_zadanie",
+          "hint": "Utwórz nowy folder o nazwie nowe_zadanie"
+        },
+        {
+          "text": "touch index.html",
+          "hint": "Stwórz pusty plik o nazwie index.html"
+        },
+        {
+          "text": "cp index.html backup.html",
+          "hint": "Skopiuj plik index.html do pliku o nazwie backup.html"
+        },
+        {
+          "text": "mv backup.html ./old/backup.html",
+          "hint": "Przenieś plik do folderu old"
+        },
+        {
+          "text": "rm index.html",
+          "hint": "Usuń plik index.html (uważaj!)"
+        },
+        {
+          "text": "rm -rf folder_do_usuniecia",
+          "hint": "Usuń folder wraz z całą jego zawartością"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "4 Praca z treścią plików",
+      "description": "Podglądanie i edycja plików tekstowych bez opuszczania terminala.",
+      "difficulty": "medium",
+      "category": "content",
+      "points": 20,
+      "commands": [
+        {
+          "text": "cat config.json",
+          "hint": "Wyświetl całą treść pliku w terminalu"
+        },
+        {
+          "text": "head -n 5 logs.txt",
+          "hint": "Pokaż tylko pierwsze 5 linii pliku"
+        },
+        {
+          "text": "tail -f access.log",
+          "hint": "Śledź zmiany w pliku w czasie rzeczywistym (przydatne przy logach)"
+        },
+        {
+          "text": "grep \"error\" app.log",
+          "hint": "Wyszukaj wszystkie linie zawierające słowo 'error' w pliku"
+        },
+        {
+          "text": "nano README.md",
+          "hint": "Otwórz plik w prostym edytorze tekstowym wbudowanym w konsolę"
+        }
+      ]
+    }
+  ]
+}
+

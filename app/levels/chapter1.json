@@ -1,5 +1,6 @@
-
 {
+  "chapterId": "1",
+  "chapterTitle": "Rozdział 1: Nawigacja",
   "levels": [
     {
       "id": "1",
@@ -71,27 +72,131 @@
       ]
     },
 
-    {
-      "id": "00",
-      "title": "007 TEST",
-      "description": "Ćwiczymy cd w różnych sytuacjach i nie tylko, bo bedziemy uczyc sie na prawde wielu niesamowitych rzeczy, ktore pozwola na rozbudownie wlasnych umiejetnosci nie tylko programistycznych ale takze umiejetnosci obcowania z narzedzienm klawiatury, tak bardzo waznym i potrzebnym w pracy programisty ",
-      "difficulty": "easy-peasy",
-      "category": "",
-      "points": 50000, 
+        {
+      "id": "3",
+      "title": "3 Zarządzanie Plikami",
+      "description": "Tworzenie, kopiowanie i przenoszenie zasobów w terminalu.",
+      "difficulty": "medium",
+      "category": "file-management",
+      "points": 15,
       "commands": [
         {
-          "text": "test",
-          "hint": "brak"
+          "text": "mkdir nowe_zadanie",
+          "hint": "Utwórz nowy folder o nazwie nowe_zadanie"
         },
         {
-          "text": "test",
-          "hint": "brak"
+          "text": "touch index.html",
+          "hint": "Stwórz pusty plik o nazwie index.html"
         },
         {
-          "text": "test",
-          "hint": "brak"
+          "text": "cp index.html backup.html",
+          "hint": "Skopiuj plik index.html do pliku o nazwie backup.html"
+        },
+        {
+          "text": "mv backup.html ./old/backup.html",
+          "hint": "Przenieś plik do folderu old"
+        },
+        {
+          "text": "rm index.html",
+          "hint": "Usuń plik index.html (uważaj!)"
+        },
+        {
+          "text": "rm -rf folder_do_usuniecia",
+          "hint": "Usuń folder wraz z całą jego zawartością"
         }
       ]
+    },
+    {
+      "id": "4",
+      "title": "4 Praca z treścią plików",
+      "description": "Podglądanie i edycja plików tekstowych bez opuszczania terminala.",
+      "difficulty": "medium",
+      "category": "content",
+      "points": 20,
+      "commands": [
+        {
+          "text": "cat config.json",
+          "hint": "Wyświetl całą treść pliku w terminalu"
+        },
+        {
+          "text": "head -n 5 logs.txt",
+          "hint": "Pokaż tylko pierwsze 5 linii pliku"
+        },
+        {
+          "text": "tail -f access.log",
+          "hint": "Śledź zmiany w pliku w czasie rzeczywistym (przydatne przy logach)"
+        },
+        {
+          "text": "grep \"error\" app.log",
+          "hint": "Wyszukaj wszystkie linie zawierające słowo 'error' w pliku"
+        },
+        {
+          "text": "nano README.md",
+          "hint": "Otwórz plik w prostym edytorze tekstowym wbudowanym w konsolę"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "5 Uprawnienia i Właściciele",
+      "description": "Zarządzanie dostępem do plików i folderów.",
+      "difficulty": "hard",
+      "category": "permissions",
+      "points": 25,
+      "commands": [
+        {
+          "text": "chmod +x script.sh",
+          "hint": "Nadaj plikowi uprawnienia do wykonywania"
+        },
+        {
+          "text": "chmod 777 public_file.txt",
+          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
+        },
+        {
+          "text": "sudo chown root:root secret.txt",
+          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
+        },
+        {
+          "text": "whoami",
+          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
+        },
+        {
+          "text": "groups",
+          "hint": "Wyświetl listę grup, do których należysz"
+        }
+      ]
+      
+    },
+    {
+      "id": "6",
+      "title": "Testy",
+      "description": "Testowanie",
+      "difficulty": "hard",
+      "category": "tests",
+      "points": 0,
+      "commands": [
+        {
+          "text": "sudo crudo mudo mundo endo bento pento jento creso lenso pasi lenti rasi cresi basi asi masi kasi",
+          "hint": "Nadaj plikowi uprawnienia do wykonywania"
+        },
+        {
+          "text": "asffaaaaaaaaaaaaaaaaaaaaaaa",
+          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
+        },
+        {
+          "text": "sudo",
+          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
+        },
+        {
+          "text": "whoami",
+          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
+        },
+        {
+          "text": "groups",
+          "hint": "Wyświetl listę grup, do których należysz"
+        }
+      ]
+      
     }
 
   ]
