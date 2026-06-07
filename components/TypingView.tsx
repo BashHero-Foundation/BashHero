@@ -50,15 +50,15 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     return (
         <div className="flex">
-                <Menu />
+            <Menu />
 
-            <div className="flex-1 flex-col items-center mt-20 w-full">
-
-            <SettingsSidebar
+             <SettingsSidebar
             open={settingsOpen}
             onClose={() => setSettingsOpen(false)}
             onOpen={() => setSettingsOpen(true)}
             />
+
+            <div className="flex-1 flex-col items-center mt-20 w-full">
 
             {/* LEVEL INFO */}    
 
