@@ -28,6 +28,15 @@ export type LevelStats = {
   timestamp: string;
 }
 
+export type GlobalStats = {
+  levelsCompleted: number;
+  totalDuration: number;
+  averageWPM: number;
+  bestWPM: number;
+  totalErrors: number;
+  averageAccuracy: number;
+};
+
 export interface LevelStatsStateProps {
   isFinished: boolean;
   duration: number;
