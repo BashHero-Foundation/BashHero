@@ -21,8 +21,8 @@
   </organizations>
 
   <resources>
-    <resource identifier="resource_1" type="webcontent" adlcp:scormtype="sco" href="appstarter.html">
-      <file href="appstarter.html"/>
+    <resource identifier="resource_1" type="webcontent" adlcp:scormtype="sco" href="appstarter/appstarter.html">
+      <file href="appstarter/appstarter.html"/>
     </resource>
   </resources>
 

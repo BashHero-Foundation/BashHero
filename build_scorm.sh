@@ -10,4 +10,4 @@ echo "\n>>>REMOVING OLD PACKAGE<<<"
 rm bashhero_scormpackage.zip
 
 echo "\n>>>ZIPPING<<<"
-zip -r bashhero_scormpackage.zip imsmanifest.xml out
+zip -r bashhero_scormpackage.zip imsmanifest.xml out appstarter/*
