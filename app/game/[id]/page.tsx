@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import levelsData from "../../levels/chapter1.json";
 import chapter1 from "../../levels/chapter1.json";
 import chapter2 from "../../levels/chapter2.json";
 import chapter3 from "../../levels/chapter3.json";

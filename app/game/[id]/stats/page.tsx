@@ -1,5 +1,4 @@
 import { StatsPageContent } from "@/components/StatsPageContent";
-import levelsData from "../../../levels/chapter1.json";
 import { notFound } from "next/navigation";
 import CalculatePoints from "@/components/CalculatePoints";
 import chapter1 from "../../../levels/chapter1.json";
@@ -23,9 +22,6 @@ export default async function StatsPage({ params }: StatsPageProps) {
   const { id } = await params;
   const currentIndex = alllevels.findIndex(l => l.id === id);
   const level = currentIndex >= 0 ? alllevels[currentIndex] : null;
-  const nextLevelId = currentIndex >= 0 && currentIndex < alllevels.length - 1 
-    ? alllevels[currentIndex + 1].id
-    : null;
 
   if (!level) {
     return (
