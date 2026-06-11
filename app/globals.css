@@ -63,6 +63,7 @@
 
 @layer base {
   :root {
+    --header-height: 9rem;
     --bg-body: #F7FCFF;
     --bg-main: #1A1953;
     --bg-secondary: #162E93;

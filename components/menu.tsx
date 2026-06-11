@@ -26,7 +26,7 @@ export const Menu = () => {
       }; }, []);
 
   return (
-    <div ref={sidebarRef} className={`fixed left-0 z-40 w-80 transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "-translate-x-full"}`} style={{ top: "calc(var(--header-height) + 4px)",height: "calc(100vh - 5rem)" }}>
+    <div ref={sidebarRef} className={`fixed left-0 z-40 w-80 transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "-translate-x-full"}`} style={{top: "var(--header-height, 0px)",height: "calc(100dvh - var(--header-height, 0px))",}}>
       <button onClick={() => setOpen((s) => !s)}
         className="absolute -right-13 top-5 bg-btn-primary-bg text-text-primary px-3 py-2.5 rounded-r-md shadow-lg hover:opacity-90 transition"
         aria-expanded={open}
