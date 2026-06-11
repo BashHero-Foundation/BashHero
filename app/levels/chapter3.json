@@ -1,38 +1,71 @@
 {
-"chapterId": "c",
-  "chapterTitle": "Rozdział 3: Uprawnienia i Właściciele",
+  "chapterId": "3",
+  "chapterTitle": "Rozdział 3: Uprawnienia i bezpieczeństwo",
   "levels": [
     {
-      "id": "5",
-      "title": "5 Uprawnienia i Właściciele",
+      "id": "11",
+      "title": "11 Uprawnienia i Właściciele",
       "description": "Zarządzanie dostępem do plików i folderów.",
       "difficulty": "hard",
       "category": "permissions",
-      "points": 25,
+      "points": 10,
+      "min_wpm": 45,
+      "min_accuracy": 95,
       "commands": [
-        {
-          "text": "chmod +x script.sh",
-          "hint": "Nadaj plikowi uprawnienia do wykonywania"
-        },
-        {
-          "text": "chmod 777 public_file.txt",
-          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
-        },
-        {
-          "text": "sudo chown root:root secret.txt",
-          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
-        },
-        {
-          "text": "whoami",
-          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
-        },
-        {
-          "text": "groups",
-          "hint": "Wyświetl listę grup, do których należysz"
-        }
+        { "text": "chmod +x script.sh" },
+        { "text": "chmod 777 public_file.txt" },
+        { "text": "sudo chown root:root secret.txt" },
+        { "text": "whoami" },
+        { "text": "groups" }
       ]
-      
+    },
+    {
+      "id": "12",
+      "title": "12 Modyfikacje ósemkowe (Octal) i grupy",
+      "description": "Precyzyjne nadawanie praw dostępu za pomocą cyfr oraz zmiana przynależności grupowej.",
+      "difficulty": "hard",
+      "category": "permissions",
+      "points": 10,
+      "min_wpm": 48,
+      "min_accuracy": 96,
+      "commands": [
+        { "text": "chmod 644 config.cfg" },
+        { "text": "chmod 700 private.key" },
+        { "text": "sudo chgrp developers data/" },
+        { "text": "id student" }
+      ]
+    },
+    {
+      "id": "13",
+      "title": "13 Zaawansowane atrybuty i SUID",
+      "description": "Zabezpieczanie plików przed modyfikacją oraz specjalne bity uprawnień.",
+      "difficulty": "hard",
+      "category": "permissions",
+      "points": 10,
+      "min_wpm": 50,
+      "min_accuracy": 95,
+      "commands": [
+        { "text": "sudo chattr +i secure.log" },
+        { "text": "chmod u+s /bin/program" },
+        { "text": "chmod g+s shared_folder/" },
+        { "text": "chmod +t public_dump/" }
+      ]
+    },
+    {
+      "id": "14",
+      "title": "14 Zarządzanie użytkownikami z poziomu Root",
+      "description": "Dodawanie kont użytkowników, modyfikacja powłoki oraz blokowanie kont.",
+      "difficulty": "hard",
+      "category": "permissions",
+      "points": 10,
+      "min_wpm": 52,
+      "min_accuracy": 94,
+      "commands": [
+        { "text": "sudo usermod -aG sudo adam" },
+        { "text": "sudo useradd -m -s /bin/bash newuser" },
+        { "text": "sudo passwd -l suspect" },
+        { "text": "sudo userdel -r olduser" }
+      ]
     }
   ]
 }
-

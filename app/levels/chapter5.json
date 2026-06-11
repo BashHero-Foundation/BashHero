@@ -1,0 +1,52 @@
+{
+  "chapterId": "5",
+  "chapterTitle": "Rozdział 5: Sieci komputerowe i diagnostyka",
+  "levels": [
+    {
+      "id": "18",
+      "title": "18 Podstawowa diagnostyka sieciowa",
+      "description": "Weryfikacja połączeń sieciowych oraz translacji nazw DNS.",
+      "difficulty": "medium",
+      "category": "network",
+      "points": 10,
+      "min_wpm": 40,
+      "min_accuracy": 91,
+      "commands": [
+        { "text": "ping -c 4 8.8.8.8" },
+        { "text": "host google.com" },
+        { "text": "curl -I https://github.com" }
+      ]
+    },
+    {
+      "id": "19",
+      "title": "19 Analiza portów i interfejsów",
+      "description": "Sprawdzanie aktywnych kart sieciowych oraz nasłuchujących gniazd.",
+      "difficulty": "hard",
+      "category": "network",
+      "points": 10,
+      "min_wpm": 48,
+      "min_accuracy": 94,
+      "commands": [
+        { "text": "ip addr show" },
+        { "text": "ss -tulpn" },
+        { "text": "traceroute 1.1.1.1" },
+        { "text": "netstat -r" }
+      ]
+    },
+    {
+      "id": "20",
+      "title": "20 Pobieranie danych i transfer",
+      "description": "Pobieranie zasobów zdalnych oraz synchronizacja plików przez sieć.",
+      "difficulty": "hard",
+      "category": "network",
+      "points": 210,
+      "min_wpm": 50,
+      "min_accuracy": 93,
+      "commands": [
+        { "text": "wget -c http://example.com/file.zip" },
+        { "text": "rsync -avz /local/dir/ user@remote:/backup/" },
+        { "text": "scp photo.jpg user@remote:/home/user/" }
+      ]
+    }
+  ]
+}

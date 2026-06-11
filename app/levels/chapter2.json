@@ -1,71 +1,88 @@
 {
-"chapterId": "2",
-  "chapterTitle": "Rozdział 2: Pliki",
+  "chapterId": "2",
+  "chapterTitle": "Rozdział 2: Pliki i praca z treścią",
   "levels": [
     {
-      "id": "3",
-      "title": "3 Zarządzanie Plikami",
+      "id": "6",
+      "title": "6 Zarządzanie Plikami",
       "description": "Tworzenie, kopiowanie i przenoszenie zasobów w terminalu.",
       "difficulty": "medium",
       "category": "file-management",
-      "points": 15,
+      "points": 10,
+      "min_wpm": 40,
+      "min_accuracy": 93,
       "commands": [
-        {
-          "text": "mkdir nowe_zadanie",
-          "hint": "Utwórz nowy folder o nazwie nowe_zadanie"
-        },
-        {
-          "text": "touch index.html",
-          "hint": "Stwórz pusty plik o nazwie index.html"
-        },
-        {
-          "text": "cp index.html backup.html",
-          "hint": "Skopiuj plik index.html do pliku o nazwie backup.html"
-        },
-        {
-          "text": "mv backup.html ./old/backup.html",
-          "hint": "Przenieś plik do folderu old"
-        },
-        {
-          "text": "rm index.html",
-          "hint": "Usuń plik index.html (uważaj!)"
-        },
-        {
-          "text": "rm -rf folder_do_usuniecia",
-          "hint": "Usuń folder wraz z całą jego zawartością"
-        }
+        { "text": "mkdir nowe_zadanie" },
+        { "text": "touch index.html" },
+        { "text": "cp index.html backup.html" },
+        { "text": "mv backup.html ./old/backup.html" },
+        { "text": "rm index.html" },
+        { "text": "rm -rf folder_do_usuniecia" }
       ]
     },
     {
-      "id": "4",
-      "title": "4 Praca z treścią plików",
+      "id": "7",
+      "title": "7 Praca z treścią plików",
       "description": "Podglądanie i edycja plików tekstowych bez opuszczania terminala.",
       "difficulty": "medium",
       "category": "content",
-      "points": 20,
+      "points": 10,
+      "min_wpm": 42,
+      "min_accuracy": 94,
       "commands": [
-        {
-          "text": "cat config.json",
-          "hint": "Wyświetl całą treść pliku w terminalu"
-        },
-        {
-          "text": "head -n 5 logs.txt",
-          "hint": "Pokaż tylko pierwsze 5 linii pliku"
-        },
-        {
-          "text": "tail -f access.log",
-          "hint": "Śledź zmiany w pliku w czasie rzeczywistym (przydatne przy logach)"
-        },
-        {
-          "text": "grep \"error\" app.log",
-          "hint": "Wyszukaj wszystkie linie zawierające słowo 'error' w pliku"
-        },
-        {
-          "text": "nano README.md",
-          "hint": "Otwórz plik w prostym edytorze tekstowym wbudowanym w konsolę"
-        }
+        { "text": "cat config.json" },
+        { "text": "head -n 5 logs.txt" },
+        { "text": "tail -f access.log" },
+        { "text": "grep \"error\" app.log" },
+        { "text": "nano README.md" }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "8 Zaawansowane operacje plikowe",
+      "description": "Przenoszenie z nadpisywaniem oraz tworzenie powiązań między plikami.",
+      "difficulty": "medium",
+      "category": "file-management",
+      "points": 10,
+      "min_wpm": 45,
+      "min_accuracy": 93,
+      "commands": [
+        { "text": "mv -i file1.txt file2.txt" },
+        { "text": "ln -s target.txt link.txt" },
+        { "text": "cp -r /src /dest" },
+        { "text": "rmdir pusty_katalog" }
+      ]
+    },
+    {
+      "id": "9",
+      "title": "9 Inspekcja i statystyki plików",
+      "description": "Zliczanie linii, słów, sprawdzanie typów plików oraz sum kontrolnych.",
+      "difficulty": "medium",
+      "category": "content",
+      "points": 10,
+      "min_wpm": 45,
+      "min_accuracy": 95,
+      "commands": [
+        { "text": "wc -l data.csv" },
+        { "text": "file nieznany_plik" },
+        { "text": "md5sum system.iso" },
+        { "text": "stat document.docx" }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "10 Filtrowanie strumieni i potoki",
+      "description": "Łączenie komend w celu zaawansowanego przetwarzania tekstu.",
+      "difficulty": "medium",
+      "category": "content",
+      "points": 10,
+      "min_wpm": 48,
+      "min_accuracy": 92,
+      "commands": [
+        { "text": "cat names.txt | sort" },
+        { "text": "uniq -c sorted.txt" },
+        { "text": "grep -i \"warning\" system.log" }
       ]
     }
   ]
 }
-
