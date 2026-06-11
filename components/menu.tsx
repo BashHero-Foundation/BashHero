@@ -25,12 +25,12 @@ export const Menu = () => {
       }; }, []);
 
   return (
-    <div ref={sidebarRef} className={`fixed left-0 z-40 w-80 transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "-translate-x-full"}`} style={{ top: "calc(var(--header-height) + 4px)",height: "calc(100vh - 5rem)" }}>
+    <div ref={sidebarRef} className={`fixed left-0 z-40 w-80 transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "-translate-x-full"}`} style={{top: "var(--header-height, 0px)",height: "calc(100dvh - var(--header-height, 0px))",}}>
       <button onClick={() => setOpen((s) => !s)}
         className="absolute -right-12 top-5 bg-btn-primary-bg text-white px-3 py-2 rounded-r-md shadow-lg hover:opacity-90 transition"
         aria-expanded={open}
         aria-label={open ? "Zamknij menu" : "Otwórz menu"}>
-          <svg className={`w-6 h-6 transform ${open ? "" : "rotate-180"}`} viewBox="0 0 20 20" fill="currentColor">
+          <svg className={`w-6 h-6 transform transition-transform duration-300 ${open ? "rotate-180" : ""}`} viewBox="0 0 20 20" fill="currentColor">
             <path d="M7 6l5 4-5 4V6z" />
           </svg>
         </button>
