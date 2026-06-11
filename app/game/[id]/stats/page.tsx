@@ -1,6 +1,7 @@
 import { StatsPageContent } from "@/components/StatsPageContent";
 import levelsData from "../../../levels/chapter1.json";
 import { notFound } from "next/navigation";
+import CalculatePoints from "@/components/CalculatePoints";
 import chapter1 from "../../../levels/chapter1.json";
 import chapter2 from "../../../levels/chapter2.json";
 import chapter3 from "../../../levels/chapter3.json";

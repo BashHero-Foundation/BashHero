@@ -7,10 +7,11 @@ import { Level } from "@/app/types";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
-import ThemeSwitcher from "./ThemeSwitcher";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
-import { useState } from "react";
+import CalculatePoints from "@/components/CalculatePoints";
+import { useRef, useState } from "react";
+import { Timer } from "lucide-react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -30,14 +31,14 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     // metrics hook
-    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, userText: typing.text});
+    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors});
 
     // save stats hook
     useLevelStatsState({
         isFinished: typing.isFinished,
         duration: typing.duration,
         wpm: metrics.WPM,
-        errors: metrics.errors,
+        errors: typing.errors,
         accuracy: metrics.accuracy,
         level: {
             id: level.id,
@@ -45,17 +46,19 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         }
     });
 
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
     return (
-        <div className="flex h-screen">
-                <Menu />
+        <div className="flex">
+            <Menu />
 
-            <div className="flex-1 flex-col items-center mt-20 w-full">
-
-            <SettingsSidebar
+             <SettingsSidebar
             open={settingsOpen}
             onClose={() => setSettingsOpen(false)}
             onOpen={() => setSettingsOpen(true)}
             />
+
+            <div className="flex-1 flex-col items-center mt-20 w-full">
 
             {/* LEVEL INFO */}    
 
@@ -72,41 +75,78 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </span>
                 </div>
             </div>
-            <div className="flex flex-col p-4 w-full max-w-md mx-auto">
 
+            {/* TYPING AREA */}
+            <div className="flex flex-col w-full max-w-2xl mx-auto">
 
             {/* Total commands and timer */} 
 
-            <div className="flex justify-between items-center mb-2 text-sm text-text-neutral font-mono">
+            <div className="flex justify-between items-center px-4 mb-3 text-lg text-text-neutral font-mono">
             <span>
                 {typing.currentIndex + 1}/{typing.totalCommands}
             </span>
 
-            <span className="text-xl">
-                ⏱️ {typing.startTime
+            <div className="flex flex-row items-center justify-center gap-3">
+            
+            <Timer size={25} strokeWidth={2} /> 
+            <span className="leading-none">
+            {typing.startTime
                 ? `${typing.isFinished ? typing.duration : liveTime.toFixed(1)}s`
                 : "0.0s"}
             </span>
+            
+            </div>
+            
             </div>
 
-            {/* TYPING AREA - future terminal style */}    
-            
-            <div className="relative font-mono text-xl p-4 border-2 border-border-separator rounded-md shadow-sm focus-within:border-btn-primary-bg transition duration-200">
-                
-                {/* Text to be typed */}
-                <div className="absolute inset-0 p-4 pointer-events-none whitespace-pre-wrap caret-terminal-caret">
-                <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
+            {/* TYPING AREA - terminal */}    
+            <div 
+            className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
+            bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
+            onClick={() => textareaRef.current?.focus()}
+            >
+
+                {/* Top bar */} 
+                <div className="flex items-center gap-2 px-4 py-3 bg-[#363636]">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
 
-                {/* Actual typing text */}
-                <textarea
-                value={typing.text}
-                onChange={typing.handleChange}
-                onKeyDown={handleKeyDown}
-                spellCheck="false"
-                className="relative z-10 w-full bg-transparent text-transparent focus:outline-none resize-none overflow-hidden whitespace-pre-wrap caret-terminal-caret"
-                rows={2}
-                />
+                {/* Container for terminal workspace */} 
+                <div className="font-mono text-xl px-4 py-6 overflow-auto">
+
+                    <div className="flex">
+                        <span className="text-green-600 mr-4 shrink-0 select-none whitespace-pre">❯❯</span>
+
+                        <div className="relative grow"> 
+                            {/* Text to be typed */}
+                            <div className="absolute inset-0 pointer-events-none whitespace-pre caret-terminal-caret">
+                            <TextCorrecter text={typing.text} currentCommand={typing.currentCommand} />
+                            </div>
+
+                            {/* Actual typing text */}
+                            <div className="">
+                            <textarea
+                            ref={textareaRef}
+                            value={typing.text}
+                            onChange={typing.handleChange}
+                            onKeyDown={handleKeyDown}
+                            spellCheck="false"
+                            className="relative z-10 w-max min-w-full bg-transparent text-transparent focus:outline-none resize-none 
+                            whitespace-pre caret-terminal-caret overflow-hidden mb-20
+                            "
+                            style={{
+                                width: `${typing.text.length + 1}ch`,
+                            }}
+                            rows={1}
+                            />
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
            
@@ -118,11 +158,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3> 
-
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> +{level.points}</span>
+                        <span className=" text-3xl"> +{CalculatePoints(metrics.accuracy, metrics.WPM, level.points)}</span>
                         <span className="text-xl"> points</span>
                     </span>
                 </div>
