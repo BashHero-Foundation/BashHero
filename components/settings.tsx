@@ -49,11 +49,15 @@ export default function SettingsSidebar({
             <div
                 ref={sidebarRef}
                 className={`
-                    fixed top-0 right-0 h-full z-40
+                    fixed right-0 z-40
                     flex items-start
                     transition-transform duration-300 ease-in-out
-                    ${open ? "translate-x-0" : "translate-x-[160px]"}
+                    ${open ? "translate-x-0" : "translate-x-full"}
                 `}
+                style={{ 
+                    top: "calc(var(--header-height) + 4px)", 
+                    height: "calc(100vh - 5rem)" 
+                }}
             >
                 {/* Toggle button */}
                 <button
