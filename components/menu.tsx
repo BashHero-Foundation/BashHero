@@ -6,7 +6,7 @@ import chapter2 from "@/app/levels/chapter2.json";
 import chapter3 from "@/app/levels/chapter3.json";
 import chapter4 from "@/app/levels/chapter4.json";
 import chapter5 from "@/app/levels/chapter5.json";
-import { ChevronLeft } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 const chapters = [chapter1, chapter2, chapter3, chapter4, chapter5];
 
@@ -33,7 +33,7 @@ export const Menu = () => {
         className="absolute -right-13 top-5 bg-btn-primary-bg text-text-primary px-3 py-2.5 rounded-r-md shadow-lg hover:opacity-90 transition"
         aria-expanded={open}
         aria-label={open ? "Zamknij menu" : "Otwórz menu"}>
-          <ChevronLeft 
+          <ChevronRight 
             size={28} 
             strokeWidth={3} 
             className={`transition-transform duration-300 ease-in-out ${open ? "rotate-180" : "rotate-0"}`}
