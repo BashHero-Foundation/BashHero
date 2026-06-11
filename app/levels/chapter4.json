@@ -1,0 +1,54 @@
+{
+  "chapterId": "4",
+  "chapterTitle": "Rozdział 4: Zarządzanie procesami i systemem",
+  "levels": [
+    {
+      "id": "15",
+      "title": "15 Podgląd procesów i zasobów",
+      "description": "Monitorowanie wykorzystania pamięci RAM, procesora oraz listy zadań.",
+      "difficulty": "medium",
+      "category": "system",
+      "points": 10,
+      "min_wpm": 42,
+      "min_accuracy": 93,
+      "commands": [
+        { "text": "ps aux" },
+        { "text": "top" },
+        { "text": "free -m" },
+        { "text": "df -h" }
+      ]
+    },
+    {
+      "id": "16",
+      "title": "16 Kontrola i zabijanie procesów",
+      "description": "Wyszukiwanie konkretnych programów i wysyłanie sygnałów zakończenia.",
+      "difficulty": "medium",
+      "category": "system",
+      "points": 10,
+      "min_wpm": 46,
+      "min_accuracy": 94,
+      "commands": [
+        { "text": "pgrep nginx" },
+        { "text": "kill 1234" },
+        { "text": "killall firefox" },
+        { "text": "pkill -9 -u student" }
+      ]
+    },
+    {
+      "id": "17",
+      "title": "17 Zarządzanie zadaniami w tle (Job Control)",
+      "description": "Uruchamianie skryptów w tle oraz wznawianie zadań w terminalu.",
+      "difficulty": "medium",
+      "category": "system",
+      "points": 10,
+      "min_wpm": 45,
+      "min_accuracy": 92,
+      "commands": [
+        { "text": "./script.sh &" },
+        { "text": "jobs" },
+        { "text": "fg %1" },
+        { "text": "bg %1" }
+      ]
+    }
+  ]
+}

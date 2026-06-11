@@ -1,38 +1,24 @@
 {
   "chapterId": "1",
-  "chapterTitle": "Rozdział 1: Nawigacja",
+  "chapterTitle": "Rozdział 1: Nawigacja i struktura katalogów",
   "levels": [
     {
       "id": "1",
       "title": "1 Podstawowe poruszanie się",
-      "description": "Ćwiczymy cd w różnych sytuacjach",
+      "description": "Ćwiczymy podstawy komendy cd w różnych sytuacjach systemowych.",
       "difficulty": "easy",
       "category": "navigation",
-      "points": 5, 
+      "points": 10,
+      "min_wpm": 30,
+      "min_accuracy": 90,
       "commands": [
-        {
-          "text": "cd /home/projekt",
-          "hint": "Idź do katalogu projekt"
-        },
-        {
-          "text": "cd ..",
-          "hint": "Cofnij się o katalog"
-        },
-        {
-          "text": "cd projekt_zaliczeniowy",
-          "hint": "Przejdź do innego katalogu"
-        },
-        {
-          "text": "ls",
-          "hint": "Wyświetl wszystkie pliki"
-        },
-        {
-          "text": "cd app/lib/modules",
-          "hint": "Sprawdź moduły"
-        }
+        { "text": "cd /home/projekt" },
+        { "text": "cd .." },
+        { "text": "cd projekt_zaliczeniowy" },
+        { "text": "ls" },
+        { "text": "cd app/lib/modules" }
       ]
     },
-
     {
       "id": "2",
       "title": "2 Zaawansowana nawigacja",
@@ -40,164 +26,64 @@
       "difficulty": "easy",
       "category": "navigation",
       "points": 10,
+      "min_wpm": 35,
+      "min_accuracy": 92,
       "commands": [
-        {
-          "text": "cd ~",
-          "hint": "Wróć błyskawicznie do katalogu domowego użytkownika"
-        },
-        {
-          "text": "cd -",
-          "hint": "Wróć do poprzedniego katalogu, w którym byłeś przed chwilą"
-        },
-        {
-          "text": "cd ../..",
-          "hint": "Cofnij się o dwa poziomy w górę w strukturze folderów"
-        },
-        {
-          "text": "ls -a",
-          "hint": "Wyświetl wszystkie pliki, łącznie z tymi ukrytymi (z kropką na początku)"
-        },
-        {
-          "text": "cd ~/Downloads",
-          "hint": "Przejdź bezpośrednio do Pobranych z dowolnego miejsca w systemie"
-        },
-        {
-          "text": "ls -la",
-          "hint": "Wyświetl szczegółową listę plików wraz z uprawnieniami"
-        },
-        {
-          "text": "pwd",
-          "hint": "Sprawdź pełną ścieżkę aktualnego katalogu, aby się nie zgubić"
-        }
+        { "text": "cd ~" },
+        { "text": "cd -" },
+        { "text": "cd ../.." },
+        { "text": "ls -a" },
+        { "text": "cd ~/Downloads" },
+        { "text": "ls -la" },
+        { "text": "pwd" }
       ]
     },
-
-        {
+    {
       "id": "3",
-      "title": "3 Zarządzanie Plikami",
-      "description": "Tworzenie, kopiowanie i przenoszenie zasobów w terminalu.",
-      "difficulty": "medium",
-      "category": "file-management",
-      "points": 15,
+      "title": "3 Wyszukiwanie ścieżek i lokalizacja",
+      "description": "Lokalizowanie plików wykonywalnych oraz przeszukiwanie drzewa struktury.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 10,
+      "min_wpm": 35,
+      "min_accuracy": 90,
       "commands": [
-        {
-          "text": "mkdir nowe_zadanie",
-          "hint": "Utwórz nowy folder o nazwie nowe_zadanie"
-        },
-        {
-          "text": "touch index.html",
-          "hint": "Stwórz pusty plik o nazwie index.html"
-        },
-        {
-          "text": "cp index.html backup.html",
-          "hint": "Skopiuj plik index.html do pliku o nazwie backup.html"
-        },
-        {
-          "text": "mv backup.html ./old/backup.html",
-          "hint": "Przenieś plik do folderu old"
-        },
-        {
-          "text": "rm index.html",
-          "hint": "Usuń plik index.html (uważaj!)"
-        },
-        {
-          "text": "rm -rf folder_do_usuniecia",
-          "hint": "Usuń folder wraz z całą jego zawartością"
-        }
+        { "text": "which bash" },
+        { "text": "whereis python" },
+        { "text": "ls -F" },
+        { "text": "cd /var/log" }
       ]
     },
     {
       "id": "4",
-      "title": "4 Praca z treścią plików",
-      "description": "Podglądanie i edycja plików tekstowych bez opuszczania terminala.",
-      "difficulty": "medium",
-      "category": "content",
-      "points": 20,
+      "title": "4 Alternatywne listingi i sortowanie",
+      "description": "Wyświetlanie zawartości katalogów posortowanej według czasu i rozmiaru.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 10,
+      "min_wpm": 38,
+      "min_accuracy": 92,
       "commands": [
-        {
-          "text": "cat config.json",
-          "hint": "Wyświetl całą treść pliku w terminalu"
-        },
-        {
-          "text": "head -n 5 logs.txt",
-          "hint": "Pokaż tylko pierwsze 5 linii pliku"
-        },
-        {
-          "text": "tail -f access.log",
-          "hint": "Śledź zmiany w pliku w czasie rzeczywistym (przydatne przy logach)"
-        },
-        {
-          "text": "grep \"error\" app.log",
-          "hint": "Wyszukaj wszystkie linie zawierające słowo 'error' w pliku"
-        },
-        {
-          "text": "nano README.md",
-          "hint": "Otwórz plik w prostym edytorze tekstowym wbudowanym w konsolę"
-        }
+        { "text": "ls -lh" },
+        { "text": "ls -lt" },
+        { "text": "ls -lS" },
+        { "text": "ls -1" }
       ]
     },
     {
       "id": "5",
-      "title": "5 Uprawnienia i Właściciele",
-      "description": "Zarządzanie dostępem do plików i folderów.",
-      "difficulty": "hard",
-      "category": "permissions",
-      "points": 25,
+      "title": "5 Drzewo katalogów i inspekcja",
+      "description": "Wizualizacja struktury katalogów i szybka zmiana kontekstu.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 10,
+      "min_wpm": 40,
+      "min_accuracy": 92,
       "commands": [
-        {
-          "text": "chmod +x script.sh",
-          "hint": "Nadaj plikowi uprawnienia do wykonywania"
-        },
-        {
-          "text": "chmod 777 public_file.txt",
-          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
-        },
-        {
-          "text": "sudo chown root:root secret.txt",
-          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
-        },
-        {
-          "text": "whoami",
-          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
-        },
-        {
-          "text": "groups",
-          "hint": "Wyświetl listę grup, do których należysz"
-        }
+        { "text": "tree -L 2" },
+        { "text": "cd /etc/network" },
+        { "text": "ls -R" }
       ]
-      
-    },
-    {
-      "id": "6",
-      "title": "Testy",
-      "description": "Testowanie",
-      "difficulty": "hard",
-      "category": "tests",
-      "points": 0,
-      "commands": [
-        {
-          "text": "sudo crudo mudo mundo endo bento pento jento creso lenso pasi lenti rasi cresi basi asi masi kasi wooooooooooow wooooooooooow woooooooooooooooooooooow",
-          "hint": "Nadaj plikowi uprawnienia do wykonywania"
-        },
-        {
-          "text": "asffaaaaaaaaaaaaaaaaaaaaaaa",
-          "hint": "Daj wszystkim pełne uprawnienia do pliku (odczyt, zapis, wykonanie)"
-        },
-        {
-          "text": "sudo",
-          "hint": "Zmień właściciela i grupę pliku na root (wymaga hasła administratora)"
-        },
-        {
-          "text": "whoami",
-          "hint": "Sprawdź, na jakim użytkowniku aktualnie pracujesz"
-        },
-        {
-          "text": "groups",
-          "hint": "Wyświetl listę grup, do których należysz"
-        }
-      ]
-      
     }
-
   ]
 }
