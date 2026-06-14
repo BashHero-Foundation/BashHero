@@ -58,3 +58,11 @@ export interface StatsPageContentProps {
     points: number;
   };
 }
+
+export interface ScormIframeMessage {
+  type: "SET" | "GET";
+  payload: {
+    field: string;
+    value: string;
+  }
+}

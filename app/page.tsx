@@ -1,5 +1,4 @@
 "use client";
-import ScormStatus from "./scorm/scorm_utils";
 import { scormify_path } from "./scorm/scorm_utils";
 
 export default function Home() {
@@ -15,11 +14,8 @@ export default function Home() {
           !! P L A Y !!
         </a>
       </div>
-
       <div className="mt-40 px-10 text-xs">
-        <ScormStatus></ScormStatus>
       </div>
-
     </div>
   );
 }
