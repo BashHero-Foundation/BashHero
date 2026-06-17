@@ -8,26 +8,27 @@
       "description": "Ćwiczymy podstawy komendy cd w różnych sytuacjach systemowych.",
       "difficulty": "easy",
       "category": "navigation",
-      "points": 10,
+      "points": 5,
       "min_wpm": 30,
-      "min_accuracy": 90,
+      "min_accuracy": 80,
       "commands": [
         { "text": "cd /home/projekt" },
         { "text": "cd .." },
         { "text": "cd projekt_zaliczeniowy" },
         { "text": "ls" },
-        { "text": "cd app/lib/modules" }
+        { "text": "cd app/lib/modules" },
+        { "text": "pwd" } 
       ]
     },
     {
       "id": "2",
       "title": "2 Zaawansowana nawigacja",
       "description": "Szybkie przeskakiwanie między katalogami przy użyciu skrótów.",
-      "difficulty": "easy",
+      "difficulty": "medium",
       "category": "navigation",
       "points": 10,
-      "min_wpm": 35,
-      "min_accuracy": 92,
+      "min_wpm": 30,
+      "min_accuracy": 80,
       "commands": [
         { "text": "cd ~" },
         { "text": "cd -" },
@@ -35,6 +36,9 @@
         { "text": "ls -a" },
         { "text": "cd ~/Downloads" },
         { "text": "ls -la" },
+        { "text": "ls -t" },
+        { "text": "cd /usr/local/bin/../share" },
+        { "text": "cd ../" },
         { "text": "pwd" }
       ]
     },
@@ -44,46 +48,62 @@
       "description": "Lokalizowanie plików wykonywalnych oraz przeszukiwanie drzewa struktury.",
       "difficulty": "easy",
       "category": "navigation",
-      "points": 10,
+      "points": 5,
       "min_wpm": 35,
-      "min_accuracy": 90,
+      "min_accuracy": 80,
       "commands": [
         { "text": "which bash" },
-        { "text": "whereis python" },
+        { "text": "which ls" },
+        { "text": "whereis bash" },
         { "text": "ls -F" },
-        { "text": "cd /var/log" }
+        { "text": "ls -F /usr/bin" },
+        { "text": "cd /usr/bin" }
       ]
     },
     {
       "id": "4",
-      "title": "4 Alternatywne listingi i sortowanie",
-      "description": "Wyświetlanie zawartości katalogów posortowanej według czasu i rozmiaru.",
+      "title": "4 Dynamiczna eksploracja katalogów",
+      "description": "Wyświetlanie i interpretowanie różnych widoków listingów plików.",
       "difficulty": "easy",
       "category": "navigation",
       "points": 10,
       "min_wpm": 38,
-      "min_accuracy": 92,
+      "min_accuracy": 85,
       "commands": [
+        { "text": "ls -l" },
         { "text": "ls -lh" },
+        { "text": "cd /etc" },
         { "text": "ls -lt" },
+        { "text": "cd /var/log" },
         { "text": "ls -lS" },
-        { "text": "ls -1" }
+        { "text": "cd -" },
+        { "text": "pwd" }
       ]
     },
     {
       "id": "5",
       "title": "5 Drzewo katalogów i inspekcja",
       "description": "Wizualizacja struktury katalogów i szybka zmiana kontekstu.",
-      "difficulty": "easy",
+      "difficulty": "hard",
       "category": "navigation",
-      "points": 10,
-      "min_wpm": 40,
-      "min_accuracy": 92,
+      "points": 15,
+      "min_wpm": 30,
+      "min_accuracy": 80,
       "commands": [
-        { "text": "tree -L 2" },
-        { "text": "cd /etc/network" },
+        { "text": "cd /etc/network/interfaces.d" },
+        { "text": "ls -l /etc/network/interfaces.d" },
+        { "text": "pwd" },
+
+        { "text": "cd /var/log/nginx" },
+        { "text": "ls -l access.log" },
+
+        { "text": "cd /var/log/nginx/archive" },
+        { "text": "ls -lh error.log.1" },
+        { "text": "pwd" },
+
+        { "text": "cd /usr/share/doc/bash-completion/examples" },
         { "text": "ls -R" }
       ]
-    }
+        }
   ]
 }

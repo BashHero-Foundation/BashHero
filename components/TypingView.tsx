@@ -73,6 +73,17 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
                     {level.category}
                 </span>
+                  
+                <span className="text-text-neutral/30 mx-1 text-xs">|</span>
+
+                {/* Wymagania */}
+                <span className="px-2 py-0.5 rounded text-xs font-mono bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
+                    WPM: <span className="font-bold text-text-secondary">{level.min_wpm}</span>
+                </span>
+
+                <span className="px-2 py-0.5 rounded text-xs font-mono bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
+                    ACC: <span className="font-bold text-text-secondary">{level.min_accuracy}%</span>
+                </span>
                 </div>
             </div>
 
@@ -147,8 +158,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
             </div>
 
-           
-
             <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
             </div>
             
@@ -159,11 +168,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> +{CalculatePoints(metrics.accuracy, metrics.WPM, level.points)}</span>
-                        <span className="text-xl"> points</span>
+                        <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
+                        <span className="text-xl"> punktów</span>
                     </span>
                 </div>
-
             </div> }
             </div>
             
