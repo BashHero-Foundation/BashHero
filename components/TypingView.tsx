@@ -12,8 +12,13 @@ import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState } from "react";
 import { Timer } from "lucide-react";
+import { useRouter} from "next/navigation";
+import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
+
+    // router for navigation with enter
+    const router = useRouter();
 
     // main typing (level) logic hook
     const typing = useTypingLevel(level?.commands || []);
@@ -23,9 +28,15 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     
     // blocking shortcuts hook
     const { handleKeyDown } = useKeyboardShortcuts({
-        handleEnter: typing.handleEnter,
+        handleEnter: () => {
+        if (typing.isFinished && nextLevelId) {
+            router.push(scormify_path(`/game/${nextLevelId}`));
         }
-    );
+        else {
+            typing.handleEnter();
+        }
+        }
+    });
 
     // settings sidebar
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -155,11 +166,12 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
+                <h3 className="font-bold text-base text-text-neutral"> Aby przejść dalej nacisnij ENTER lub strzałkę</h3> 
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3> 
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> +{CalculatePoints(metrics.accuracy, metrics.WPM, level.points)}</span>
+                        <span className=" text-3xl"> +{CalculatePoints(metrics.accuracy, metrics.WPM, level.points)}/{level.points}</span>
                         <span className="text-xl"> points</span>
                     </span>
                 </div>
