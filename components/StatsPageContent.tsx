@@ -56,9 +56,12 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
               </div>
 
               {/* WPM */}
-              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
-                <span className="text-lg font-semibold text-gray-700">WPM</span>
-                <span className="text-3xl font-bold text-blue-600">{stats.WPM}/{level.min_wpm}</span>
+              <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
+                <div className="flex justify-between items-center w-full">
+                  <span className="text-lg font-semibold text-gray-700">WPM</span>
+                  <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
+                </div>
+                <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
               </div>
 
               {/* Errors */}
@@ -68,9 +71,12 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
               </div>
               
               {/* Accuracy */}
-              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
-                <span className="text-lg font-semibold text-gray-700">Dokładność</span>
-                <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%/{level.min_accuracy}%</span>
+              <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
+                <div className="flex justify-between items-center w-full">
+                  <span className="text-lg font-semibold text-gray-700">Dokładność</span>
+                  <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
+                </div>
+                <span className="text-sm text-gray-500 self-end">wymagana {level.min_accuracy}%</span>
               </div>
 
               {/* Points */}
