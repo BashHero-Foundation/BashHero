@@ -2,25 +2,25 @@
 
 ## Building SCORM package
 
-Instructions for debian based linux and mac.
+Instructions for Debian-based Linux and macOS.
 
 ### Using Docker - **recommended**
 
 You need to have [Docker](https://www.docker.com) installed and configured.
 
-Then from project root run
+Then from the project root, run:
 
 ```bash
 docker build --output . . 
 ```
 
-and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS system you can go to [Deployment on Moodle](#Deployment-on-Moodle).
+and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS, you can go to [Deployment on Moodle](#Deployment-on-Moodle).
 
 ### Without Docker
 
-You need to have [Python](https://www.python.org) and [NextJS](https://nextjs.org) installed and configured
+You need to have [Python](https://www.python.org) and [Next.js](https://nextjs.org) installed and configured.
 
-Then from project root run
+Then from the project root, run:
 
 ```bash
 npm install
@@ -28,7 +28,7 @@ chmod +x build_scorm.sh
 ./build_scorm.sh
 ```
 
-and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS system you can go to [Deployment on Moodle](#Deployment-on-Moodle).
+and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS, you can go to [Deployment on Moodle](#Deployment-on-Moodle).
 
 ## Deployment on Moodle
 
@@ -75,10 +75,10 @@ and after some time `bashhero_scormpackage.zip` should appear. Now, if you use M
 
 ### Changing maximum grade
 
-From scorm package Settings
+From the SCORM package settings:
 
 `Grade -> Maximum grade -> [enter your points]`
 
-From course page click:
+From the course page, click:
 
-`Grades -> Gradebook setup -> (three dots next to scorm package) -> Edit grade item -> show more -> Multiplicator -> [enter your points]`
+`Grades -> Gradebook setup -> (three dots next to SCORM package) -> Edit grade item -> show more -> Multiplicator -> [enter your points]`
