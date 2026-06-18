@@ -48,6 +48,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+    const closeModal = () => {
+        typing.isFinished = false; // albo setTyping(...)
+    };
+
     return (
         <div className="flex">
             <Menu />
@@ -65,25 +69,30 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <div className="flex flex-col items-center mb-10 gap-2">
                 <h1 className="text-3xl font-bold text-text-secondary"> { level.title } </h1>
                 <p className="text-text-neutral"> { level.description }</p>
-                <div className="flex gap-2 mt-2 items-center font-sans">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-badge-primary-to text-badge-primary-text border border-badge-primary-border uppercase tracking-wider">
-                    {level.difficulty}
-                </span>
+                 
+                {/* BADGES */}
+                <div className="flex flex-wrap gap-2 mt-4 items-center font-mono text-xs">
 
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
-                    {level.category}
-                </span>
-                  
-                <span className="text-text-neutral/30 mx-1 text-xs">|</span>
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/60 text-text-secondary border border-badge-neutral-border/40 uppercase tracking-wider">
+                        {level.difficulty}
+                    </span>
 
-                {/* Wymagania */}
-                <span className="px-2 py-0.5 rounded text-xs font-mono bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
-                    WPM: <span className="font-bold text-text-secondary">{level.min_wpm}</span>
-                </span>
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/50 text-text-secondary border border-badge-neutral-border/30">
+                        {level.category}
+                    </span>
 
-                <span className="px-2 py-0.5 rounded text-xs font-mono bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
-                    ACC: <span className="font-bold text-text-secondary">{level.min_accuracy}%</span>
-                </span>
+                    <span className="text-text-neutral/30 mx-1 text-md">|</span>
+
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                        <span className="opacity-70">WPM: </span>
+                        <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
+                    </span>
+
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                        <span className="opacity-70">ACC: </span>
+                        <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
+                    </span>
+
                 </div>
             </div>
 
@@ -161,7 +170,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
             </div>
             
-
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3> 
