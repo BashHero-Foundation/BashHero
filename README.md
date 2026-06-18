@@ -23,9 +23,8 @@ You need to have [Python](https://www.python.org) and [Next.js](https://nextjs.o
 Then from the project root, run:
 
 ```bash
-npm install
-chmod +x build_scorm.sh
-./build_scorm.sh
+chmod +x build_scorm_dockerless.sh
+./build_scorm_dockerless.sh
 ```
 
 and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS, you can go to [Deployment on Moodle](#Deployment-on-Moodle).
