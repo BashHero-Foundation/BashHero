@@ -3,9 +3,8 @@ import { RotateCcw, ArrowBigRightDash } from 'lucide-react';
 
 export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId: string; nextLevelId: string | null }) {
 
-    // !! it has to be changed in future
+    // it has to be changed in future
     const handleReset = () => {
-        console.log("Gra zrestartowana!");
         window.location.reload();
     };
 

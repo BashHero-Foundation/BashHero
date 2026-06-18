@@ -28,12 +28,15 @@
       "category": "content",
       "points": 10,
       "min_wpm": 42,
-      "min_accuracy": 94,
+      "min_accuracy": 92,
       "commands": [
+        { "text": "ls -lh" },
         { "text": "cat config.json" },
         { "text": "head -n 5 logs.txt" },
+        { "text": "tail -n 10 logs.txt" },
         { "text": "tail -f access.log" },
         { "text": "grep \"error\" app.log" },
+        { "text": "wc -l app.log" },
         { "text": "nano README.md" }
       ]
     },
@@ -44,12 +47,14 @@
       "difficulty": "medium",
       "category": "file-management",
       "points": 10,
-      "min_wpm": 45,
-      "min_accuracy": 93,
+      "min_wpm": 42,
+      "min_accuracy": 92,
       "commands": [
         { "text": "mv -i file1.txt file2.txt" },
         { "text": "ln -s target.txt link.txt" },
-        { "text": "cp -r /src /dest" },
+        { "text": "ls -l link.txt" },
+        { "text": "cp -r projekty_backup /home/user/archiwum" },
+        { "text": "ls -l /home/user/archiwum" },
         { "text": "rmdir pusty_katalog" }
       ]
     },
@@ -57,31 +62,37 @@
       "id": "9",
       "title": "9 Inspekcja i statystyki plików",
       "description": "Zliczanie linii, słów, sprawdzanie typów plików oraz sum kontrolnych.",
-      "difficulty": "medium",
+      "difficulty": "hard",
       "category": "content",
-      "points": 10,
-      "min_wpm": 45,
-      "min_accuracy": 95,
+      "points": 15,
+      "min_wpm": 40,
+      "min_accuracy": 90,
       "commands": [
         { "text": "wc -l data.csv" },
+        { "text": "wc -w raport.txt" },
         { "text": "file nieznany_plik" },
+        { "text": "file /usr/bin/bash" },
         { "text": "md5sum system.iso" },
-        { "text": "stat document.docx" }
+        { "text": "md5sum backup.tar.gz" },
+        { "text": "stat document.docx" },
+        { "text": "stat /etc/passwd" }
       ]
     },
     {
       "id": "10",
       "title": "10 Filtrowanie strumieni i potoki",
       "description": "Łączenie komend w celu zaawansowanego przetwarzania tekstu.",
-      "difficulty": "medium",
+      "difficulty": "hard",
       "category": "content",
-      "points": 10,
-      "min_wpm": 48,
-      "min_accuracy": 92,
+      "points": 15,
+      "min_wpm": 42,
+      "min_accuracy": 90,
       "commands": [
-        { "text": "cat names.txt | sort" },
-        { "text": "uniq -c sorted.txt" },
-        { "text": "grep -i \"warning\" system.log" }
+        { "text": "cat /home/user/dane/names.txt | sort" },
+        { "text": "sort /home/user/dane/sorted.txt | uniq -c" },
+        { "text": "grep -i \"warning\" /var/log/system/system.log" },
+        { "text": "cat /var/log/system/system.log | grep -i \"error\"" },
+        { "text": "cat /home/user/dane/names.txt | sort | uniq" }
       ]
     }
   ]

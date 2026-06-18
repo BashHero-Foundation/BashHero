@@ -5,7 +5,6 @@ import { Menu } from "./menu";
 import SettingsSidebar from "./settings";
 import { GlobalStats } from "@/app/types";
 import { getGlobalStats } from "@/components/getGlobalStats";
-import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export function GlobalStatsContent() {
   const [stats, setStats] = useState<GlobalStats | null>(null);
