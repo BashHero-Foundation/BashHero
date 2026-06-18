@@ -10,7 +10,7 @@ import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Timer } from "lucide-react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
@@ -48,9 +48,9 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-    const closeModal = () => {
-        typing.isFinished = false; // albo setTyping(...)
-    };
+    useEffect(() => {
+        textareaRef.current?.focus();
+    }, []);
 
     return (
         <div className="flex">
@@ -123,7 +123,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <div 
             className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
             bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
-            onClick={() => textareaRef.current?.focus()}
+            onMouseDown={(e) => {
+                e.preventDefault();
+                textareaRef.current?.focus();
+            }}
             >
 
                 {/* Top bar */} 
