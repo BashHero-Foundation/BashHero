@@ -12,6 +12,7 @@ import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState } from "react";
 import { Timer } from "lucide-react";
+import TutorialPopup from "@/components/TutorialPopup";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -59,6 +60,16 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             />
 
             <div className="flex-1 flex-col items-center mt-20 w-full">
+
+            <TutorialPopup
+                storageKey="tutorial-popup"
+                title="Witaj!"
+                message="Tutaj możesz wykonywać zadania z szybkiego pisania. 
+                Po lewej jest rozszerzalna lista poziomów a poprawej możliwa jest zmiana koloru strony. 
+                Na środku widnieje terminal z czasomierzem dla danego zadania który zakończy się po ukończeniu wszystkich komend dla danego zadania. 
+                Można wtedy spojrzeć na statystyki poniżej oraz zobaczyć otrzymane punkty.
+                Powodzenia!"
+            />
 
             {/* LEVEL INFO */}    
 
