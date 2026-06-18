@@ -10,7 +10,7 @@ import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
 import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Timer } from "lucide-react";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
@@ -48,6 +48,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+    useEffect(() => {
+        textareaRef.current?.focus();
+    }, []);
+
     return (
         <div className="flex">
             <Menu />
@@ -65,14 +69,30 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <div className="flex flex-col items-center mb-10 gap-2">
                 <h1 className="text-3xl font-bold text-text-secondary"> { level.title } </h1>
                 <p className="text-text-neutral"> { level.description }</p>
-                <div className="flex gap-2 mt-2 items-center font-sans">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-badge-primary-to text-badge-primary-text border border-badge-primary-border uppercase tracking-wider">
-                    {level.difficulty}
-                </span>
+                 
+                {/* BADGES */}
+                <div className="flex flex-wrap gap-2 mt-4 items-center font-mono text-xs">
 
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-badge-neutral-bg text-badge-neutral-text border border-badge-neutral-border">
-                    {level.category}
-                </span>
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/60 text-text-secondary border border-badge-neutral-border/40 uppercase tracking-wider">
+                        {level.difficulty}
+                    </span>
+
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/50 text-text-secondary border border-badge-neutral-border/30">
+                        {level.category}
+                    </span>
+
+                    <span className="text-text-neutral/30 mx-1 text-md">|</span>
+
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                        <span className="opacity-70">WPM: </span>
+                        <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
+                    </span>
+
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                        <span className="opacity-70">ACC: </span>
+                        <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
+                    </span>
+
                 </div>
             </div>
 
@@ -103,7 +123,10 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <div 
             className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
             bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
-            onClick={() => textareaRef.current?.focus()}
+            onMouseDown={(e) => {
+                e.preventDefault();
+                textareaRef.current?.focus();
+            }}
             >
 
                 {/* Top bar */} 
@@ -147,23 +170,19 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
             </div>
 
-           
-
             <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
             </div>
             
-
             {typing.isFinished && 
             <div className="flex flex-col items-center mt-7"> 
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3> 
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> +{CalculatePoints(metrics.accuracy, metrics.WPM, level.points)}</span>
-                        <span className="text-xl"> points</span>
+                        <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
+                        <span className="text-xl"> punktów</span>
                     </span>
                 </div>
-
             </div> }
             </div>
             

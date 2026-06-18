@@ -10,6 +10,8 @@ export type Level = {
   difficulty: string;
   category: string;
   points: number;
+  min_wpm: number;
+  min_accuracy: number;
   commands: Command[];
 };
 

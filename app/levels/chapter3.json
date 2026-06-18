@@ -6,11 +6,11 @@
       "id": "11",
       "title": "11 Uprawnienia i Właściciele",
       "description": "Zarządzanie dostępem do plików i folderów.",
-      "difficulty": "hard",
+      "difficulty": "easy",
       "category": "permissions",
-      "points": 10,
-      "min_wpm": 45,
-      "min_accuracy": 95,
+      "points": 5,
+      "min_wpm": 42,
+      "min_accuracy": 90,
       "commands": [
         { "text": "chmod +x script.sh" },
         { "text": "chmod 777 public_file.txt" },
@@ -23,16 +23,18 @@
       "id": "12",
       "title": "12 Modyfikacje ósemkowe (Octal) i grupy",
       "description": "Precyzyjne nadawanie praw dostępu za pomocą cyfr oraz zmiana przynależności grupowej.",
-      "difficulty": "hard",
+      "difficulty": "medium",
       "category": "permissions",
       "points": 10,
-      "min_wpm": 48,
-      "min_accuracy": 96,
+      "min_wpm": 45,
+      "min_accuracy": 92,
       "commands": [
         { "text": "chmod 644 config.cfg" },
+        { "text": "ls -l private.key" },
         { "text": "chmod 700 private.key" },
         { "text": "sudo chgrp developers data/" },
-        { "text": "id student" }
+        { "text": "id student" },
+        { "text": "groups student" }
       ]
     },
     {
@@ -41,8 +43,8 @@
       "description": "Zabezpieczanie plików przed modyfikacją oraz specjalne bity uprawnień.",
       "difficulty": "hard",
       "category": "permissions",
-      "points": 10,
-      "min_wpm": 50,
+      "points": 15,
+      "min_wpm": 45,
       "min_accuracy": 95,
       "commands": [
         { "text": "sudo chattr +i secure.log" },
@@ -57,14 +59,17 @@
       "description": "Dodawanie kont użytkowników, modyfikacja powłoki oraz blokowanie kont.",
       "difficulty": "hard",
       "category": "permissions",
-      "points": 10,
-      "min_wpm": 52,
-      "min_accuracy": 94,
+      "points": 15,
+      "min_wpm": 48,
+      "min_accuracy": 95,
       "commands": [
-        { "text": "sudo usermod -aG sudo adam" },
         { "text": "sudo useradd -m -s /bin/bash newuser" },
+        { "text": "sudo passwd newuser" },
+        { "text": "sudo usermod -aG sudo adam" },
+        { "text": "id adam" },
         { "text": "sudo passwd -l suspect" },
-        { "text": "sudo userdel -r olduser" }
+        { "text": "sudo userdel -r olduser" },
+        { "text": "getent passwd newuser" }
       ]
     }
   ]
