@@ -38,7 +38,7 @@ export function GlobalStatsContent() {
 
         {/* Stats Container */}
         <div className="flex flex-col items-center bg-bg-surface rounded-lg shadow-lg p-8 max-w-md w-full">
-          <h2 className="text-3xl font-bold mb-8 text-text-secondary/60">Wszystkie statystyki</h2>
+          <h2 className="text-3xl font-bold mb-8 text-text-secondary/60">Statystki globalne</h2>
 
           {stats ? (
             <div className="w-full space-y-6">

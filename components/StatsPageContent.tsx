@@ -106,14 +106,6 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 </div>
               </button>
             </a>
-            <a href={scormify_path(`/game/stats`)} className="w-full">
-              <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
-              shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
-              active:border-b-0 active:translate-y-1">
-                Statystyki Globalne
-              </button>
-            </a>
-
           </div>
         </div>
       </div>
