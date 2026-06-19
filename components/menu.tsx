@@ -40,6 +40,10 @@ export const Menu = () => {
             />
         </button>
     <aside className="w-80 h-full bg-bg-body border-r border-border-separator  shadow-2xl overflow-auto pb-25">
+    <div className="px-4 py-3 border-b border-border-separator">
+      <h3 className="text-2xl font-bold text-text-secondary mb-3">Statystyki</h3>
+      <a href={scormify_path(`/game/stats`)} className="block w-full rounded-xl bg-btn-primary-bg border border-btn-primary-border px-4 py-3 text-text-primary font-semibold hover:bg-badge-primary-to transition text-center">Moje statystyki</a>
+    </div>
     <div className="px-4 py-3 border-b border-border-separator flex items-center justify-between">
       <h3 className="text-2xl font-bold text-text-secondary">Poziomy</h3>
     </div>
@@ -48,7 +52,6 @@ export const Menu = () => {
         {chapters.map((chapter) => (
           <details
           key={chapter.chapterId}
-          open
           className="group/chapter rounded-xl bg-btn-primary-bg border border-btn-primary-border" 
           >
           <summary className="flex items-center cursor-pointer select-none justify-between list-none 

@@ -9,13 +9,16 @@
       "difficulty": "medium",
       "category": "system",
       "points": 10,
-      "min_wpm": 42,
-      "min_accuracy": 93,
+      "min_wpm": 35,
+      "min_accuracy": 95,
       "commands": [
-        { "text": "ps aux" },
-        { "text": "top" },
-        { "text": "free -m" },
-        { "text": "df -h" }
+      { "text": "ps aux" },
+      { "text": "ps aux | grep bash" },
+      { "text": "top" },
+      { "text": "top -o %CPU" },
+      { "text": "free -m" },
+      { "text": "df -h" },
+      { "text": "df -h /home" }
       ]
     },
     {
@@ -29,25 +32,33 @@
       "min_accuracy": 94,
       "commands": [
         { "text": "pgrep nginx" },
+        { "text": "pgrep -a nginx" },
         { "text": "kill 1234" },
+        { "text": "kill -9 1234" },
         { "text": "killall firefox" },
+        { "text": "pkill firefox" },
         { "text": "pkill -9 -u student" }
       ]
     },
     {
       "id": "17",
-      "title": "17 Zarządzanie zadaniami w tle (Job Control)",
+      "title": "17 Zarządzanie zadaniami w tle",
       "description": "Uruchamianie skryptów w tle oraz wznawianie zadań w terminalu.",
       "difficulty": "medium",
       "category": "system",
-      "points": 10,
-      "min_wpm": 45,
+      "points": 15,
+      "min_wpm": 40,
       "min_accuracy": 92,
       "commands": [
         { "text": "./script.sh &" },
         { "text": "jobs" },
+        { "text": "jobs -l" },
         { "text": "fg %1" },
-        { "text": "bg %1" }
+        { "text": "bg %1" },
+        { "text": "kill %1" },
+        { "text": "nohup ./script.sh &" },
+        { "text": "disown %1" },
+        { "text": "ps -o pid,cmd" }
       ]
     }
   ]

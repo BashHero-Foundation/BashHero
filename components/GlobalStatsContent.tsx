@@ -5,7 +5,6 @@ import { Menu } from "./menu";
 import SettingsSidebar from "./settings";
 import { GlobalStats } from "@/app/types";
 import { getGlobalStats } from "@/components/getGlobalStats";
-import { scormify_path } from "@/app/scorm/scorm_utils";
 
 export function GlobalStatsContent() {
   const [stats, setStats] = useState<GlobalStats | null>(null);
@@ -38,7 +37,7 @@ export function GlobalStatsContent() {
 
         {/* Stats Container */}
         <div className="flex flex-col items-center bg-bg-surface rounded-lg shadow-lg p-8 max-w-md w-full">
-          <h2 className="text-3xl font-bold mb-8 text-text-secondary/60">Wszystkie statystyki</h2>
+          <h2 className="text-3xl font-bold mb-8 text-text-secondary/60">Statystki globalne</h2>
 
           {stats ? (
             <div className="w-full space-y-6">
