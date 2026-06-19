@@ -63,12 +63,15 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             <TutorialPopup
                 storageKey="tutorial-popup"
-                title="Witaj!"
-                message="Tutaj możesz wykonywać zadania z szybkiego pisania. 
-                Po lewej jest rozszerzalna lista poziomów a poprawej możliwa jest zmiana koloru strony. 
-                Na środku widnieje terminal z czasomierzem dla danego zadania który zakończy się po ukończeniu wszystkich komend dla danego zadania. 
-                Można wtedy spojrzeć na statystyki poniżej oraz zobaczyć otrzymane punkty.
-                Powodzenia!"
+                title="Witaj w Bash Hero!"
+                message="Wykonuj zadania, wpisując komendy w terminalu na środku ekranu. 
+                    Twoim celem jest jak najszybsze i poprawne przepisanie wszystkich komend.
+                    Po lewej stronie znajdziesz listę poziomów.
+                    Możesz ją rozwinąć i wybrać zadanie.
+                    Po prawej stronie możesz zmienić motyw.
+                    Podczas zadania działa timer - zatrzyma się automatycznie po wpisaniu wszystkich komend.
+                    Po ukończeniu zobaczysz swoje statystyki (czas, WPM, liczba błędów, dokładność, zdobyte punkty).
+                    Powodzenia i baw się dobrze!"
             />
 
             {/* LEVEL INFO */}    
