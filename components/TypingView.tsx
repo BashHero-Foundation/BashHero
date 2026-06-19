@@ -12,6 +12,7 @@ import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
 import { Timer } from "lucide-react";
+import TutorialPopup from "@/components/TutorialPopup";
 import { useRouter} from "next/navigation";
 import { scormify_path } from "@/app/scorm/scorm_utils";
 
@@ -74,6 +75,19 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             />
 
             <div className="flex-1 flex-col items-center mt-20 w-full">
+
+            <TutorialPopup
+                storageKey="tutorial-popup"
+                title="Witaj w Bash Hero!"
+                message="Wykonuj zadania, wpisując komendy w terminalu na środku ekranu. 
+                    Twoim celem jest jak najszybsze i poprawne przepisanie wszystkich komend.
+                    Po lewej stronie znajdziesz listę poziomów.
+                    Możesz ją rozwinąć i wybrać zadanie.
+                    Po prawej stronie możesz zmienić motyw.
+                    Podczas zadania działa timer - zatrzyma się automatycznie po wpisaniu wszystkich komend.
+                    Po ukończeniu zobaczysz swoje statystyki (czas, WPM, liczba błędów, dokładność, zdobyte punkty).
+                    Powodzenia i baw się dobrze!"
+            />
 
             {/* LEVEL INFO */}    
 
