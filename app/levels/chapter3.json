@@ -9,7 +9,7 @@
       "difficulty": "easy",
       "category": "permissions",
       "points": 5,
-      "min_wpm": 42,
+      "min_wpm": 28,
       "min_accuracy": 90,
       "commands": [
         { "text": "chmod +x script.sh" },
@@ -26,7 +26,7 @@
       "difficulty": "medium",
       "category": "permissions",
       "points": 10,
-      "min_wpm": 45,
+      "min_wpm": 32,
       "min_accuracy": 92,
       "commands": [
         { "text": "chmod 644 config.cfg" },
@@ -44,7 +44,7 @@
       "difficulty": "hard",
       "category": "permissions",
       "points": 15,
-      "min_wpm": 45,
+      "min_wpm": 35,
       "min_accuracy": 95,
       "commands": [
         { "text": "sudo chattr +i secure.log" },
@@ -60,7 +60,7 @@
       "difficulty": "hard",
       "category": "permissions",
       "points": 15,
-      "min_wpm": 48,
+      "min_wpm": 40,
       "min_accuracy": 95,
       "commands": [
         { "text": "sudo useradd -m -s /bin/bash newuser" },

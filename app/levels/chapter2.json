@@ -9,7 +9,7 @@
       "difficulty": "medium",
       "category": "file-management",
       "points": 10,
-      "min_wpm": 40,
+      "min_wpm": 32,
       "min_accuracy": 93,
       "commands": [
         { "text": "mkdir nowe_zadanie" },
@@ -27,7 +27,7 @@
       "difficulty": "medium",
       "category": "content",
       "points": 10,
-      "min_wpm": 42,
+      "min_wpm": 32,
       "min_accuracy": 92,
       "commands": [
         { "text": "ls -lh" },
@@ -47,7 +47,7 @@
       "difficulty": "medium",
       "category": "file-management",
       "points": 10,
-      "min_wpm": 42,
+      "min_wpm": 32,
       "min_accuracy": 92,
       "commands": [
         { "text": "mv -i file1.txt file2.txt" },
@@ -65,7 +65,7 @@
       "difficulty": "hard",
       "category": "content",
       "points": 15,
-      "min_wpm": 40,
+      "min_wpm": 32,
       "min_accuracy": 90,
       "commands": [
         { "text": "wc -l data.csv" },
@@ -85,7 +85,7 @@
       "difficulty": "hard",
       "category": "content",
       "points": 15,
-      "min_wpm": 42,
+      "min_wpm": 40,
       "min_accuracy": 90,
       "commands": [
         { "text": "cat /home/user/dane/names.txt | sort" },

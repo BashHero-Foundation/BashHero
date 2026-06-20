@@ -9,7 +9,7 @@
       "difficulty": "medium",
       "category": "system",
       "points": 10,
-      "min_wpm": 35,
+      "min_wpm": 30,
       "min_accuracy": 95,
       "commands": [
       { "text": "ps aux" },
@@ -28,7 +28,7 @@
       "difficulty": "medium",
       "category": "system",
       "points": 10,
-      "min_wpm": 46,
+      "min_wpm": 32,
       "min_accuracy": 94,
       "commands": [
         { "text": "pgrep nginx" },
@@ -47,7 +47,7 @@
       "difficulty": "medium",
       "category": "system",
       "points": 15,
-      "min_wpm": 40,
+      "min_wpm": 35,
       "min_accuracy": 92,
       "commands": [
         { "text": "./script.sh &" },

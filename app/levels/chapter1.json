@@ -9,7 +9,7 @@
       "difficulty": "easy",
       "category": "navigation",
       "points": 5,
-      "min_wpm": 30,
+      "min_wpm": 25,
       "min_accuracy": 80,
       "commands": [
         { "text": "echo \"Hello World\"" },
@@ -50,7 +50,7 @@
       "difficulty": "easy",
       "category": "navigation",
       "points": 5,
-      "min_wpm": 35,
+      "min_wpm": 28,
       "min_accuracy": 80,
       "commands": [
         { "text": "which bash" },
@@ -68,7 +68,7 @@
       "difficulty": "easy",
       "category": "navigation",
       "points": 10,
-      "min_wpm": 38,
+      "min_wpm": 30,
       "min_accuracy": 85,
       "commands": [
         { "text": "ls -l" },
@@ -88,7 +88,7 @@
       "difficulty": "hard",
       "category": "navigation",
       "points": 15,
-      "min_wpm": 30,
+      "min_wpm": 40,
       "min_accuracy": 80,
       "commands": [
         { "text": "cd /etc/network/interfaces.d" },

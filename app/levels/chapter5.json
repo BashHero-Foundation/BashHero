@@ -9,8 +9,8 @@
       "difficulty": "easy",
       "category": "network",
       "points": 10,
-      "min_wpm": 40,
-      "min_accuracy": 85,
+      "min_wpm": 30,
+      "min_accuracy": 90,
       "commands": [
         { "text": "ping -c 4 8.8.8.8" },
         { "text": "ping -c 4 google.com" },
@@ -27,7 +27,7 @@
       "difficulty": "medium",
       "category": "network",
       "points": 10,
-      "min_wpm": 45,
+      "min_wpm": 35,
       "min_accuracy": 94,
       "commands": [
         { "text": "ip addr show" },
@@ -47,7 +47,7 @@
       "category": "network",
       "points": 20,
       "min_wpm": 45,
-      "min_accuracy": 90,
+      "min_accuracy": 94,
       "commands": [
         { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
         { "text": "rsync -av /home/user/projects user@remote-server:/var/backups/projects_2026" },
