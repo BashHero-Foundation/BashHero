@@ -8,6 +8,12 @@ export function useKeyboardShortcuts({handleEnter}: {handleEnter: () => void}) {
             return;
         }
 
+        if (e.ctrlKey && e.key === "v"){
+            e.preventDefault();
+            console.log("Nie tak łatwo ;)")
+        }
+        
+
         if (e.key === "Tab"){
             e.preventDefault();
             console.log("I prevented TAB :)")

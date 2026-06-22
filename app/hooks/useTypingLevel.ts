@@ -7,6 +7,7 @@ export function useTypingLevel(commands: Command[]) {
     const [text, setText] = useState('');
     const [startTime, setStartTime] = useState<number | null>(null);
     const [duration, setDuration] = useState(0);
+    const [errors, setErrors] = useState(0);
 
     const currentCommand = commands[currentIndex];
     const targetText = currentCommand?.text || "";
@@ -23,6 +24,17 @@ export function useTypingLevel(commands: Command[]) {
         // start with first character
         if (startTime === null && newText.length === 1) {
             setStartTime(Date.now());
+        }
+
+        if (newText.length > text.length) {
+
+            const newCharIndex = newText.length - 1;
+            const typedChar = newText[newCharIndex];
+            const expectedChar = currentCommand.text[newCharIndex];
+
+            if (typedChar !== expectedChar) {
+                setErrors(prev => prev + 1);
+            }
         }
 
         setText(newText);
@@ -57,6 +69,7 @@ export function useTypingLevel(commands: Command[]) {
 
     return {
         text,
+        errors,
         handleChange,
         handleEnter,
         reset,

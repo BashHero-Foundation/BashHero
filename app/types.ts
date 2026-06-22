@@ -10,13 +10,15 @@ export type Level = {
   difficulty: string;
   category: string;
   points: number;
+  min_wpm: number;
+  min_accuracy: number;
   commands: Command[];
 };
 
 export interface LevelMetricsProps {
   commands: Command[];
   duration: number;
-  userText: string;
+  errors: number;
 }
 
 export type LevelStats = {
@@ -27,6 +29,14 @@ export type LevelStats = {
   Accuracy: number;
   timestamp: string;
 }
+
+export type GlobalStats = {
+  levelsCompleted: number;
+  totalDuration: number;
+  averageWPM: number;
+  totalErrors: number;
+  averageAccuracy: number;
+};
 
 export interface LevelStatsStateProps {
   isFinished: boolean;
@@ -48,5 +58,15 @@ export interface StatsPageContentProps {
     difficulty: string;
     category: string;
     points: number;
+    min_wpm: number;
+    min_accuracy: number;
   };
+}
+
+export interface ScormIframeMessage {
+  type: "SET" | "GET";
+  payload: {
+    field: string;
+    value: string;
+  }
 }

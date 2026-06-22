@@ -1,5 +1,8 @@
 export NEXT_PUBLIC_SCORM="true"
 
+echo "\n>>>NEXTJS INSTALLATION<<<"
+npm install
+
 echo "\n>>>NEXTJS BUILD<<<"
 npm run build
 

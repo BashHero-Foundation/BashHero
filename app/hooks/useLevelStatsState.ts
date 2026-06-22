@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { LevelStats, LevelStatsStateProps } from "../types";
+import { set_level_wpm } from "../scorm/scorm_database";
 
 export function useLevelStatsState({
-    isFinished,
-    duration,
-    wpm,
-    errors,
-    accuracy,
-    level
+  isFinished,
+  duration,
+  wpm,
+  errors,
+  accuracy,
+  level
 }: LevelStatsStateProps) {
 
-  useEffect(() => { 
+  useEffect(() => {
     if (!isFinished || duration <= 0) return;
 
     const stats: LevelStats = {
@@ -21,6 +22,8 @@ export function useLevelStatsState({
       Accuracy: accuracy,
       timestamp: new Date().toISOString()
     };
+
+    set_level_wpm(level.id, stats.WPM);
 
     localStorage.setItem(
       `level_${level.id}_stats`,

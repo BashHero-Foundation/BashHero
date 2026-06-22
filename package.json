@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "linux": "npm run build && python3 postbuild_path_fix.py && npx serve out",
+    "linux": "NEXT_PUBLIC_SCORM=true npm run build && python3 postbuild_path_fix.py && npx serve out",
     "bimbows": "npm run build && python3 postbuild_path_fix.py && npx serve out"
   },
   "dependencies": {
+    "lucide-react": "^1.21.0",
     "next": "16.1.6",
     "pipwerks-scorm-api-wrapper": "^0.1.2",
     "react": "19.2.3",

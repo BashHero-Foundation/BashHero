@@ -14,65 +14,196 @@
   ex. --color-badge-neutral-text (Text for neutral badge) */
   
   /* BACKGROUND header, footer, other  */
-  --color-bg-body: #F7FCFF;
-  --color-bg-main: #1A1953;
-  --color-bg-surface: #F7FAFF;
-  --color-element-border: #121a2b;
+  --color-bg-body: var(--bg-body);
+  --color-bg-main: var(--bg-main);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-surface: var(--bg-surface);
+  --color-element-border: var(--element-border);
 
-  --color-border-separator: #E0DDED;
+  --color-border-separator: var(--border-separator);
 
   /* TEXT */
   
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
   --color-text-neutral: var(--text-neutral);
   
 
   /* BUTTONS, MENU and other */
   --color-btn-primary-bg: var(--color-text-secondary);
-  --color-btn-primary-border: #2F2FE4;
-  --color-btn-primary-bg-hover: #2F2FE4;
-  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-border: var(--color-text-tertiary);
+  --color-btn-primary-bg-hover: var(--color-text-tertiary);
+  --color-btn-primary-text: var(--color-text-primary);
 
 
   /* STATS and BADGES*/
-  --color-badge-primary-from: #B8CEFF;
-  --color-badge-primary-to: #D6DEFF;
-  --color-badge-primary-border: #AAC2FA;
-  --color-badge-primary-text: #2053C9;
+  --color-badge-primary-from: var(--badge-primary-from);
+  --color-badge-primary-to: var(--badge-primary-to);
+  --color-badge-primary-border: var(--badge-primary-border);
+  --color-badge-primary-text: var(--badge-primary-text);
 
-  --color-badge-neutral-bg: #edebeb;
-  --color-badge-neutral-text: #5E5E5E;
-  --color-badge-neutral-border: #a8a8a8;
+  --color-badge-neutral-bg: var(--badge-neutral-bg);
+  --color-badge-neutral-text: var(--badge-neutral-text);
+  --color-badge-neutral-border: var(--badge-neutral-border);
 
   /* UI future terminal style */
-  --color-terminal-border: #26324d;
-  --color-terminal-bg: #ffffff;
+  --color-terminal-border: var(--terminal-border);
+  --color-terminal-bg: var(--terminal-bg);
 
-  --color-terminal-main-text: #000000;
-  --color-terminal-ghost-text: #878686;
-  --color-terminal-success: #22c55e;
-  --color-terminal-wrong: #ef4444;
-  --color-terminal-wrong-bg: #ffabab;
+  --color-terminal-main-text: var(--terminal-main-text);
+  --color-terminal-ghost-text: var(--terminal-ghost-text);
+  --color-terminal-success: var(--terminal-success);
+  --color-terminal-wrong: var(--terminal-wrong);
+  --color-terminal-wrong-bg: var(--terminal-wrong-bg);
+  --color-terminal-caret: var(--terminal-caret);
   
 }
 
 @layer base {
   :root {
+    --header-height: 9rem;
+    --bg-body: #F7FCFF;
+    --bg-main: #1A1953;
+    --bg-secondary: #162E93;
+    --bg-tertiary: #a8a8a8;
+    --bg-surface: #F7FAFF;
+    --element-border: #121a2b;
+
+    --border-separator: #E0DDED;
+
     --text-primary: #FDFCFF;
     --text-secondary: #162E93;
+    --text-tertiary: #2F2FE4;
     --text-neutral: #6B6A6A;
+
+    --badge-primary-from: #B8CEFF;
+    --badge-primary-to: #D6DEFF;
+    --badge-primary-border: #AAC2FA;
+    --badge-primary-text: #2053C9;
+
+    --badge-neutral-bg: #edebeb;
+    --badge-neutral-text: #5E5E5E;
+    --badge-neutral-border: #a8a8a8;
+
+    --terminal-border: #26324d;
+    --terminal-bg: #1e1e1e;
+
+    --terminal-main-text: #ffffff;
+    --terminal-ghost-text: #6a6a6a;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
+    --terminal-caret: #ffffff;
   }
 
   .theme-lavender {
-    --text-primary: black;
-    --text-secondary: #162E93;
+    --bg-body: #fef0ff;
+    --bg-main: #9046CF;
+    --bg-secondary: #CC59D2;
+    --bg-tertiary: #f4c9ea;
+    --bg-surface: #fef0ff;
+    --element-border: #652f94;
+
+    --border-separator: #E0DDED;
+
+    --text-primary: #FDFCFF;
+    --text-secondary: #CC59D2;
+    --text-tertiary: #F487B6;
     --text-neutral: #6B6A6A;
+
+    --badge-primary-from: #f7c5d7;
+    --badge-primary-to: #f6cbdb;
+    --badge-primary-border: #FABDD3;
+    --badge-primary-text: #e9659e;
+
+    --badge-neutral-bg: #edd8ed;
+    --badge-neutral-text: #5E5E5E;
+    --badge-neutral-border: #a08e9b;
+
+    --terminal-border: #652f94;
+    --terminal-bg: #1e1e1e;
+
+    --terminal-main-text: #ffffff;
+    --terminal-ghost-text: #6a6a6a;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
+    --terminal-caret: #ffffff;
   }
 
   .theme-olive {
-    --text-primary: black;
-    --text-secondary: #162E93;
+    --bg-body: #E3E2E1;
+    --bg-main: #9ABB6D;
+    --bg-secondary: #6E984F;
+    --bg-tertiary: #504B43;
+    --bg-surface: #E3E2E1;
+    --element-border: #59813c;
+
+    --border-separator: #D1CEBA;
+
+    --text-primary: white;
+    --text-secondary: #6E984F;
+    --text-tertiary: #7cbb4f;
     --text-neutral: #6B6A6A;
+
+    --badge-primary-from: #6b655b;
+    --badge-primary-to: #767065;
+    --badge-primary-border: #504B43;
+    --badge-primary-text: #110d08;
+
+    --badge-neutral-bg: #e8e6d8;
+    --badge-neutral-text: #5E5E5E;
+    --badge-neutral-border: #D1CEBA;
+
+    --color-terminal-border: #6E984F;
+    --color-terminal-bg: #1e1e1e;
+
+    --terminal-main-text: #ffffff;
+    --terminal-ghost-text: #6a6a6a;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
+    --terminal-caret: #ffffff;
   }
+
+  .theme-dark {
+    --bg-body: #000000;
+    --bg-main: #131321;
+    --bg-secondary: #1b213b;
+    --bg-tertiary: #2d2d2d;
+    --bg-surface: #0c0d0d;
+    --element-border: #172137;
+
+    --border-separator: #7b7a82;
+
+    --text-primary: #FDFCFF;
+    --text-secondary: #667bcf;
+    --text-tertiary: #5454ea;
+    --text-neutral: #959595;
+
+    --badge-primary-from: #7987a5;
+    --badge-primary-to: #acb2cf;
+    --badge-primary-border: #5d6986;
+    --badge-primary-text: #124cd5;
+
+    --badge-neutral-bg: #b0b0b0;
+    --badge-neutral-text: #383838;
+    --badge-neutral-border: #646464;
+
+    --terminal-border: #26324d;
+    --terminal-bg: #02021c; 
+
+    --terminal-main-text: #ffffff;
+    --terminal-ghost-text: #878686;
+    --terminal-success: #22c55e;
+    --terminal-wrong: #ef4444;
+    --terminal-wrong-bg: #ffabab;
+    --terminal-caret: #ffffff;
+  }
+}
+
+.settings-icon {
+  color: var(--bg-surface);
 }

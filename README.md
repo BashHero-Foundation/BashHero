@@ -1,36 +1,83 @@
 # Bash Hero
 
-## Simple scorm package bulid (linux / mac / wsl)
+## Building SCORM package
 
-### with docker
+Instructions for Debian-based Linux and macOS.
 
-just run script
+### Using Docker - **recommended**
+
+You need to have [Docker](https://www.docker.com) installed and configured.
+
+Then from the project root, run:
+
 ```bash
 docker build --output . . 
 ```
 
-### without docker
+and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS, you can go to [Deployment on Moodle](#Deployment-on-Moodle).
 
-u need to have node and python3 installed
-```bash
-npm install
-chmod +x build_scorm.sh
-./build_scorm.sh
-```
+### Without Docker
 
-and copy `bashhero_scormpackage.zip` to your prefered lms system.
+You need to have [Python](https://www.python.org) and [Next.js](https://nextjs.org) installed and configured.
 
-## Testing locally
-
-with node and python3 installed
-
-### on linux / macos / wsl
+Then from the project root, run:
 
 ```bash
-npm install
-npm run linux
+chmod +x build_scorm_dockerless.sh
+./build_scorm_dockerless.sh
 ```
 
-and go to `localhost:3000`
+and after some time `bashhero_scormpackage.zip` should appear. Now, if you use Moodle as your LMS, you can go to [Deployment on Moodle](#Deployment-on-Moodle).
 
-**`npm run dev` dont work for this project**
+## Deployment on Moodle
+
+### Activity settings
+
+#### Appearance:
+
+| setting                                | value           |
+| -------------------------------------- | --------------- |
+| Display package                        | New window      |
+| Width                                  | 100%            |
+| Height                                 | 100%            |
+| Options                                | [all unchecked] | 
+| Student skip content structure page    | Always          |
+| Disable preview mode                   | Yes             |
+| Display activity name                  | [unchecked]     |
+| Display course structure on entry page | No              |
+| Display course structure in player     | Disabled        |
+| Display attempt status                 | No              |
+
+#### Grade:
+
+| setting        | value                                                |
+| -------------- | ---------------------------------------------------- |
+| Grading method | Highest grade                                        |
+| Maximum grade  | 1 [(Changing maximum grade)](#Changing-maximum-grade)|
+
+#### Attempts management:
+
+| setting                  | value |
+| ------------------------ | ----- |
+| Number of attempts       | 1     |
+| Force new attempt        | No    |
+| Lock after final attempt | No    |
+
+#### Compatibility settings:
+
+| setting                        | value |
+| ------------------------------ | ----- |
+| Force completed                | No    |
+| Auto-continue                  | No    |
+| Auto-commit                    | No    |
+| Mastery score overrides status | Yes   |
+
+### Changing maximum grade
+
+From the SCORM package settings:
+
+`Grade -> Maximum grade -> [enter your points]`
+
+From the course page, click:
+
+`Grades -> Gradebook setup -> (three dots next to SCORM package) -> Edit grade item -> show more -> Multiplicator -> [enter your points]`

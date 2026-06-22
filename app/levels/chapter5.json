@@ -1,0 +1,58 @@
+{
+  "chapterId": "5",
+  "chapterTitle": "Rozdział 5: Sieci komputerowe i diagnostyka",
+  "levels": [
+    {
+      "id": "18",
+      "title": "18 Podstawowa diagnostyka sieciowa",
+      "description": "Weryfikacja połączeń sieciowych oraz translacji nazw DNS.",
+      "difficulty": "easy",
+      "category": "network",
+      "points": 10,
+      "min_wpm": 30,
+      "min_accuracy": 90,
+      "commands": [
+        { "text": "ping -c 4 8.8.8.8" },
+        { "text": "ping -c 4 google.com" },
+        { "text": "host google.com" },
+        { "text": "nslookup google.com" },
+        { "text": "curl -I https://github.com" },
+        { "text": "curl -I https://google.com" }
+      ]
+    },
+    {
+      "id": "19",
+      "title": "19 Analiza portów i interfejsów",
+      "description": "Sprawdzanie aktywnych kart sieciowych oraz nasłuchujących gniazd.",
+      "difficulty": "medium",
+      "category": "network",
+      "points": 10,
+      "min_wpm": 35,
+      "min_accuracy": 94,
+      "commands": [
+        { "text": "ip addr show" },
+        { "text": "ip link show" },
+        { "text": "ss -tulpn" },
+        { "text": "ss -tulwn" },
+        { "text": "traceroute 1.1.1.1" },
+        { "text": "netstat -r" },
+        { "text": "netstat -tulpen" }
+      ]
+    },
+    {
+      "id": "20",
+      "title": "20 Pobieranie danych i transfer",
+      "description": "Pobieranie zasobów zdalnych oraz synchronizacja plików przez sieć.",
+      "difficulty": "hard",
+      "category": "network",
+      "points": 20,
+      "min_wpm": 45,
+      "min_accuracy": 94,
+      "commands": [
+        { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
+        { "text": "rsync -av /home/user/projects user@remote-server:/var/backups/projects_2026" },
+        { "text": "scp -r /home/user/photos/holiday_2025 user@remote-server:/home/user/backup/photos" }
+      ]
+    }
+  ]
+}
