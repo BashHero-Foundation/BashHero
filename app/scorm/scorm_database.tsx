@@ -1,7 +1,6 @@
 import { objective_number_from_id, scorm_get, scorm_set, SCORM_FIELDS, SCORM_STATUS, set_or_update_objective } from "./scorm_utils";
-import { SCORM } from "pipwerks-scorm-api-wrapper";
 
-import levels_data from "../levels/chapter1.json"
+import { alllevels } from "../levelsUtils";
 
 /**
 * sets score to wpn and status to passed for level with id
@@ -32,16 +31,15 @@ export async function set_level_wpm(id: string, wpm: number) {
 export async function update_global_score() {
     const next_available_id = Number(await scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
 
-    var passed_levels = 0;
+    let passed_levels = 0;
 
-    for (var i = 0; i < next_available_id; i++) {
-        var objective_status = await scorm_get(SCORM_FIELDS.OBJECTIVE_STATUS(String(i)))
+    for (let i = 0; i < next_available_id; i++) {
+        const objective_status = await scorm_get(SCORM_FIELDS.OBJECTIVE_STATUS(String(i)))
         if (objective_status == SCORM_STATUS.PASSED) {
             passed_levels++;
         }
     }
-
-    const number_of_levels = levels_data.levels.length;
+  const number_of_levels = alllevels.length;
 
     if (passed_levels == number_of_levels) {
         await scorm_set(SCORM_FIELDS.LESSON_STATUS, SCORM_STATUS.PASSED);
