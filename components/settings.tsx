@@ -2,6 +2,7 @@
 
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useEffect, useRef } from "react";
+import {Bug} from "lucide-react";
 
 type SettingsSidebarProps = {
     open: boolean;
@@ -86,7 +87,7 @@ export default function SettingsSidebar({
                         shadow-2xl
                     "
                 >
-                    <div className="p-6 flex flex-col gap-6">
+                    <div className="p-6 flex flex-col flex-6 gap-6">
 
                         <h2 className="text-2xl font-bold text-text-secondary">
                             Settings
@@ -98,6 +99,33 @@ export default function SettingsSidebar({
                             </p>
 
                             <ThemeSwitcher />
+                        </div>
+
+                        <div className="pt-4">
+                             <p className="font-bold mb-2 text-text-neutral">
+                                Issues
+                            </p>
+
+                            <a
+                                href="https://forms.gle/B2dqfYC1xFTrgpau7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Report a bug"
+                                title="Report a bug"
+                                className="
+                                    block
+                                    rounded-2xl
+                                    bg-btn-primary-bg
+                                    text-white
+                                    text-center
+                                    py-2
+                                    text-sm
+                                    hover:opacity-70
+                                    transition
+                                "
+                            >
+                                <Bug className="inline " />
+                            </a>
                         </div>
 
                     </div>
