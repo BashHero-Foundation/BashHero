@@ -45,8 +45,8 @@ export function useTypingLevel(commands: Command[]) {
         console.log("Znaki wpisane ręcznie:", typedChars + (newText.length - text.length));
     };
 
-        const handleAutocomplete = () => {
-            
+    // TAB AUTOCOMPLETE
+    const handleAutocomplete = () => {
         if (isFinished || !currentCommand || text.length === 0) return;
 
         // start of actual word
@@ -57,11 +57,14 @@ export function useTypingLevel(commands: Command[]) {
 
         if (currentWord.length === 0) return;
 
-        const targetWordStart = targetText.lastIndexOf(
-            " ",
-            wordStart - 1
-        ) + 1;
+        // check if word has a slash in it
+        const lastSlashIndex = currentWord.lastIndexOf("/");
 
+        if (lastSlashIndex === currentWord.length - 1) return;
+
+        const currentFragment = currentWord.slice(lastSlashIndex + 1);
+
+        const targetWordStart = targetText.lastIndexOf(" ", wordStart - 1) + 1;
         const targetWordEnd = targetText.indexOf(" ", targetWordStart);
 
         const targetWord = targetText.slice(
@@ -69,14 +72,30 @@ export function useTypingLevel(commands: Command[]) {
             targetWordEnd === -1 ? undefined : targetWordEnd
         );
 
+        // split target and current words by slashes to get the last segment
+        const targetParts = targetWord.split("/");
+        const currentParts = currentWord.split("/");
+        const segmentIndex = currentParts.length - 1;
+        const targetFragment = targetParts[segmentIndex];
+
         if (
-            !targetWord.startsWith(currentWord) ||
-            targetWord.length <= currentWord.length
+            targetFragment === undefined ||
+            !targetFragment.startsWith(currentFragment) ||
+            targetFragment.length <= currentFragment.length
         ) {
             return;
         }
 
-        const newText = text.slice(0, wordStart) + targetWord;
+        // keep path prefix 
+        const pathPrefix = lastSlashIndex === -1
+            ? ""
+            : currentWord.slice(0, lastSlashIndex + 1);
+
+        const isDirectory = segmentIndex < targetParts.length - 1;
+
+        // whole constructed word
+        const completedWord = pathPrefix + targetFragment + (isDirectory ? "/" : "");
+        const newText = text.slice(0, wordStart) + completedWord;
 
         // count tab only when text changed
         if (newText !== text) {
