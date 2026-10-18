@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { LevelStats, LevelStatsStateProps } from "../types";
-import { set_level_wpm } from "../scorm/scorm_database";
 import { saveLevelStats } from "@/components/persistentStats";
 
 export function useLevelStatsState({
@@ -23,8 +22,6 @@ export function useLevelStatsState({
       Accuracy: accuracy,
       timestamp: new Date().toISOString()
     };
-
-    set_level_wpm(level.id, stats.WPM);
 
     saveLevelStats(stats);
 

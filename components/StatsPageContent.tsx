@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
 import SettingsSidebar from "./settings";
-import { scormify_path } from "@/app/scorm/scorm_utils";
+import { scormifyPath } from "@/app/scorm/scorm_utils";
 import { ArrowLeft } from 'lucide-react';
 import CalculatePoints from "./CalculatePoints";
 import { getLevelStats } from "./persistentStats";
@@ -108,7 +108,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
           {/* Navigation Buttons */}
           <div className="w-full pb-5">
-            <a href={scormify_path(`/game/${level.id}`)} className="w-full">
+            <a href={scormifyPath(`/game/${level.id}`)} className="w-full">
               <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover
               active:border-b-0 active:translate-y-1">
