@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Menu } from "./menu";
 import SettingsSidebar from "./settings";
 import { GlobalStats } from "@/app/types";
-import { getGlobalStats } from "@/components/getGlobalStats";
+import { getGlobalStats } from "./persistentStats";
 
 export function GlobalStatsContent() {
   const [stats, setStats] = useState<GlobalStats | null>(null);
@@ -30,7 +30,7 @@ export function GlobalStatsContent() {
                   open={settingsOpen}
                   onClose={() => setSettingsOpen(false)}
                   onOpen={() => setSettingsOpen(true)}
-      />      
+      />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center pt-20">
@@ -59,7 +59,7 @@ export function GlobalStatsContent() {
                 <span className="text-lg font-semibold text-gray-700">Wszystkie błędy</span>
                 <span className="text-3xl font-bold text-red-600">{stats.totalErrors}</span>
               </div>
-              
+
               {/* Accuracy */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
                 <span className="text-lg font-semibold text-gray-700">Średnia dokładność</span>
@@ -67,8 +67,8 @@ export function GlobalStatsContent() {
               </div>
 
             </div>
-          ) : 
-          
+          ) :
+
           // No stats available
           (
             <div className="text-center py-8 text-text-neutral">
@@ -79,8 +79,8 @@ export function GlobalStatsContent() {
 
           {/* Navigation Buttons */}
           <div className="mt-10 flex flex-col gap-3 w-full">
-              <button onClick={previous} className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
-              shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
+              <button onClick={previous} className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg
+              shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover
               active:border-b-0 active:translate-y-1">
                 ← Wróć
               </button>

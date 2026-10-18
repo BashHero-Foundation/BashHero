@@ -15,7 +15,7 @@ export const SCORM_FIELDS = {
     // INTERACTION_TYPE: (n: number) => `cmi.interactions.${n}.type` as const,
     // INTERACTION_RESULT: (n: number) => `cmi.interactions.${n}.result` as const,
 
-    OBECTIVE_COUNT: "cmi.objectives._count",
+    OBJECTIVE_COUNT: "cmi.objectives._count",
 
     OBJECTIVE_ID: (n: string) => `cmi.objectives.${n}.id` as const,
     OBJECTIVE_SCORE: (n: string) => `cmi.objectives.${n}.score.raw` as const,
@@ -36,7 +36,7 @@ export enum SCORM_STATUS {
 
 async function new_objective(id: string, options?: { score?: number, min_score?: number, max_score?: number, status?: SCORM_STATUS }) {
 
-    const next_available_id = await scorm_get(SCORM_FIELDS.OBECTIVE_COUNT);
+    const next_available_id = await scorm_get(SCORM_FIELDS.OBJECTIVE_COUNT);
     if (typeof next_available_id === 'undefined') {
         return false;
     }
@@ -50,13 +50,13 @@ async function new_objective(id: string, options?: { score?: number, min_score?:
 }
 
 export async function objective_number_from_id(id: string): Promise<number | undefined> {
-    const next_available_id = Number(await scorm_get(SCORM_FIELDS.OBECTIVE_COUNT));
+    const next_available_id = Number(await scorm_get(SCORM_FIELDS.OBJECTIVE_COUNT));
     if (typeof next_available_id === 'undefined') {
         return undefined;
     }
 
-    for (var i = 0; i < next_available_id; i++) {
-        var objective_id = await scorm_get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
+    for (let i = 0; i < next_available_id; i++) {
+        const objective_id = await scorm_get(SCORM_FIELDS.OBJECTIVE_ID(String(i)))
         if (typeof objective_id !== 'undefined' && objective_id == id) {
             return i;
         }
@@ -80,8 +80,8 @@ export async function set_or_update_objective(id: string, options?: { score?: nu
 
 export default function ScormSandbox() {
     const saveTest = async () => {
-        let student_name = await scorm_get(SCORM_FIELDS.STUDENT_NAME);
-        console.log("from ifrome" + student_name);
+        const student_name = await scorm_get(SCORM_FIELDS.STUDENT_NAME);
+        console.log("from iframe" + student_name);
     };
 
     return (
@@ -98,7 +98,7 @@ export function scormify_path(path: string): string {
         if (path === "/") return "./index.html";
         if (path === "/game") return "./game.html";
 
-        let new_path = path.slice(1).replaceAll("/", "-");
+        const new_path = path.slice(1).replaceAll("/", "-");
         return "./" + new_path + ".html";
     }
 
@@ -108,7 +108,7 @@ export function scormify_path(path: string): string {
 import { ScormIframeMessage } from "../types";
 
 export function scorm_set(field: string, value: string): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const onMessage = (event: MessageEvent) => {
             const data = event.data;
 
@@ -131,7 +131,7 @@ export function scorm_set(field: string, value: string): Promise<string> {
 }
 
 export function scorm_get(field: string): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const onMessage = (event: MessageEvent) => {
             const data = event.data;
 

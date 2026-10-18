@@ -5,4 +5,4 @@ import chapter4 from "./levels/chapter4.json";
 import chapter5 from "./levels/chapter5.json";
 
 export const chapters = [chapter1, chapter2, chapter3, chapter4, chapter5];
-export const alllevels = chapters.flatMap(chapter => chapter.levels);
+export const allLevels = chapters.flatMap(chapter => chapter.levels);
