@@ -40,6 +40,43 @@ export function useTypingLevel(commands: Command[]) {
         setText(newText);
     };
 
+        const handleAutocomplete = () => {
+            
+        if (isFinished || !currentCommand || text.length === 0) return;
+
+        // start of actual word
+        const lastSpaceIndex = text.lastIndexOf(" ");
+        const wordStart = lastSpaceIndex + 1;
+
+        const currentWord = text.slice(wordStart);
+
+        if (currentWord.length === 0) return;
+
+        const targetWordStart = targetText.lastIndexOf(
+            " ",
+            wordStart - 1
+        ) + 1;
+
+        const targetWordEnd = targetText.indexOf(" ", targetWordStart);
+
+        const targetWord = targetText.slice(
+            targetWordStart,
+            targetWordEnd === -1 ? undefined : targetWordEnd
+        );
+
+        if (
+            !targetWord.startsWith(currentWord) ||
+            targetWord.length <= currentWord.length
+        ) {
+            return;
+        }
+
+        const newText = text.slice(0, wordStart) + targetWord;
+
+        setText(newText);
+    };
+
+
     const handleEnter = () => {
         if (isFinished || !currentCommand) return; //  not allow to change text if finished
 
@@ -72,6 +109,7 @@ export function useTypingLevel(commands: Command[]) {
         errors,
         handleChange,
         handleEnter,
+        handleAutocomplete,
         reset,
         duration,
         startTime,

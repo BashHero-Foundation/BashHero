@@ -36,7 +36,9 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         else {
             typing.handleEnter();
         }
-        }
+        },
+
+        handleAutocomplete: typing.handleAutocomplete
     });
 
     // settings sidebar
