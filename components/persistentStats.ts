@@ -1,4 +1,4 @@
-import { setScormLevelWpm } from "@/app/scorm/scorm_database";
+import { saveScormLevelStats } from "@/app/scorm/scorm_database";
 import { GlobalStats, LevelStats } from "@/app/types";
 
 export function getGlobalStats(): GlobalStats {
@@ -41,7 +41,7 @@ export function getLevelStats(levelId: string): LevelStats | null {
 }
 
 export function saveLevelStats(stats: LevelStats) {
-    setScormLevelWpm(stats.levelId, stats.WPM);
+    saveScormLevelStats(stats);
     localStorage.setItem(`level_${stats.levelId}_stats`, JSON.stringify(stats));
 }
 

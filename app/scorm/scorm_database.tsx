@@ -5,9 +5,11 @@ import {
     SCORM_FIELDS,
     SCORM_STATUS,
     setOrUpdateObjective,
+    scormLog,
 } from "./scorm_utils";
 
 import { allLevels } from "../levelsUtils";
+import { LevelStats } from "../types";
 
 /**
  * sets score to wpn and status to passed for level with id
@@ -43,6 +45,30 @@ export async function setScormLevelWpm(id: string, wpm: number) {
     }
 
     await updateScormGlobalScore();
+}
+
+export async function saveScormLevelStats(stats: LevelStats) {
+    setScormLevelWpm(stats.levelId, stats.WPM);
+
+    const suspendStorageString = await scormGet(SCORM_FIELDS.SUSPEND_DATA);
+
+    scormLog(suspendStorageString);
+
+    let suspendStorage: Record<string, LevelStats> = {};
+
+    if (suspendStorageString.trim().length > 0) {
+        const parsed = JSON.parse(suspendStorageString);
+
+        if (parsed && suspendStorageString.trim().length > 0) {
+            suspendStorage = parsed as Record<string, LevelStats>;
+        }
+    }
+
+    suspendStorage[stats.levelId] = stats;
+
+    const resultSuspendStorage = JSON.stringify(suspendStorage);
+
+    await scormSet(SCORM_FIELDS.SUSPEND_DATA, resultSuspendStorage);
 }
 
 export async function updateScormGlobalScore() {
