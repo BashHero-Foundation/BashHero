@@ -45,7 +45,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     // metrics hook
-    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors});
+    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors, typedChars: typing.typedChars});
 
     // save stats hook
     useLevelStatsState({
@@ -209,6 +209,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
                         <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
                         <span className="text-xl"> punktów</span>
+                        <span className="text-xl"> Użyto TAB: {typing.tabCount}</span>
                     </span>
                 </div>
             </div> }

@@ -8,6 +8,8 @@ export function useTypingLevel(commands: Command[]) {
     const [startTime, setStartTime] = useState<number | null>(null);
     const [duration, setDuration] = useState(0);
     const [errors, setErrors] = useState(0);
+    const [typedChars, setTypedChars] = useState(0);
+    const [tabCount, setTabCount] = useState(0);
 
     const currentCommand = commands[currentIndex];
     const targetText = currentCommand?.text || "";
@@ -35,9 +37,12 @@ export function useTypingLevel(commands: Command[]) {
             if (typedChar !== expectedChar) {
                 setErrors(prev => prev + 1);
             }
+
+            setTypedChars(prev => prev + (newText.length - text.length));
         }
 
         setText(newText);
+        console.log("Znaki wpisane ręcznie:", typedChars + (newText.length - text.length));
     };
 
         const handleAutocomplete = () => {
@@ -73,7 +78,12 @@ export function useTypingLevel(commands: Command[]) {
 
         const newText = text.slice(0, wordStart) + targetWord;
 
-        setText(newText);
+        // count tab only when text changed
+        if (newText !== text) {
+            setText(newText);
+            setTabCount(prev => prev + 1);
+        }
+
     };
 
 
@@ -102,11 +112,16 @@ export function useTypingLevel(commands: Command[]) {
         setCurrentIndex(0);
         setStartTime(null);
         setDuration(0);
+        setErrors(0);
+        setTypedChars(0);
+        setTabCount(0);
     };
 
     return {
         text,
         errors,
+        typedChars,
+        tabCount,
         handleChange,
         handleEnter,
         handleAutocomplete,
