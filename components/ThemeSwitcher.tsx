@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 const THEMES = [
   { label: "Default", value: "" },
   { label: "Lavender", value: "theme-lavender" },
+  { label: "Autumn", value: "theme-autumn" },
   { label: "Olive", value: "theme-olive" },
   { label: "Dark", value: "theme-dark" },
 ];
@@ -20,7 +21,7 @@ export default function ThemeDropdown() {
   useEffect(() => {
     const root = document.documentElement;
 
-    root.classList.remove("theme-lavender", "theme-olive", "theme-dark");
+    root.classList.remove("theme-lavender", "theme-autumn", "theme-olive", "theme-dark");
 
     if (theme) {
       root.classList.add(theme);

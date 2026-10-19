@@ -42,7 +42,6 @@ export function useTypingLevel(commands: Command[]) {
         }
 
         setText(newText);
-        console.log("Znaki wpisane ręcznie:", typedChars + (newText.length - text.length));
     };
 
     // TAB AUTOCOMPLETE

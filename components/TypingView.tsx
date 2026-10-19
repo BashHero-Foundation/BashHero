@@ -38,11 +38,27 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         }
         },
 
-        handleAutocomplete: typing.handleAutocomplete
+        handleAutocomplete: () => {
+            if (suggestionsOpen) {
+                setSuggestionsOpen(false);
+                return;
+            }
+
+            if (typing.text.endsWith("/")) {
+                setSuggestionsOpen(true);
+                return;
+            }
+
+            setSuggestionsOpen(false);
+            typing.handleAutocomplete();
+    }
     });
 
     // settings sidebar
     const [settingsOpen, setSettingsOpen] = useState(false);
+
+    const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+    const mockPaths = ["/home/", "/hooks/", "/host/"];
 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors, typedChars: typing.typedChars});
@@ -145,10 +161,36 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
             
             </div>
+            <div className="relative"> 
+                 {suggestionsOpen && (
+                <div className="absolute z-50 left-10 top-24
+                                rounded-md border border-white/10
+                                bg-[#252525]/95 px-3 py-2
+                                shadow-lg font-mono text-xs
+                                text-gray-300 whitespace-nowrap">
+
+                    <span className="text-gray-500 mr-2">
+                        Dostępne:
+                    </span>
+
+                    {mockPaths.map((path, index) => (
+                        <span key={path}>
+                            {index > 0 && (
+                                <span className="text-gray-600 mx-2">·</span>
+                            )}
+
+                            <span className={path === "/home/" ? "text-blue-300" : ""}>
+                                {path}
+                            </span>
+                        </span>
+                    ))}
+                </div>
+                )}
+            </div>
 
             {/* TYPING AREA - terminal */}    
             <div 
-            className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
+            className="relative flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
             bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
             onMouseDown={(e) => {
                 e.preventDefault();
