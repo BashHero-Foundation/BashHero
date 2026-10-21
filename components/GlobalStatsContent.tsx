@@ -12,7 +12,9 @@ export function GlobalStatsContent() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
-    setStats(getGlobalStats());
+      getGlobalStats().then((data) => {
+          setStats(data);
+      });
   }, []);
 
   function previous() {

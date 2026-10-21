@@ -71,3 +71,7 @@ export interface ScormIframeMessage {
     value: string;
   }
 }
+
+export interface ScormStorageStruct {
+    levelStats: Record<string, LevelStats>;
+}

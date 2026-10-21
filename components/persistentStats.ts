@@ -1,10 +1,11 @@
-import { saveScormLevelStats } from "@/app/scorm/scorm_database";
+import {  getScormAllLevelStats, getScormLevelStats, saveScormLevelStats } from "@/app/scorm/scorm_database";
 import { GlobalStats, LevelStats } from "@/app/types";
 
-export function getGlobalStats(): GlobalStats {
-    const allStats: LevelStats[] = getAllLevelStats();
+export async function getGlobalStats(): Promise<GlobalStats> {
+    const allStats: Record<string, LevelStats> = await getAllLevelStats();
+    const allStatsList: LevelStats[] = Object.values(allStats);
 
-    if (allStats.length === 0) {
+    if (allStatsList.length === 0) {
         return {
             levelsCompleted: 0,
             totalDuration: 0,
@@ -15,48 +16,36 @@ export function getGlobalStats(): GlobalStats {
     }
 
     return {
-        levelsCompleted: allStats.length,
+        levelsCompleted: allStatsList.length,
 
-        totalDuration: allStats.reduce((sum, stat) => sum + stat.duration, 0),
+        totalDuration: allStatsList.reduce((sum, stat) => sum + stat.duration, 0),
 
         averageWPM: Math.round(
-            allStats.reduce((sum, stat) => sum + stat.WPM, 0) / allStats.length,
+            allStatsList.reduce((sum, stat) => sum + stat.WPM, 0) / allStatsList.length,
         ),
 
-        totalErrors: allStats.reduce((sum, stat) => sum + stat.Errors, 0),
+        totalErrors: allStatsList.reduce((sum, stat) => sum + stat.Errors, 0),
 
         averageAccuracy: Math.round(
-            allStats.reduce((sum, stat) => sum + stat.Accuracy, 0) /
-                allStats.length,
+            allStatsList.reduce((sum, stat) => sum + stat.Accuracy, 0) /
+                allStatsList.length,
         ),
     };
 }
 
-export function getLevelStats(levelId: string): LevelStats | null {
-    const savedStats = localStorage.getItem(`level_${levelId}_stats`);
+export async function getLevelStats(levelId: string): Promise<LevelStats | null> {
+    const savedStats = await getScormLevelStats(levelId);
     if (savedStats) {
-        return JSON.parse(savedStats);
+        return savedStats;
     }
     return null;
 }
 
 export function saveLevelStats(stats: LevelStats) {
     saveScormLevelStats(stats);
-    localStorage.setItem(`level_${stats.levelId}_stats`, JSON.stringify(stats));
 }
 
-export function getAllLevelStats(): LevelStats[] {
-    const allStats: LevelStats[] = [];
-
-    Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith("level_") && key.endsWith("_stats")) {
-            const data = localStorage.getItem(key);
-
-            if (data) {
-                allStats.push(JSON.parse(data));
-            }
-        }
-    });
-
+export async function getAllLevelStats(): Promise<Record<string, LevelStats>> {
+    const allStats = await getScormAllLevelStats();
     return allStats;
 }
