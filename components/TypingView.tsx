@@ -11,7 +11,7 @@ import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
-import { Timer } from "lucide-react";
+import { Bug, Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
 import { useRouter} from "next/navigation";
 import { scormifyPath } from "@/app/scorm/scorm_utils";
@@ -66,6 +66,29 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     return (
         <div className="flex">
+            <a
+                href="https://forms.gle/B2dqfYC1xFTrgpau7"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Report a bug"
+                title="Report a bug"
+                className="
+                    fixed bottom-8 right-4 z-50
+                    inline-flex items-center justify-center gap-2
+                    rounded-full
+                    bg-btn-primary-bg text-text-primary
+                    px-3 py-2.5
+                    shadow-xl
+                    hover:opacity-80 hover:scale-105
+                    active:scale-95
+                    transition-all duration-200
+                "
+            >
+                <Bug size={24} />
+                <span className="text-sm font-semibold">
+                    Report a bug
+                </span>
+            </a>
             <Menu />
 
              <SettingsSidebar
