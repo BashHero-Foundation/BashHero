@@ -64,9 +64,14 @@ export interface StatsPageContentProps {
 }
 
 export interface ScormIframeMessage {
-  type: "SET" | "GET";
+  type: "SET" | "GET" | "LOG";
+  id: string,
   payload: {
     field: string;
     value: string;
   }
+}
+
+export interface ScormStorageStruct {
+    levelStats: Record<string, LevelStats>;
 }

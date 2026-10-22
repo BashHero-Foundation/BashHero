@@ -17,10 +17,11 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
   useEffect(() => {
     // Get stats from localStorage
-    const savedStats = getLevelStats(level.id);
-    if (savedStats) {
-      setStats(savedStats);
-    }
+      getLevelStats(level.id).then((savedStats) => {
+        if (savedStats) {
+          setStats(savedStats);
+        }
+    })
   }, [level.id]);
 
 

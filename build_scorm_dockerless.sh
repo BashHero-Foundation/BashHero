@@ -1,16 +1,21 @@
 export NEXT_PUBLIC_SCORM="true"
 
-echo "\n>>>NEXTJS INSTALLATION<<<"
+echo
+echo ">>>NEXTJS INSTALLATION<<<"
 npm install
 
-echo "\n>>>NEXTJS BUILD<<<"
+echo
+echo ">>>NEXTJS BUILD<<<"
 npm run build
 
-echo "\n>>>FIXING PATHS<<<"
+echo
+echo ">>>FIXING PATHS<<<"
 python3 postbuild_path_fix.py
 
-echo "\n>>>REMOVING OLD PACKAGE<<<"
+echo
+echo ">>>REMOVING OLD PACKAGE<<<"
 rm bashhero_scormpackage.zip
 
-echo "\n>>>ZIPPING<<<"
-zip -r bashhero_scormpackage.zip imsmanifest.xml out appstarter/*
+echo
+echo ">>>ZIPPING<<<"
+zip -q -r bashhero_scormpackage.zip imsmanifest.xml out appstarter/*
