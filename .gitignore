@@ -41,3 +41,14 @@ yarn-error.log*
 next-env.d.ts
 
 *.zip
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# database
+*.db
+*.sqlite
+*.sqlite3

@@ -29,5 +29,14 @@ export function useLevelStatsState({
       `level_${level.id}_stats`,
       JSON.stringify(stats)
     );
+
+    void fetch(`${process.env.NEXT_PUBLIC_LTI_API_URL ?? ""}/api/results`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(stats),
+    }).catch(() => {
+      // Local storage remains available when the game runs outside Moodle.
+    });
   }, [isFinished, duration, wpm, errors, accuracy, level.id, level.title]);
 }
