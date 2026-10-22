@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { Menu } from "./menu";
 import { LevelStats, StatsPageContentProps } from "@/app/types";
 import SettingsSidebar from "./settings";
-import { scormify_path } from "@/app/scorm/scorm_utils";
+import { scormifyPath } from "@/app/scorm/scorm_utils";
 import { ArrowLeft } from 'lucide-react';
 import CalculatePoints from "./CalculatePoints";
+import { getLevelStats } from "./persistentStats";
 
 
 export function StatsPageContent({ level }: StatsPageContentProps) {
@@ -16,9 +17,9 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
   useEffect(() => {
     // Get stats from localStorage
-    const savedStats = localStorage.getItem(`level_${level.id}_stats`);
+    const savedStats = getLevelStats(level.id);
     if (savedStats) {
-      setStats(JSON.parse(savedStats));
+      setStats(savedStats);
     }
   }, [level.id]);
 
@@ -33,13 +34,13 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                   open={settingsOpen}
                   onClose={() => setSettingsOpen(false)}
                   onOpen={() => setSettingsOpen(true)}
-      />      
+      />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center pt-10">
         {/* Level Info */}
         <div className="flex flex-col items-center mb-10 gap-2">
-          <h1 className="text-3xl font-bold text-text-secondary">{level.title}</h1> 
+          <h1 className="text-3xl font-bold text-text-secondary">{level.title}</h1>
         </div>
 
         {/* Stats Container */}
@@ -69,7 +70,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-lg font-semibold text-gray-700">Błędy</span>
                 <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
               </div>
-              
+
               {/* Accuracy */}
               <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
                 <div className="flex justify-between items-center w-full">
@@ -95,8 +96,8 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 })}
               </div>
             </div>
-          ) : 
-          
+          ) :
+
           // No stats available
           (
             <div className="text-center py-8 text-text-neutral">
@@ -107,11 +108,11 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
           {/* Navigation Buttons */}
           <div className="w-full pb-5">
-            <a href={scormify_path(`/game/${level.id}`)} className="w-full">
-              <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg 
-              shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover 
+            <a href={scormifyPath(`/game/${level.id}`)} className="w-full">
+              <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg
+              shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover
               active:border-b-0 active:translate-y-1">
-                <div className="flex flex-row items-center gap-5"> 
+                <div className="flex flex-row items-center gap-5">
                   <ArrowLeft size={18} strokeWidth={4} />
                   Wróć do poziomu
                 </div>

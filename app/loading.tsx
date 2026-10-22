@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { Menu } from "@/components/menu"; 
+import { Menu } from "@/components/menu";
 
 export default function Loading() {
   return (
@@ -7,7 +6,7 @@ export default function Loading() {
       <div className="w-1/6 p-4 border-r border-gray-300">
         <Menu />
       </div>
-    
+
         <div className="w-5/6 flex flex-col items-center mt-20">
             <svg fill="#c8c8c8" width="150px" height="150px" viewBox="0 0 399.387 399.387" className="animate-spin">
             <g>

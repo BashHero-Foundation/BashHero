@@ -1,6 +1,6 @@
 import { StatsPageContent } from "@/components/StatsPageContent";
 import { notFound } from "next/navigation";
-import { alllevels } from "@/app/levelsUtils";
+import { allLevels } from "@/app/levelsUtils";
 
 export const dynamicParams = false;
 
@@ -8,12 +8,10 @@ interface StatsPageProps {
   params: Promise<{ id: string }>;
 }
 
-
-
 export default async function StatsPage({ params }: StatsPageProps) {
   const { id } = await params;
-  const currentIndex = alllevels.findIndex(l => l.id === id);
-  const level = currentIndex >= 0 ? alllevels[currentIndex] : null;
+  const currentIndex = allLevels.findIndex(l => l.id === id);
+  const level = currentIndex >= 0 ? allLevels[currentIndex] : null;
 
   if (!level) {
     return (
@@ -26,7 +24,7 @@ export default async function StatsPage({ params }: StatsPageProps) {
 
 // necessary for export
 export async function generateStaticParams() {
-  return alllevels.map((level) => ({
+  return allLevels.map((level) => ({
     id: level.id.toString(),
   }));
 }
