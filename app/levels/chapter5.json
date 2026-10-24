@@ -1,57 +1,64 @@
 {
   "chapterId": "5",
-  "chapterTitle": "Rozdział 5: Sieci komputerowe i diagnostyka",
+  "chapterTitle": "Rozdział 5: Zarządzanie procesami i systemem",
   "levels": [
     {
-      "id": "18",
-      "title": "18 Podstawowa diagnostyka sieciowa",
-      "description": "Weryfikacja połączeń sieciowych oraz translacji nazw DNS.",
-      "difficulty": "easy",
-      "category": "network",
+      "id": "15",
+      "title": "15 Podgląd procesów i zasobów",
+      "description": "Monitorowanie wykorzystania pamięci RAM, procesora oraz listy zadań.",
+      "difficulty": "medium",
+      "category": "system",
       "points": 10,
       "min_wpm": 30,
-      "min_accuracy": 90,
+      "min_accuracy": 95,
       "commands": [
-        { "text": "ping -c 4 8.8.8.8" },
-        { "text": "ping -c 4 google.com" },
-        { "text": "host google.com" },
-        { "text": "nslookup google.com" },
-        { "text": "curl -I https://github.com" },
-        { "text": "curl -I https://google.com" }
+      { "text": "ps aux" },
+      { "text": "ps aux | grep bash" },
+      { "text": "top" },
+      { "text": "top -o %CPU" },
+      { "text": "free -m" },
+      { "text": "df -h" },
+      { "text": "df -h /home" }
       ]
     },
     {
-      "id": "19",
-      "title": "19 Analiza portów i interfejsów",
-      "description": "Sprawdzanie aktywnych kart sieciowych oraz nasłuchujących gniazd.",
+      "id": "16",
+      "title": "16 Kontrola i zabijanie procesów",
+      "description": "Wyszukiwanie konkretnych programów i wysyłanie sygnałów zakończenia.",
       "difficulty": "medium",
-      "category": "network",
+      "category": "system",
       "points": 10,
-      "min_wpm": 35,
+      "min_wpm": 32,
       "min_accuracy": 94,
       "commands": [
-        { "text": "ip addr show" },
-        { "text": "ip link show" },
-        { "text": "ss -tulpn" },
-        { "text": "ss -tulwn" },
-        { "text": "traceroute 1.1.1.1" },
-        { "text": "netstat -r" },
-        { "text": "netstat -tulpen" }
+        { "text": "pgrep nginx" },
+        { "text": "pgrep -a nginx" },
+        { "text": "kill 1234" },
+        { "text": "kill -9 1234" },
+        { "text": "killall firefox" },
+        { "text": "pkill firefox" },
+        { "text": "pkill -9 -u student" }
       ]
     },
     {
-      "id": "20",
-      "title": "20 Pobieranie danych i transfer",
-      "description": "Pobieranie zasobów zdalnych oraz synchronizacja plików przez sieć.",
-      "difficulty": "hard",
-      "category": "network",
-      "points": 20,
-      "min_wpm": 45,
-      "min_accuracy": 94,
+      "id": "17",
+      "title": "17 Zarządzanie zadaniami w tle",
+      "description": "Uruchamianie skryptów w tle oraz wznawianie zadań w terminalu.",
+      "difficulty": "medium",
+      "category": "system",
+      "points": 15,
+      "min_wpm": 35,
+      "min_accuracy": 92,
       "commands": [
-        { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
-        { "text": "rsync -av /home/user/projects user@remote-server:/var/backups/projects_2026" },
-        { "text": "scp -r /home/user/photos/holiday_2025 user@remote-server:/home/user/backup/photos" }
+        { "text": "./script.sh &" },
+        { "text": "jobs" },
+        { "text": "jobs -l" },
+        { "text": "fg %1" },
+        { "text": "bg %1" },
+        { "text": "kill %1" },
+        { "text": "nohup ./script.sh &" },
+        { "text": "disown %1" },
+        { "text": "ps -o pid,cmd" }
       ]
     }
   ]

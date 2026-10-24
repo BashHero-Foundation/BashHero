@@ -1,64 +1,75 @@
 {
   "chapterId": "4",
-  "chapterTitle": "Rozdział 4: Zarządzanie procesami i systemem",
+  "chapterTitle": "Rozdział 4: Uprawnienia i bezpieczeństwo",
   "levels": [
     {
-      "id": "15",
-      "title": "15 Podgląd procesów i zasobów",
-      "description": "Monitorowanie wykorzystania pamięci RAM, procesora oraz listy zadań.",
-      "difficulty": "medium",
-      "category": "system",
-      "points": 10,
-      "min_wpm": 30,
-      "min_accuracy": 95,
+      "id": "11",
+      "title": "11 Uprawnienia i Właściciele",
+      "description": "Zarządzanie dostępem do plików i folderów.",
+      "difficulty": "easy",
+      "category": "permissions",
+      "points": 5,
+      "min_wpm": 28,
+      "min_accuracy": 90,
       "commands": [
-      { "text": "ps aux" },
-      { "text": "ps aux | grep bash" },
-      { "text": "top" },
-      { "text": "top -o %CPU" },
-      { "text": "free -m" },
-      { "text": "df -h" },
-      { "text": "df -h /home" }
+        { "text": "chmod +x script.sh" },
+        { "text": "chmod 777 public_file.txt" },
+        { "text": "sudo chown root:root secret.txt" },
+        { "text": "whoami" },
+        { "text": "groups" }
       ]
     },
     {
-      "id": "16",
-      "title": "16 Kontrola i zabijanie procesów",
-      "description": "Wyszukiwanie konkretnych programów i wysyłanie sygnałów zakończenia.",
+      "id": "12",
+      "title": "12 Modyfikacje ósemkowe (Octal) i grupy",
+      "description": "Precyzyjne nadawanie praw dostępu za pomocą cyfr oraz zmiana przynależności grupowej.",
       "difficulty": "medium",
-      "category": "system",
+      "category": "permissions",
       "points": 10,
       "min_wpm": 32,
-      "min_accuracy": 94,
+      "min_accuracy": 92,
       "commands": [
-        { "text": "pgrep nginx" },
-        { "text": "pgrep -a nginx" },
-        { "text": "kill 1234" },
-        { "text": "kill -9 1234" },
-        { "text": "killall firefox" },
-        { "text": "pkill firefox" },
-        { "text": "pkill -9 -u student" }
+        { "text": "chmod 644 config.cfg" },
+        { "text": "ls -l private.key" },
+        { "text": "chmod 700 private.key" },
+        { "text": "sudo chgrp developers data/" },
+        { "text": "id student" },
+        { "text": "groups student" }
       ]
     },
     {
-      "id": "17",
-      "title": "17 Zarządzanie zadaniami w tle",
-      "description": "Uruchamianie skryptów w tle oraz wznawianie zadań w terminalu.",
-      "difficulty": "medium",
-      "category": "system",
+      "id": "13",
+      "title": "13 Zaawansowane atrybuty i SUID",
+      "description": "Zabezpieczanie plików przed modyfikacją oraz specjalne bity uprawnień.",
+      "difficulty": "hard",
+      "category": "permissions",
       "points": 15,
       "min_wpm": 35,
-      "min_accuracy": 92,
+      "min_accuracy": 95,
       "commands": [
-        { "text": "./script.sh &" },
-        { "text": "jobs" },
-        { "text": "jobs -l" },
-        { "text": "fg %1" },
-        { "text": "bg %1" },
-        { "text": "kill %1" },
-        { "text": "nohup ./script.sh &" },
-        { "text": "disown %1" },
-        { "text": "ps -o pid,cmd" }
+        { "text": "sudo chattr +i secure.log" },
+        { "text": "chmod u+s /bin/program" },
+        { "text": "chmod g+s shared_folder/" },
+        { "text": "chmod +t public_dump/" }
+      ]
+    },
+    {
+      "id": "14",
+      "title": "14 Zarządzanie użytkownikami z poziomu Root",
+      "description": "Dodawanie kont użytkowników, modyfikacja powłoki oraz blokowanie kont.",
+      "difficulty": "hard",
+      "category": "permissions",
+      "points": 15,
+      "min_wpm": 40,
+      "min_accuracy": 95,
+      "commands": [
+        { "text": "sudo useradd -m -s /bin/bash newuser" },
+        { "text": "sudo passwd newuser" },
+        { "text": "sudo usermod -aG sudo adam" },
+        { "text": "id adam" },
+        { "text": "sudo passwd -l suspect" },
+        { "text": "sudo userdel -r olduser" },
+        { "text": "getent passwd newuser" }
       ]
     }
   ]
