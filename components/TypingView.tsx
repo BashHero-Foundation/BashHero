@@ -15,6 +15,7 @@ import { Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
 import { useRouter} from "next/navigation";
 import { scormify_path } from "@/app/scorm/scorm_utils";
+import { getAutocompleteMatches } from "@/app/autocompleteMatches";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -53,6 +54,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             typing.handleAutocomplete();
     }
     });
+
 
     // settings sidebar
     const [settingsOpen, setSettingsOpen] = useState(false);
