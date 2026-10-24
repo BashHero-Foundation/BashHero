@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Command } from "../types";
+import { getPrefix, getAutocompleteMatches } from "../autocompleteMatches";
 
 export function useTypingLevel(commands: Command[]) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,10 +52,42 @@ export function useTypingLevel(commands: Command[]) {
         // start of actual word
         const lastSpaceIndex = text.lastIndexOf(" ");
         const wordStart = lastSpaceIndex + 1;
-
         const currentWord = text.slice(wordStart);
 
         if (currentWord.length === 0) return;
+
+        // --- FILE SYSTEM ---
+        if (currentWord.startsWith("/")) {
+            const lastSlashIndex = currentWord.lastIndexOf("/");
+            const currentFragment = currentWord.slice(lastSlashIndex + 1);
+
+            // get matches from function
+            const matches = getAutocompleteMatches(text);
+
+            if (matches.length === 0) return;
+
+            // one match: complete whole word
+            // many matches: complete only prefix
+            const completion =
+                matches.length === 1
+                    ? matches[0]
+                    : getPrefix(matches);
+
+            if (!completion.startsWith(currentFragment)) return;
+
+            if (completion.length <= currentFragment.length) return;
+
+            const pathPrefix = currentWord.slice(0, lastSlashIndex + 1);
+            const completedWord = pathPrefix + completion;
+            const newText = text.slice(0, wordStart) + completedWord;
+
+            if (newText !== text) {
+                setText(newText);
+                setTabCount(prev => prev + 1);
+            }
+
+            return;
+        }
 
         // check if word has a slash in it
         const lastSlashIndex = currentWord.lastIndexOf("/");
@@ -71,7 +104,7 @@ export function useTypingLevel(commands: Command[]) {
             targetWordEnd === -1 ? undefined : targetWordEnd
         );
 
-        // split target and current words by slashes to get the last segment
+        // --- COMMAND AND OTHER --- 
         const targetParts = targetWord.split("/");
         const currentParts = currentWord.split("/");
         const segmentIndex = currentParts.length - 1;

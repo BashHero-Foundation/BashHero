@@ -9,26 +9,44 @@ export const mockFileSystem: FileSystemNode = {
             type: "directory",
             children: [
                 {
-                    name: "project",
+                    name: "studia",
                     type: "directory",
                     children: [
                         {
-                            name: "app",
+                            name: "programowanie_obiektowe",
                             type: "directory",
                             children: [],
                         },
                         {
-                            name: "README.md",
-                            type: "file",
+                            name: "projekt_zaliczeniowy",
+                            type: "directory",
+                            children: [
+                                {
+                                    name: "docs",
+                                    type: "directory",
+                                    children: [
+                                        {
+                                            name: "instrukcja.txt",
+                                            type: "file",
+                                        }
+                                    ],
+                                },
+                                {
+                                    name: "README.md",
+                                    type: "file",
+                                }
+                            ],
                         },
                         {
-                            name: "package.json",
-                            type: "file",
+                            name: "projektowanie_ui",
+                            type: "directory",
+                            children: [],
                         },
+                        
                     ],
                 },
                 {
-                    name: "projects",
+                    name: "student_wmi",
                     type: "directory",
                     children: [],
                 },
@@ -49,12 +67,17 @@ export const mockFileSystem: FileSystemNode = {
             ],
         },
         {
-            name: "etc",
+            name: "lib32",
             type: "directory",
             children: [],
         },
         {
             name: "host",
+            type: "directory",
+            children: [],
+        },
+        {
+            name: "scroop",
             type: "directory",
             children: [],
         },

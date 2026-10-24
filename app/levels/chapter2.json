@@ -2,27 +2,26 @@
   "chapterId": "2",
   "chapterTitle": "Rozdział 2: Nawigacja z wykorzystaniem autouzupełniania",
   "levels": [
-      {
-    "id": "22",
-    "title": "22 Uzupełnianie ścieżek",
-    "description": "Ćwiczymy używanie klawisza Tab do uzupełniania ścieżek katalogów, segment po segmencie.",
-    "difficulty": "easy",
-    "category": "navigation",
-    "points": 10,
-    "min_wpm": 20,
-    "min_accuracy": 80,
-    "commands": [
-      { "text": "cd /home/" },
-      { "text": "cd /home/projekt" },
-      { "text": "cd /home/projekt/app/application" },
-      { "text": "cd /home/projekt/app/src" },
-      { "text": "cd /home/projekt/app/src/components/variables/indexes" },
-      { "text": "cd /user_computer/local/bin" },
-      { "text": "cd /var/log" },
-      { "text": "cd /etc/nginx/" },
-      { "text": "cd projekt_zaliczeniowy/src/modules" },
-      { "text": "cd ../projekt_zaliczeniowy/app/lib" }
-    ]
-      }
+    {
+      "id": "21",
+      "title": "21 Autouzupełnianie ścieżek",
+      "autocomplete": true,
+      "description": "Uzupełniaj ścieżki do plików i katalogów za pomocą Tab.",
+      "difficulty": "medium",
+      "category": "file-management",
+      "points": 10,
+      "min_wpm": 32,
+      "min_accuracy": 93,
+      "commands": [
+        { "text": "cd /home" },
+        { "text": "cd /home/studia" },
+        { "text": "cd projekt_zaliczeniowy" },
+        { "text": "cat README.md" },
+        { "text": "cd /home/studia/projekt_zaliczeniowy/docs" },
+        { "text": "cat instrukcja.txt" },
+        { "text": "cd .." },
+        { "text": "pwd" }
+      ]
+    }
   ]
 }

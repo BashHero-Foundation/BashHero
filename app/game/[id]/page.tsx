@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return notFound();
   }
 
-  return <TypingView level={level} nextLevelId={nextLevelId} />;
+  return <TypingView level={level}  nextLevelId={nextLevelId} />;
 }
 
 export async function generateStaticParams() {

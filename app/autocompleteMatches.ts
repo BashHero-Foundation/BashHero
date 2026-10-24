@@ -6,6 +6,8 @@ export function getAutocompleteMatches(
     inputPath: string,
     fileSystem: FileSystemNode = mockFileSystem
 ): string[] {
+    inputPath = inputPath.split(" ").pop() ?? "";
+
     // if not start with / then stop
     if (!inputPath.startsWith("/")) {
         return [];
@@ -39,11 +41,30 @@ export function getAutocompleteMatches(
     // find in actual directory only
     return (currentNode.children ?? [])
         .filter((node) => node.name.startsWith(fragment))
-        .map((node) => {
-            const fullPath = `${directoryPath}${node.name}`;
+        .map((node) =>
+            node.type === "directory"
+                ? `${node.name}/`
+                : node.name
+        );
+}
 
-            return node.type === "directory"
-                ? `${fullPath}/`
-                : fullPath;
-        });
+
+export function getPrefix(matches: string[]): string {
+    if (matches.length === 0) {
+        return "";
+    }
+
+    let prefix = matches[0];
+
+    for (let i = 1; i < matches.length; i++) {
+        while (!matches[i].startsWith(prefix)) {
+            prefix = prefix.slice(0, -1);
+
+            if (prefix.length === 0) {
+                return "";
+            }
+        }
+    }
+
+    return prefix;
 }

@@ -40,27 +40,31 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         },
 
         handleAutocomplete: () => {
-            if (suggestionsOpen) {
+            const matches = getAutocompleteMatches(typing.text);
+
+            if (matches.length === 0) {
                 setSuggestionsOpen(false);
+                typing.handleAutocomplete();
                 return;
             }
 
-            if (typing.text.endsWith("/")) {
-                setSuggestionsOpen(true);
+            if (matches.length === 1) {
+                setSuggestionsOpen(false);
+                typing.handleAutocomplete();
                 return;
             }
 
-            setSuggestionsOpen(false);
+            setSuggestionsOpen(true);
             typing.handleAutocomplete();
     }
-    });
 
+    });
 
     // settings sidebar
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-    const mockPaths = ["/home/", "/hooks/", "/host/"];
+    const autocompletePaths = getAutocompleteMatches(typing.text);
 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors, typedChars: typing.typedChars});
@@ -165,27 +169,28 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
             <div className="relative"> 
                  {suggestionsOpen && (
-                <div className="absolute z-50 left-10 top-24
+                <div className="absolute z-50 left-5 top-24
                                 rounded-md border border-white/10
                                 bg-[#252525]/95 px-3 py-2
-                                shadow-lg font-mono text-xs
-                                text-gray-300 whitespace-nowrap">
+                                shadow-lg font-mono text-gray-300
+                                max-h-60 w-max max-w-48rem 
+                                overflow-y-hidden overflow-x-hidden">
 
-                    <span className="text-gray-500 mr-2">
+                    <span className="text-gray-500 text-sm mr-2">
                         Dostępne:
                     </span>
 
-                    {mockPaths.map((path, index) => (
-                        <span key={path}>
-                            {index > 0 && (
-                                <span className="text-gray-600 mx-2">·</span>
-                            )}
-
-                            <span className={path === "/home/" ? "text-blue-300" : ""}>
+                    <div className="grid grid-cols-3
+                                    gap-x-2 gap-y-1.5 w-full mt-1 text-md">
+                        {autocompletePaths.map((path) => (
+                            <div 
+                                key={path} 
+                                className=" text-ellipsis text-sm"
+                            >
                                 {path}
-                            </span>
-                        </span>
-                    ))}
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 )}
             </div>
