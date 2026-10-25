@@ -1,7 +1,8 @@
-import { scormifyPath } from "@/app/scorm/scorm_utils";
+import { navigateToFn, navigateToUrl } from "@/app/scorm/scorm_utils";
+import { NavigateFn } from "@/app/types";
 import { RotateCcw, ArrowBigRightDash } from 'lucide-react';
 
-export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId: string; nextLevelId: string | null }) {
+export default function FinishedLevelButtons({ levelId, nextLevelId, navigateFn }: { levelId: string; nextLevelId: string | null, navigateFn: NavigateFn }) {
 
     // it has to be changed in future
     const handleReset = () => {
@@ -22,7 +23,11 @@ export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId
             </button>
 
             <a
-            href={scormifyPath(`/game/${levelId}/stats`)}
+              href={navigateToUrl(levelId, true)}
+              onClick={(e) => {
+                  e.preventDefault();
+                  navigateToFn(levelId, true, navigateFn);
+              }}
             className="flex flex-4 items-center justify-center text-center rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg shadow-lg
                 px-6 py-4 text-lg text-btn-primary-text tracking-wider transition hover:bg-btn-primary-bg-hover
                 active:border-b-0 active:translate-y-1">
@@ -31,7 +36,13 @@ export default function FinishedLevelButtons({ levelId, nextLevelId }: { levelId
 
 
             {nextLevelId ? (
-                <a href={scormifyPath(`/game/${nextLevelId}`)} className="flex flex-1 items-center justify-center text-center gap-1
+                <a
+                    href={navigateToUrl(nextLevelId, false)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigateToFn(nextLevelId, false, navigateFn);
+                    }}
+                    className="flex flex-1 items-center justify-center text-center gap-1
                 rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg py-4 text-lg text-text-primary normal-case transition hover:bg-green-500 hover:text-white
                 active:border-b-0 active:translate-y-1">
                     <ArrowBigRightDash size={30} strokeWidth={2} />

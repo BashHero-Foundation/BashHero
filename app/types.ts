@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type Command = {
   text: string;
   hint?: string;
@@ -69,4 +71,12 @@ export interface ScormIframeMessage {
     field: string;
     value: string;
   }
+}
+
+export type SetLevelIdFn = Dispatch<SetStateAction<string | null>>;
+export type SetStatsPageFn = Dispatch<SetStateAction<boolean>>;
+
+export interface NavigateFn {
+    setLevelIdFn: SetLevelIdFn;
+    setStatsPageFn: SetStatsPageFn;
 }

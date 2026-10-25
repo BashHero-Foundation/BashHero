@@ -3,7 +3,7 @@ import { useKeyboardShortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
 import { Menu } from "./menu";
-import { Level } from "@/app/types";
+import { Level, NavigateFn } from "@/app/types";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
@@ -13,13 +13,9 @@ import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
 import { Bug, Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
-import { useRouter} from "next/navigation";
-import { scormifyPath } from "@/app/scorm/scorm_utils";
+import { navigateToFn } from "@/app/scorm/scorm_utils";
 
-export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
-
-    // router for navigation with enter
-    const router = useRouter();
+export function TypingView({ level, nextLevelId, navigateFn }: { level: Level; nextLevelId: string | null, navigateFn: NavigateFn }) {
 
     // main typing (level) logic hook
     const typing = useTypingLevel(level?.commands || []);
@@ -30,8 +26,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     // blocking shortcuts hook
     const { handleKeyDown } = useKeyboardShortcuts({
         handleEnter: () => {
-        if (typing.isFinished && nextLevelId) {
-            router.push(scormifyPath(`/game/${nextLevelId}`));
+            if (typing.isFinished && nextLevelId) {
+                navigateToFn(nextLevelId, false, navigateFn);
         }
         else {
             typing.handleEnter();
@@ -218,7 +214,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
             </div>
 
-            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId}/>
+            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId} navigateFn={navigateFn}/>
             </div>
 
             {typing.isFinished &&
