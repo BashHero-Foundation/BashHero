@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import { Chapter, Level, NavigateFn } from "./types";
 import { TypingView } from "@/components/TypingView";
 import StartView from "@/components/StartView";
-import { navigateToFn, navigateToUrl } from "./scorm/scorm_utils";
 import { StatsPageContent } from "@/components/StatsPageContent";
 import Loading from "./loading";
-import { stat } from "node:fs/promises";
 import { GlobalStatsContent } from "@/components/GlobalStatsContent";
 
 export default function Home() {
@@ -62,7 +60,15 @@ export default function Home() {
         return () => window.removeEventListener("hashchange", handleHashChange);
     }, []);
 
-    const currentLevel = levels.find((t) => t.id === selectedLevelId);
+    const currentLevelIndex = levels.findIndex((t) => t.id === selectedLevelId);
+    const currentLevel = levels[currentLevelIndex];
+
+    let nextLevelId: string | null;
+    if (currentLevelIndex + 1 < levels.length) {
+        nextLevelId = levels[currentLevelIndex + 1].id;
+    } else {
+        nextLevelId = null;
+    }
 
     const navigateFn: NavigateFn = {
         setLevelIdFn: setSelectedLevelId,
@@ -90,7 +96,7 @@ export default function Home() {
             return (
                 <TypingView
                     level={currentLevel}
-                    nextLevelId="2"
+                    nextLevelId={nextLevelId}
                     chapters={chapters}
                     navigateFn={navigateFn}
                 />
@@ -99,7 +105,7 @@ export default function Home() {
     } else {
         return (
             <div>
-                <StartView firstLevelId={"1"} navigateFn={navigateFn} />
+                <StartView firstLevelId={levels[0].id} navigateFn={navigateFn} />
                 <ul>
                     {chapters.map((chapter) => (
                         <li key={chapter.chapterId}>{chapter.chapterTitle}</li>
