@@ -80,7 +80,9 @@ export default function Home() {
     }
 
     if (selectedLevelId === null && statsPage) {
-        return <GlobalStatsContent chapters={chapters} navigateFn={navigateFn} />;
+        return (
+            <GlobalStatsContent chapters={chapters} navigateFn={navigateFn} />
+        );
     }
 
     if (selectedLevelId && currentLevel) {
@@ -104,14 +106,7 @@ export default function Home() {
         }
     } else {
         return (
-            <div>
-                <StartView firstLevelId={levels[0].id} navigateFn={navigateFn} />
-                <ul>
-                    {chapters.map((chapter) => (
-                        <li key={chapter.chapterId}>{chapter.chapterTitle}</li>
-                    ))}
-                </ul>
-            </div>
+            <StartView firstLevelId={levels[0].id} navigateFn={navigateFn} />
         );
     }
 }
