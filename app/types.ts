@@ -17,6 +17,12 @@ export type Level = {
   commands: Command[];
 };
 
+export type Chapter = {
+  chapterId: string;
+  chapterTitle: string;
+  levels: Level[];
+}
+
 export interface LevelMetricsProps {
   commands: Command[];
   duration: number;

@@ -1,17 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Level, NavigateFn } from "./types";
+import { Chapter, Level, NavigateFn } from "./types";
 import { TypingView } from "@/components/TypingView";
 import StartView from "@/components/StartView";
 import { navigateToFn, navigateToUrl } from "./scorm/scorm_utils";
 import { StatsPageContent } from "@/components/StatsPageContent";
-
-interface Chapter {
-    levels: Level[];
-}
+import Loading from "./loading";
+import { stat } from "node:fs/promises";
+import { GlobalStatsContent } from "@/components/GlobalStatsContent";
 
 export default function Home() {
     const [levels, setLevels] = useState<Level[]>([]);
+    const [chapters, setChapters] = useState<Chapter[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
     const [statsPage, setStatsPage] = useState<boolean>(false);
@@ -29,6 +29,8 @@ export default function Home() {
                     return response.json();
                 }),
             );
+
+            setChapters(chapterData);
 
             const allLevels = chapterData.flatMap((chapter) => chapter.levels);
             setLevels(allLevels);
@@ -68,11 +70,11 @@ export default function Home() {
     };
 
     if (loading) {
-        return (
-            <div>
-                <p>loading levels</p>
-            </div>
-        );
+        return <Loading />;
+    }
+
+    if (selectedLevelId === null && statsPage) {
+        return <GlobalStatsContent chapters={chapters} navigateFn={navigateFn} />;
     }
 
     if (selectedLevelId && currentLevel) {
@@ -80,6 +82,7 @@ export default function Home() {
             return (
                 <StatsPageContent
                     level={currentLevel}
+                    chapters={chapters}
                     navigateFn={navigateFn}
                 />
             );
@@ -88,6 +91,7 @@ export default function Home() {
                 <TypingView
                     level={currentLevel}
                     nextLevelId="2"
+                    chapters={chapters}
                     navigateFn={navigateFn}
                 />
             );
@@ -97,18 +101,8 @@ export default function Home() {
             <div>
                 <StartView firstLevelId={"1"} navigateFn={navigateFn} />
                 <ul>
-                    {levels.map((level) => (
-                        <li key={level.id}>
-                            <a
-                                href={navigateToUrl(level.id, false)}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    navigateToFn(level.id, false, navigateFn);
-                                }}
-                            >
-                                {level.title}
-                            </a>
-                        </li>
+                    {chapters.map((chapter) => (
+                        <li key={chapter.chapterId}>{chapter.chapterTitle}</li>
                     ))}
                 </ul>
             </div>

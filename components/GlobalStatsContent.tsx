@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
 import SettingsSidebar from "./settings";
-import { GlobalStats } from "@/app/types";
+import { Chapter, GlobalStats, NavigateFn } from "@/app/types";
 import { getGlobalStats } from "./persistentStats";
 
-export function GlobalStatsContent() {
+export function GlobalStatsContent({ chapters, navigateFn }: { chapters: Chapter[], navigateFn: NavigateFn } ) {
   const [stats, setStats] = useState<GlobalStats | null>(null);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -24,7 +24,7 @@ export function GlobalStatsContent() {
     <div className="flex h-screen">
 
       {/* Sidebar menu */}
-        <Menu />
+        <Menu chapters={chapters} navigateFn={navigateFn}/>
 
       <SettingsSidebar
                   open={settingsOpen}

@@ -3,7 +3,7 @@ import { useKeyboardShortcuts } from "../app/hooks/useKeyboardShortcuts";
 import { useTypingLevel } from "../app/hooks/useTypingLevel";
 import { useLevelMetrics } from '@/app/hooks/useLevelMetrics';
 import { Menu } from "./menu";
-import { Level, NavigateFn } from "@/app/types";
+import { Chapter, Level, NavigateFn } from "@/app/types";
 import FinishedLevelButtons from './FinishedLevelButtons';
 import { useLiveTimer } from "@/app/hooks/useLiveTimer";
 import { useLevelStatsState } from "@/app/hooks/useLevelStatsState";
@@ -15,7 +15,7 @@ import { Bug, Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
 import { navigateToFn } from "@/app/scorm/scorm_utils";
 
-export function TypingView({ level, nextLevelId, navigateFn }: { level: Level; nextLevelId: string | null, navigateFn: NavigateFn }) {
+export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level: Level; nextLevelId: string | null, chapters: Chapter[], navigateFn: NavigateFn }) {
 
     // main typing (level) logic hook
     const typing = useTypingLevel(level?.commands || []);
@@ -85,7 +85,7 @@ export function TypingView({ level, nextLevelId, navigateFn }: { level: Level; n
                     Report a bug
                 </span>
             </a>
-            <Menu />
+            <Menu chapters={chapters} navigateFn={navigateFn} />
 
              <SettingsSidebar
             open={settingsOpen}

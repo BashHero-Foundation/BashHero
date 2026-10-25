@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
-import { Level, LevelStats, NavigateFn } from "@/app/types";
+import { Chapter, Level, LevelStats, NavigateFn } from "@/app/types";
 import SettingsSidebar from "./settings";
 import { navigateToFn, navigateToUrl } from "@/app/scorm/scorm_utils";
 import { ArrowLeft } from 'lucide-react';
@@ -9,7 +9,7 @@ import CalculatePoints from "./CalculatePoints";
 import { getLevelStats } from "./persistentStats";
 
 
-export function StatsPageContent({ level, navigateFn }: { level: Level, navigateFn: NavigateFn } ) {
+export function StatsPageContent({ level, chapters, navigateFn }: { level: Level, chapters: Chapter[], navigateFn: NavigateFn } ) {
   const [stats, setStats] = useState<LevelStats | null>(null);
 
   // settings sidebar
@@ -28,7 +28,7 @@ export function StatsPageContent({ level, navigateFn }: { level: Level, navigate
     <div className="flex">
 
       {/* Sidebar menu */}
-        <Menu />
+        <Menu chapters={chapters} navigateFn={navigateFn} />
 
       <SettingsSidebar
                   open={settingsOpen}
