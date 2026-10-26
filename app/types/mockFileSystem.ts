@@ -34,6 +34,10 @@ export const mockFileSystem: FileSystemNode = {
                                 {
                                     name: "README.md",
                                     type: "file",
+                                },
+                                {
+                                    name: "Realms.mc",
+                                    type: "file",
                                 }
                             ],
                         },
@@ -69,7 +73,62 @@ export const mockFileSystem: FileSystemNode = {
         {
             name: "lib32",
             type: "directory",
-            children: [],
+            children: [
+                {
+                    name: "libc.so.6",
+                    type: "file",
+                },
+                {
+                    name: "libm.so.6",
+                    type: "file",
+                },
+                {
+                    name: "modules",
+                    type: "directory",
+                    children: [
+                        {
+                            name: "drivers",
+                            type: "directory",
+                            children: [
+                                {
+                                    name: "display.ko",
+                                    type: "file",
+                                },
+                            ],
+                        },
+                        {
+                            name: "druoffice",
+                            type: "directory",
+                        },
+                        {
+                            name: "modules.dep",
+                            type: "file",
+                        },
+                    ],
+                },
+                {
+                    name: "security",
+                    type: "directory",
+                    children: [
+                        {
+                            name: "pam_unix.so",
+                            type: "file",
+                        },
+                        {
+                            name: "pam_unix_v2.so",
+                            type: "file",
+                        },
+                        {
+                            name: "pam_pam_pam.al4",
+                            type: "file",
+                        },
+                        {
+                            name: "p.pam",
+                            type: "file",
+                        },
+                    ],
+                },
+            ],
         },
         {
             name: "host",

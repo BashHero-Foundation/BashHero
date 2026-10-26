@@ -15,7 +15,6 @@ import { Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
 import { useRouter} from "next/navigation";
 import { scormify_path } from "@/app/scorm/scorm_utils";
-import { getAutocompleteMatches } from "@/app/autocompleteMatches";
 
 export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: string | null }) {
 
@@ -40,23 +39,12 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         },
 
         handleAutocomplete: () => {
-            const matches = getAutocompleteMatches(typing.text);
+            const matches = typing.getCurrentAutocompleteMatches();
 
-            if (matches.length === 0) {
-                setSuggestionsOpen(false);
-                typing.handleAutocomplete();
-                return;
-            }
+            setSuggestionsOpen(matches.length > 1);
 
-            if (matches.length === 1) {
-                setSuggestionsOpen(false);
-                typing.handleAutocomplete();
-                return;
-            }
-
-            setSuggestionsOpen(true);
             typing.handleAutocomplete();
-    }
+        }
 
     });
 
@@ -64,7 +52,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-    const autocompletePaths = getAutocompleteMatches(typing.text);
+    const autocompletePaths = typing.getCurrentAutocompleteMatches();
 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors, typedChars: typing.typedChars});

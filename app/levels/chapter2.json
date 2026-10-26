@@ -13,15 +13,60 @@
       "min_wpm": 32,
       "min_accuracy": 93,
       "commands": [
-        { "text": "cd /home" },
-        { "text": "cd /home/studia" },
-        { "text": "cd projekt_zaliczeniowy" },
+        { "text": "cd /home/" },
+        { "text": "cd /home/studia/" },
+        { "text": "cd projekt_zaliczeniowy/" },
         { "text": "cat README.md" },
-        { "text": "cd /home/studia/projekt_zaliczeniowy/docs" },
+        { "text": "cd /home/studia/projekt_zaliczeniowy/docs/" },
         { "text": "cat instrukcja.txt" },
         { "text": "cd .." },
         { "text": "pwd" }
       ]
-    }
+    },
+    {
+      "id": "22",
+      "title": "22 Praca z logami i katalogami studiów",
+      "autocomplete": true,
+      "description": "Nawiguj po strukturze katalogów, odczytuj pliki z logami i sprawdzaj zawartość folderów.",
+      "difficulty": "medium",
+      "category": "file-management",
+      "points": 10,
+      "min_wpm": 32,
+      "min_accuracy": 93,
+      "commands": [
+        { "text": "cd /logs/" },
+        { "text": "cat app.log" },
+        { "text": "tail error.log" },
+        { "text": "cd /home/studia/" },
+        { "text": "ls programowanie_obiektowe/" },
+        { "text": "cd projektowanie_ui/" },
+        { "text": "cd ../../student_wmi/" },
+        { "text": "cd /lib32/" },
+        { "text": "ls /host/" }
+      ]
+    },
+      {
+    "id": "23",
+    "title": "23 Biblioteki systemowe lib32",
+    "autocomplete": true,
+    "description": "Nawiguj po bibliotekach 32-bitowych, sprawdzaj i weryfikuj pliki.",
+    "difficulty": "hard",
+    "category": "file-management",
+    "points": 15,
+    "min_wpm": 34,
+    "min_accuracy": 95,
+    "commands": [
+      { "text": "cd /lib32/" },
+      { "text": "ls -la" },
+      { "text": "file libc.so.6" },
+      { "text": "cd modules/" },
+      { "text": "cat modules.dep" },
+      { "text": "cd drivers/" },
+      { "text": "modinfo display.ko" },
+      { "text": "cd ../../security/" },
+      { "text": "md5sum pam_unix.so" },
+      { "text": "cd /lib32/" }
+    ]
+  }
   ]
 }

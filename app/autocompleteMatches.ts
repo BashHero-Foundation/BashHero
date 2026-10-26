@@ -2,29 +2,36 @@
 import { FileSystemNode } from "./types";
 import { mockFileSystem} from "./types/mockFileSystem";
 
-export function getAutocompleteMatches(
-    inputPath: string,
-    fileSystem: FileSystemNode = mockFileSystem
-): string[] {
-    inputPath = inputPath.split(" ").pop() ?? "";
+// simplify path 
+export function normalizePath(path: string): string {
+    const parts: string[] = [];
 
-    // if not start with / then stop
-    if (!inputPath.startsWith("/")) {
-        return [];
+    for (const part of path.split("/")) {
+        if (!part || part === ".") {
+            continue;
+        }
+
+        if (part === "..") {
+            parts.pop();
+        } else {
+            parts.push(part);
+        }
     }
 
-    // split into fragments
-    const lastSlashIndex = inputPath.lastIndexOf("/");
-    const directoryPath = inputPath.slice(0, lastSlashIndex + 1);
-    const fragment = inputPath.slice(lastSlashIndex + 1);
+    return "/" + parts.join("/");
+}
 
-    const directoryParts = directoryPath
-        .split("/")
-        .filter(Boolean);
+// get the current directory position
+export function getDirectoryNode(
+    path: string,
+    fileSystem: FileSystemNode
+): FileSystemNode | null {
+    const normalizedPath = normalizePath(path);
+    const parts = normalizedPath.split("/").filter(Boolean);
 
     let currentNode = fileSystem;
 
-    for (const part of directoryParts) {
+    for (const part of parts) {
         const child = currentNode.children?.find(
             (node) =>
                 node.name === part &&
@@ -32,14 +39,77 @@ export function getAutocompleteMatches(
         );
 
         if (!child) {
-            return [];
+            return null;
         }
 
         currentNode = child;
     }
 
-    // find in actual directory only
-    return (currentNode.children ?? [])
+    return currentNode;
+}
+
+export function getAutocompleteMatches(
+    inputPath: string,
+    currentDirectory = "/home",
+    fileSystem: FileSystemNode = mockFileSystem
+): string[] {
+
+    const fragmentPath = inputPath.split(/\s+/).pop() ?? "";
+
+
+    if (!fragmentPath) {
+        return [];
+    }
+
+    // split into fragments
+    const lastSlashIndex = fragmentPath.lastIndexOf("/");
+    const fragment = fragmentPath.slice(lastSlashIndex + 1);
+
+    let directoryPath: string;
+
+    if (fragmentPath.startsWith("/")) {
+        // absolute path
+        directoryPath =
+            lastSlashIndex === 0
+                ? "/"
+                : fragmentPath.slice(0, lastSlashIndex);
+
+        console.log("INPUT PATH:", inputPath);
+        console.log("FRAGMENT PATH:", fragmentPath);
+        console.log("ABSOLUTE DIRECTORY PATH:", directoryPath);
+        console.log("FRAGMENT:", fragment);
+    } else {
+        // realtive path
+        const relativeParent =
+            lastSlashIndex === -1
+                ? ""
+                : fragmentPath.slice(0, lastSlashIndex);
+
+        directoryPath = normalizePath(
+            relativeParent
+                ? `${currentDirectory}/${relativeParent}`
+                : currentDirectory
+        );
+
+        console.log("INPUT PATH:", inputPath);
+        console.log("FRAGMENT PATH:", fragmentPath);
+        console.log("RELATIVE DIRECTORY PATH:", directoryPath);
+        console.log("FRAGMENT:", fragment);
+    }
+
+    const directory = getDirectoryNode(
+        directoryPath,
+        fileSystem
+    );
+
+    console.log("DIRECTORY NODE:", directory);
+    console.log("CHILDREN:", directory?.children);
+
+    if (!directory) {
+        return [];
+    }
+
+    return (directory.children ?? [])
         .filter((node) => node.name.startsWith(fragment))
         .map((node) =>
             node.type === "directory"
