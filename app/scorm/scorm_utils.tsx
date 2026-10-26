@@ -1,5 +1,7 @@
 "use client";
 
+import { NavigateFn, ScormIframeMessage } from "../types";
+
 export const SCORM_FIELDS = {
     SUSPEND_DATA: "cmi.suspend_data",
 
@@ -171,7 +173,23 @@ export function scormifyPath(path: string): string {
     return path;
 }
 
-import { ScormIframeMessage } from "../types";
+export function navigateToUrl(levelId: string | null, statsPage: boolean): string {
+    const params = new URLSearchParams();
+    if (levelId !== null) {
+        params.set("levelId", levelId);
+    }
+    params.set("statsPage", String(statsPage));
+    const queryString = params.toString();
+    return queryString ? `#${queryString}` : "";
+};
+
+export function navigateToFn(levelId: string | null, statsPage: boolean, navigateFn: NavigateFn) {
+    const queryString = navigateToUrl(levelId, statsPage);
+    window.history.pushState(null, "", queryString);
+    navigateFn.setLevelIdFn(levelId);
+    navigateFn.setStatsPageFn(statsPage);
+};
+
 
 export function scormSet(field: string, value: string): Promise<string> {
     return new Promise((resolve) => {

@@ -2,6 +2,7 @@
 
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useEffect, useRef } from "react";
+import {Bug} from "lucide-react";
 
 type SettingsSidebarProps = {
     open: boolean;
@@ -86,7 +87,7 @@ export default function SettingsSidebar({
                         shadow-2xl
                     "
                 >
-                    <div className="p-6 flex flex-col gap-6">
+                    <div className="p-6 flex flex-col flex-6 gap-6">
 
                         <h2 className="text-2xl font-bold text-text-secondary">
                             Settings
