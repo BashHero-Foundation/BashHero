@@ -34,11 +34,23 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             router.push(scormify_path(`/game/${nextLevelId}`));
         }
         else {
+            if (typing.text === typing.currentCommand?.text) {
+                setSuggestionsOpen(false);
+            }
+
             typing.handleEnter();
         }
         },
 
         handleAutocomplete: () => {
+            const targetText = typing.currentCommand?.text ?? "";
+
+            // do not allow to autocomplete when correct command or / after current command
+            if ((typing.text === targetText || (!targetText.startsWith(typing.text)))) {
+                setSuggestionsOpen(false);
+                return;
+            }
+
             const matches = typing.getCurrentAutocompleteMatches();
 
             setSuggestionsOpen(matches.length > 1);

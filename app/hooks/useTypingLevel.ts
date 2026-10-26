@@ -55,22 +55,27 @@ export function useTypingLevel(commands: Command[]) {
         const lastSpaceIndex = text.lastIndexOf(" ");
         const wordStart = lastSpaceIndex + 1;
         const currentWord = text.slice(wordStart);
-        console.log("TEXT:", text);
-        console.log("CURRENT DIRECTORY:", currentDirectory);
-        console.log("CURRENT WORD:", currentWord);
-        console.log("IS COMMAND:", wordStart === 0);
+
+        // do not complete command arguments
+        if (currentWord.startsWith("-")) {
+            return;
+        }
 
         if (currentWord.length === 0) return;
 
         // --- FILE SYSTEM ---
         const isCommand = wordStart === 0;
 
+        // prevent "/" to command bug
+        if (isCommand && (currentWord.startsWith("/") || currentWord.startsWith("."))) {
+            return;
+        }
+
         if (!isCommand) {
             const matches = getAutocompleteMatches(
                 text,
                 currentDirectory
             );
-            console.log("MATCHES:", matches);
 
             if (matches.length > 0) {
                 const lastSlashIndex = currentWord.lastIndexOf("/");
@@ -83,8 +88,6 @@ export function useTypingLevel(commands: Command[]) {
                         ? matches[0]
                         : getPrefix(matches);
 
-                console.log("COMPLETION:", completion);
-                console.log("CURRENT FRAGMENT:", currentFragment);
 
                 if (completion.startsWith(currentFragment) && completion.length > currentFragment.length) {
                     const pathPrefix =

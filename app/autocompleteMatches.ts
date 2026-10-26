@@ -74,10 +74,6 @@ export function getAutocompleteMatches(
                 ? "/"
                 : fragmentPath.slice(0, lastSlashIndex);
 
-        console.log("INPUT PATH:", inputPath);
-        console.log("FRAGMENT PATH:", fragmentPath);
-        console.log("ABSOLUTE DIRECTORY PATH:", directoryPath);
-        console.log("FRAGMENT:", fragment);
     } else {
         // realtive path
         const relativeParent =
@@ -90,20 +86,12 @@ export function getAutocompleteMatches(
                 ? `${currentDirectory}/${relativeParent}`
                 : currentDirectory
         );
-
-        console.log("INPUT PATH:", inputPath);
-        console.log("FRAGMENT PATH:", fragmentPath);
-        console.log("RELATIVE DIRECTORY PATH:", directoryPath);
-        console.log("FRAGMENT:", fragment);
     }
 
     const directory = getDirectoryNode(
         directoryPath,
         fileSystem
     );
-
-    console.log("DIRECTORY NODE:", directory);
-    console.log("CHILDREN:", directory?.children);
 
     if (!directory) {
         return [];
