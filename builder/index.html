@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BashHero builder</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="jszip.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>BashHero Level Builder</h1>
+      <p>Create and export level JSONs</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="toolbar">
+      <button id="newChapterBtn" class="primary">
+        + New chapter
+      </button>
+
+      <button id="importBtn" class="secondary">
+        Import JSON
+      </button>
+
+      <button id="exportBtn" class="secondary">
+        Export chapter
+      </button>
+
+      <button id="exportAllBtn" class="primary">
+        Export all
+      </button>
+
+      <input
+        id="fileInput"
+        type="file"
+        accept=".json,application/json"
+        hidden
+      >
+    </section>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <h2>Chapter library</h2>
+          <p>Select a chapter to edit it.</p>
+        </div>
+        <span id="chapterCount" class="count-badge">0 chapters</span>
+      </div>
+
+      <div id="chapterList" class="chapter-list"></div>
+    </section>
+
+    <div id="editor">
+      <section class="panel">
+        <h2>Chapter details</h2>
+
+        <div class="form-grid chapter-fields">
+          <label>
+            Chapter ID
+            <input id="chapterId" type="text" readonly>
+            <!--<small>Generated automatically.</small>-->
+          </label>
+
+          <label>
+            Chapter title
+            <input
+              id="chapterTitle"
+              type="text"
+              placeholder="Enter chapter title"
+              required
+            >
+          </label>
+        </div>
+      </section>
+
+      <section class="levels-section">
+        <div class="section-heading">
+          <div>
+            <h2>Levels</h2>
+            <!--<p>Each level has its own settings and commands.</p>-->
+          </div>
+
+          
+        </div>
+
+        <div id="levelsContainer"></div>
+        <button id="addLevelBtn" class="primary">
+            + Add level
+        </button>
+      </section>
+
+      <section class="panel preview-panel">
+        <details>
+          <summary>Preview generated JSON</summary>
+          <pre id="jsonPreview"></pre>
+          <button id="copyJsonBtn" class="secondary">
+            Copy JSON
+          </button>
+        </details>
+      </section>
+    </div>
+
+    <section id="emptyState" class="panel empty-state" hidden>
+      <h2>No chapter selected</h2>
+      <p>Create a new chapter or import an existing JSON file.</p>
+    </section>
+  </main>
+
+</body>
+</html>
