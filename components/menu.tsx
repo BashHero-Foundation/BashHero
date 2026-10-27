@@ -4,7 +4,7 @@ import { navigateToFn, navigateToUrl } from "@/app/scorm/scorm_utils";
 import { ChevronRight } from "lucide-react";
 import { Chapter, NavigateFn } from "@/app/types";
 
-export function Menu ({ chapters, navigateFn }: { chapters: Chapter[], navigateFn: NavigateFn }) {
+export function Menu ({ chapters, navigateFn, resetLevelFn }: { chapters: Chapter[], navigateFn: NavigateFn, resetLevelFn: () => void }) {
 
   const [open,setOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -67,6 +67,7 @@ export function Menu ({ chapters, navigateFn }: { chapters: Chapter[], navigateF
                 href={navigateToUrl(level.id, false)}
                 onClick={(e) => {
                     e.preventDefault();
+                    resetLevelFn();
                     navigateToFn(level.id, false, navigateFn);
                 }}
             className="rounded-xl border border-btn-primary-border bg-bg-body px-4 py-2 text-text-secondary font-semibold hover:bg-badge-primary-to transition"

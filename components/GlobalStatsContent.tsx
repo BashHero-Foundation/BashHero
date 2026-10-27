@@ -26,7 +26,7 @@ export function GlobalStatsContent({ chapters, navigateFn }: { chapters: Chapter
     <div className="flex h-screen">
 
       {/* Sidebar menu */}
-        <Menu chapters={chapters} navigateFn={navigateFn}/>
+        <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={() => {}}/>
 
       <SettingsSidebar
                   open={settingsOpen}
