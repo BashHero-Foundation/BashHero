@@ -1,5 +1,7 @@
 "use client";
 
+import { NavigateFn, ScormIframeMessage } from "../types";
+
 export const SCORM_FIELDS = {
     SUSPEND_DATA: "cmi.suspend_data",
 
@@ -171,22 +173,43 @@ export function scormifyPath(path: string): string {
     return path;
 }
 
-import { ScormIframeMessage } from "../types";
+export function navigateToUrl(levelId: string | null, statsPage: boolean): string {
+    const params = new URLSearchParams();
+    if (levelId !== null) {
+        params.set("levelId", levelId);
+    }
+    params.set("statsPage", String(statsPage));
+    const queryString = params.toString();
+    return queryString ? `#${queryString}` : "";
+};
+
+export function navigateToFn(levelId: string | null, statsPage: boolean, navigateFn: NavigateFn) {
+    const queryString = navigateToUrl(levelId, statsPage);
+    window.history.pushState(null, "", queryString);
+    navigateFn.setLevelIdFn(levelId);
+    navigateFn.setStatsPageFn(statsPage);
+};
+
 
 export function scormSet(field: string, value: string): Promise<string> {
     return new Promise((resolve) => {
+        const uuid = crypto.randomUUID();
+
         const onMessage = (event: MessageEvent) => {
             const data = event.data;
 
-            window.removeEventListener("message", onMessage);
+            if (data.id == uuid) {
+                window.removeEventListener(`message`, onMessage);
 
-            resolve(data);
+                resolve(data.message);
+            }
         };
 
         window.addEventListener("message", onMessage);
 
         const message: ScormIframeMessage = {
             type: "SET",
+            id: uuid,
             payload: {
                 field: field,
                 value: value,
@@ -198,18 +221,23 @@ export function scormSet(field: string, value: string): Promise<string> {
 
 export function scormGet(field: string): Promise<string> {
     return new Promise((resolve) => {
+        const uuid = crypto.randomUUID();
+
         const onMessage = (event: MessageEvent) => {
             const data = event.data;
 
-            window.removeEventListener("message", onMessage);
+            if (data.id == uuid) {
+                window.removeEventListener("message", onMessage);
 
-            resolve(data);
+                resolve(data.message);
+            }
         };
 
         window.addEventListener("message", onMessage);
 
         const message: ScormIframeMessage = {
             type: "GET",
+            id: uuid,
             payload: {
                 field: field,
                 value: "",
@@ -218,4 +246,18 @@ export function scormGet(field: string): Promise<string> {
 
         window.parent.postMessage(message, window.location.origin);
     });
+}
+
+export function scormLog(value: string) {
+    const uuid = crypto.randomUUID();
+
+    const message: ScormIframeMessage = {
+        type: "LOG",
+        id: uuid,
+        payload: {
+            field: value,
+            value: value,
+        },
+    };
+    window.parent.postMessage(message, window.location.origin);
 }
