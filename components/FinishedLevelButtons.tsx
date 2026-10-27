@@ -2,19 +2,12 @@ import { navigateToFn, navigateToUrl } from "@/app/scorm/scorm_utils";
 import { NavigateFn } from "@/app/types";
 import { RotateCcw, ArrowBigRightDash } from 'lucide-react';
 
-export default function FinishedLevelButtons({ levelId, nextLevelId, navigateFn }: { levelId: string; nextLevelId: string | null, navigateFn: NavigateFn }) {
-
-    // it has to be changed in future
-    const handleReset = () => {
-        window.location.reload();
-    };
-
-
+export default function FinishedLevelButtons({ levelId, nextLevelId, navigateFn, resetLevelFn }: { levelId: string; nextLevelId: string | null, navigateFn: NavigateFn, resetLevelFn: () => void }) {
     return (
         <div className="mt-15 flex flex-row w-full max-w-2xl items-center justify-center gap-5 font-bold uppercase tracking-wider">
 
             <button
-            onClick={handleReset}
+            onClick={resetLevelFn}
             aria-label="Reset"
             className="flex flex-1 items-center justify-center rounded-xl border-b-4 border-gray-600 bg-gray-800 shadow-lg
             px2 py-4 text-gray-400 transition hover:bg-red-600 hover:text-white
@@ -26,6 +19,7 @@ export default function FinishedLevelButtons({ levelId, nextLevelId, navigateFn 
               href={navigateToUrl(levelId, true)}
               onClick={(e) => {
                   e.preventDefault();
+                  resetLevelFn();
                   navigateToFn(levelId, true, navigateFn);
               }}
             className="flex flex-4 items-center justify-center text-center rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg shadow-lg
@@ -40,6 +34,7 @@ export default function FinishedLevelButtons({ levelId, nextLevelId, navigateFn 
                     href={navigateToUrl(nextLevelId, false)}
                     onClick={(e) => {
                         e.preventDefault();
+                        resetLevelFn();
                         navigateToFn(nextLevelId, false, navigateFn);
                     }}
                     className="flex flex-1 items-center justify-center text-center gap-1

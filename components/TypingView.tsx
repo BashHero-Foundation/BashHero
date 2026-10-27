@@ -85,7 +85,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     Report a bug
                 </span>
             </a>
-            <Menu chapters={chapters} navigateFn={navigateFn} />
+            <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={typing.reset} />
 
              <SettingsSidebar
             open={settingsOpen}
@@ -214,7 +214,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                 </div>
             </div>
 
-            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId} navigateFn={navigateFn}/>
+            <FinishedLevelButtons levelId={level.id} nextLevelId={nextLevelId} navigateFn={navigateFn} resetLevelFn={typing.reset}/>
             </div>
 
             {typing.isFinished &&
