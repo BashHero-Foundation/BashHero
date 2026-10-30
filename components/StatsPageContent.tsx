@@ -1,15 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
-import { LevelStats, StatsPageContentProps } from "@/app/types";
+import { Chapter, Level, LevelStats, NavigateFn } from "@/app/types";
 import SettingsSidebar from "./settings";
-import { scormifyPath } from "@/app/scorm/scorm_utils";
+import { navigateToFn, navigateToUrl } from "@/app/scorm/scorm_utils";
 import { ArrowLeft } from 'lucide-react';
 import CalculatePoints from "./CalculatePoints";
 import { getLevelStats } from "./persistentStats";
 
 
-export function StatsPageContent({ level }: StatsPageContentProps) {
+export function StatsPageContent({ level, chapters, navigateFn }: { level: Level, chapters: Chapter[], navigateFn: NavigateFn } ) {
   const [stats, setStats] = useState<LevelStats | null>(null);
 
   // settings sidebar
@@ -28,7 +28,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
     <div className="flex">
 
       {/* Sidebar menu */}
-        <Menu />
+        <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={() => {}} />
 
       <SettingsSidebar
                   open={settingsOpen}
@@ -108,7 +108,13 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
           {/* Navigation Buttons */}
           <div className="w-full pb-5">
-            <a href={scormifyPath(`/game/${level.id}`)} className="w-full">
+                      <a
+                          href={navigateToUrl(level.id, false)}
+                          onClick={(e) => {
+                              e.preventDefault();
+                              navigateToFn(level.id, false, navigateFn);
+                          }}
+                          className="w-full">
               <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover
               active:border-b-0 active:translate-y-1">

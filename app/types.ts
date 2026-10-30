@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type Command = {
   text: string;
   hint?: string;
@@ -14,6 +16,12 @@ export type Level = {
   min_accuracy: number;
   commands: Command[];
 };
+
+export type Chapter = {
+  chapterId: string;
+  chapterTitle: string;
+  levels: Level[];
+}
 
 export interface LevelMetricsProps {
   commands: Command[];
@@ -69,4 +77,12 @@ export interface ScormIframeMessage {
     field: string;
     value: string;
   }
+}
+
+export type SetLevelIdFn = Dispatch<SetStateAction<string | null>>;
+export type SetStatsPageFn = Dispatch<SetStateAction<boolean>>;
+
+export interface NavigateFn {
+    setLevelIdFn: SetLevelIdFn;
+    setStatsPageFn: SetStatsPageFn;
 }
