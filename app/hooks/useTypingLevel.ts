@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Command } from "../types";
-import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches } from "../autocompleteMatches";
+import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches } from "../autocompleteMatches";
 import { mockFileSystem } from "../types/mockFileSystem";
 
 export function useTypingLevel(commands: Command[]) {
@@ -63,100 +63,89 @@ export function useTypingLevel(commands: Command[]) {
 
         if (currentWord.length === 0) return;
 
-        // --- FILE SYSTEM ---
         const isCommand = wordStart === 0;
 
+
+        // COMMANDS
+        if (isCommand) {
+            const matches = getCommandMatches(currentWord);
+
+            if (matches.length === 0) return;
+
+            // one match: complete whole word
+            // many matches: complete only prefix
+            const completion =
+                matches.length === 1
+                    ? matches[0]
+                    : getPrefix(matches);
+
+            if (completion.length > currentWord.length) {
+                setText(completion);
+                setTabCount(prev => prev + 1);
+            }
+
+            return;
+        }
+        
+        // --- FILE SYSTEM ---
         // prevent "/" to command bug
         if (isCommand && (currentWord.startsWith("/") || currentWord.startsWith("."))) {
             return;
         }
 
-        if (!isCommand) {
-            const matches = getAutocompleteMatches(
-                text,
-                currentDirectory
-            );
+        const matches = getAutocompleteMatches(text, currentDirectory);
 
-            if (matches.length > 0) {
-                const lastSlashIndex = currentWord.lastIndexOf("/");
-                const currentFragment = currentWord.slice(lastSlashIndex + 1);
+        if (matches.length === 0) return;
 
-                // one match: complete whole word
-                // many matches: complete only prefix
-                const completion =
-                    matches.length === 1
-                        ? matches[0]
-                        : getPrefix(matches);
+        const lastSlashIndex = currentWord.lastIndexOf("/");
+        const currentFragment = currentWord.slice(lastSlashIndex + 1);
+
+        // one match: complete whole word
+        // many matches: complete only prefix
+        const completion =
+            matches.length === 1
+                ? matches[0]
+                : getPrefix(matches);
 
 
-                if (completion.startsWith(currentFragment) && completion.length > currentFragment.length) {
-                    const pathPrefix =
-                    lastSlashIndex === -1
-                        ? ""
-                        : currentWord.slice(0, lastSlashIndex + 1);
+        if (completion.startsWith(currentFragment) && completion.length > currentFragment.length) {
+            const pathPrefix =
+            lastSlashIndex === -1
+                ? ""
+                : currentWord.slice(0, lastSlashIndex + 1);
 
-                    const completedWord = pathPrefix + completion;
-                    const newText = text.slice(0, wordStart) + completedWord;
+            const completedWord = pathPrefix + completion;
+            const newText = text.slice(0, wordStart) + completedWord;
 
-                    if (newText !== text) {
-                        setText(newText);
-                        setTabCount(prev => prev + 1);
-                    }
-                }
-
-                return;
-
+            if (newText !== text) {
+                setText(newText);
+                setTabCount(prev => prev + 1);
             }
+        }
+        
+        return;
 
-            // do not complete some path from targetText
-            const looksLikePath =
-            currentWord.startsWith("/") ||
-            currentWord.includes("/") ||
-            currentWord.startsWith(".");
-
-            if (looksLikePath) {
-                return;
-            }
-            
         }
 
 
-        // --- COMMAND AND OTHER --- 
-        const targetWordStart = targetText.lastIndexOf(" ", wordStart - 1) + 1;
-        const targetWordEnd = targetText.indexOf(" ", targetWordStart);
+    // return macthes - current directories and commands
+    const getCurrentAutocompleteMatches = () => {
+        if (!text) return [];
 
-        const targetWord = targetText.slice(
-            targetWordStart,
-            targetWordEnd === -1 ? undefined : targetWordEnd
-        );
+        const lastSpaceIndex = text.lastIndexOf(" ");
+        const wordStart = lastSpaceIndex + 1;
+        const currentWord = text.slice(wordStart);
 
-        const currentFragment = currentWord.slice(
-            currentWord.lastIndexOf("/") + 1
-        );
+        if (!currentWord || currentWord.startsWith("-")) return [];
 
-        const targetFragment = targetWord.slice(
-            targetWord.lastIndexOf("/") + 1
-        );
+        const isCommand = wordStart === 0;
 
-        if (
-            !targetFragment.startsWith(currentFragment) ||
-            targetFragment.length <= currentFragment.length
-        ) {
-            return;
+        if (isCommand) {
+            return getCommandMatches(currentWord);
         }
 
-        const newText = text.slice(0, wordStart) + targetWord;
-
-        if (newText !== text) {
-            setText(newText);
-            setTabCount(prev => prev + 1);
-        }
-
+        return getAutocompleteMatches(text, currentDirectory);
     };
-
-    // return current directories 
-    const getCurrentAutocompleteMatches = () =>
-    getAutocompleteMatches(text, currentDirectory);
 
 
     const handleEnter = () => {

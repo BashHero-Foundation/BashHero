@@ -1,6 +1,7 @@
 
 import { FileSystemNode } from "./types";
 import { mockFileSystem} from "./types/mockFileSystem";
+import { commands, pathCommands } from "./commandOptions";
 
 // simplify path 
 export function normalizePath(path: string): string {
@@ -48,6 +49,29 @@ export function getDirectoryNode(
     return currentNode;
 }
 
+export function getPrefix(matches: string[]): string {
+    if (matches.length === 0) {
+        return "";
+    }
+
+    let prefix = matches[0];
+
+    for (let i = 1; i < matches.length; i++) {
+        while (!matches[i].startsWith(prefix)) {
+            prefix = prefix.slice(0, -1);
+
+            if (prefix.length === 0) {
+                return "";
+            }
+        }
+    }
+
+    return prefix;
+}
+
+
+
+// PATHS
 export function getAutocompleteMatches(
     inputPath: string,
     currentDirectory = "/home",
@@ -106,23 +130,9 @@ export function getAutocompleteMatches(
         );
 }
 
-
-export function getPrefix(matches: string[]): string {
-    if (matches.length === 0) {
-        return "";
-    }
-
-    let prefix = matches[0];
-
-    for (let i = 1; i < matches.length; i++) {
-        while (!matches[i].startsWith(prefix)) {
-            prefix = prefix.slice(0, -1);
-
-            if (prefix.length === 0) {
-                return "";
-            }
-        }
-    }
-
-    return prefix;
+// COMMANDS
+export function getCommandMatches(input: string): string[] {
+    return commands.filter(command =>
+        command.startsWith(input)
+    );
 }

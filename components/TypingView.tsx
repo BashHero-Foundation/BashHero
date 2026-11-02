@@ -45,8 +45,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         handleAutocomplete: () => {
             const targetText = typing.currentCommand?.text ?? "";
 
-            // do not allow to autocomplete when correct command or / after current command
-            if ((typing.text === targetText || (!targetText.startsWith(typing.text)))) {
+            // do not allow to autocomplete when correct command
+            if ((typing.text === targetText)) {
                 setSuggestionsOpen(false);
                 return;
             }
@@ -167,6 +167,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             </div>
             
             </div>
+            
+            {/* SUGGESTION PANEL */}
             <div className="relative"> 
                  {suggestionsOpen && (
                 <div className="absolute z-50 left-5 top-24
