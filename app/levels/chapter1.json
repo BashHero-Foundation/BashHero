@@ -12,7 +12,7 @@
       "min_wpm": 25,
       "min_accuracy": 80,
       "commands": [
-        { "text": "echo \"Hello World's\"" },
+        { "text": "echo \"Hello World\"" },
         { "text": "cd /home/projekt" },
         { "text": "cd .." },
         { "text": "cd projekt_zaliczeniowy" },

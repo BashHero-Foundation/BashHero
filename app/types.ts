@@ -13,6 +13,7 @@ export type Level = {
   points: number;
   min_wpm: number;
   min_accuracy: number;
+  min_tab_count: number;
   commands: Command[];
 };
 
@@ -29,6 +30,7 @@ export type LevelStats = {
   WPM: number;
   Errors: number;
   Accuracy: number;
+  Tabs?: number;
   timestamp: string;
 }
 
@@ -46,6 +48,7 @@ export interface LevelStatsStateProps {
   wpm: number;
   errors: number;
   accuracy: number;
+  Tabs?: number;
   level: {
     id: string;
     title: string;
@@ -62,6 +65,7 @@ export interface StatsPageContentProps {
     points: number;
     min_wpm: number;
     min_accuracy: number;
+    min_tab_count: number;
   };
 }
 

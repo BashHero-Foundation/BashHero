@@ -12,6 +12,7 @@
       "points": 10,
       "min_wpm": 32,
       "min_accuracy": 93,
+      "min_tab_count": 5,
       "commands": [
         { "text": "cd /home/" },
         { "text": "cd /home/studia/" },
@@ -33,6 +34,7 @@
       "points": 10,
       "min_wpm": 32,
       "min_accuracy": 93,
+      "min_tab_count": 5,
       "commands": [
         { "text": "cd /logs/" },
         { "text": "cat app.log" },
@@ -55,6 +57,7 @@
     "points": 15,
     "min_wpm": 34,
     "min_accuracy": 95,
+    "min_tab_count": 8,
     "commands": [
       { "text": "cd /lib32/" },
       { "text": "ls -la" },

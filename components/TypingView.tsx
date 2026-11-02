@@ -76,6 +76,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         wpm: metrics.WPM,
         errors: typing.errors,
         accuracy: metrics.accuracy,
+        Tabs: typing.tabCount,
         level: {
             id: level.id,
             title: level.title
@@ -142,6 +143,13 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                         <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
                     </span>
 
+                    {level.min_tab_count !== undefined && (
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                        <span className="opacity-70">TAB: </span>
+                        <span className="font-semibold text-text-secondary">{level.min_tab_count}</span>
+                    </span>
+                    )}
+
                 </div>
             </div>
 
@@ -150,10 +158,24 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             {/* Total commands and timer */} 
 
-            <div className="flex justify-between items-center px-4 mb-3 text-lg text-text-neutral font-mono">
-            <span>
-                {typing.currentIndex + 1}/{typing.totalCommands}
-            </span>
+            <div className="flex justify-between items-center px-4 mb-3 text-lg text-text-neutral font-bold tracking-wide">
+                <div className="flex items-center gap-3">
+                    <span>
+                        {typing.currentIndex + 1}/{typing.totalCommands}
+                    </span>
+
+                    <div className="inline-flex items-center gap-3 px-4 py-2 rounded-xl">
+                        <span className="text-lg font-semibold text-text-neutral tracking-wide">TAB:</span>
+                        <span className="inline-flex items-center justify-center w-10 h-8 text-md
+                                         font-bold text-text-secondary bg-bg-body rounded-full border border-border-separator shadow-xl"
+                        >
+                            {typing.tabCount}
+                        </span>
+
+                    </div>
+
+
+                </div>
 
             <div className="flex flex-row items-center justify-center gap-3">
             
@@ -175,19 +197,19 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                                 rounded-md border border-white/10
                                 bg-[#252525]/95 px-3 py-2
                                 shadow-lg font-mono text-gray-300
-                                max-h-60 w-max max-w-48rem 
-                                overflow-y-hidden overflow-x-hidden">
+                                w-max max-w-[min(90vw,40rem)]
+                                max-h-60 overflow-y-auto">
 
                     <span className="text-gray-500 text-sm mr-2">
                         Dostępne:
                     </span>
 
-                    <div className="grid grid-cols-3
-                                    gap-x-2 gap-y-1.5 w-full mt-1 text-md">
+                    <div className="flex flex-wrap gap-x-4.5 gap-y-1.5 mt-2 pr-5">
                         {autocompletePaths.map((path) => (
                             <div 
                                 key={path} 
-                                className=" text-ellipsis text-sm"
+                                className="text-ellipsis text-md whitespace-nowrap
+                                            max-w-full truncate"
                             >
                                 {path}
                             </div>
@@ -258,9 +280,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
+                        <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, typing.tabCount, level.points, level.min_wpm, level.min_accuracy, level.min_tab_count ?? 0)}/{level.points}</span>
                         <span className="text-xl"> punktów</span>
-                        <span className="text-xl"> Użyto TAB: {typing.tabCount}</span>
                     </span>
                 </div>
             </div> }

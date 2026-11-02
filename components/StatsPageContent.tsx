@@ -80,9 +80,9 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
               </div>
 
               {/* Points */}
-              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-teal-100 to-cyan-50 border-slate-200 rounded-lg border border-green-200">
+              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-teal-100 to-cyan-50 rounded-lg border border-green-200">
                 <span className="text-lg font-semibold text-gray-700">Punkty</span>
-                <span className="text-3xl font-bold text-teal-700">{CalculatePoints(stats.Accuracy, stats.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
+                <span className="text-3xl font-bold text-teal-700">{CalculatePoints(stats.Accuracy, stats.WPM, stats.Tabs || 0, level.points, level.min_wpm, level.min_accuracy, level.min_tab_count ?? 0)}/{level.points}</span>
               </div>
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral py-1">
