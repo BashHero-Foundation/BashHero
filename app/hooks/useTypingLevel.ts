@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Command } from "../types";
 import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches } from "../autocompleteMatches";
 import { mockFileSystem } from "../types/mockFileSystem";
+import { pathCommands } from "../commandOptions";
 
 export function useTypingLevel(commands: Command[]) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -93,6 +94,12 @@ export function useTypingLevel(commands: Command[]) {
             return;
         }
 
+        const commandName = text.split(" ")[0];
+
+        if (!pathCommands.includes(commandName)) {
+            return;
+        }
+
         const matches = getAutocompleteMatches(text, currentDirectory);
 
         if (matches.length === 0) return;
@@ -128,7 +135,7 @@ export function useTypingLevel(commands: Command[]) {
         }
 
 
-    // return macthes - current directories and commands
+    // return matches - current directories and commands
     const getCurrentAutocompleteMatches = () => {
         if (!text) return [];
 
@@ -142,6 +149,13 @@ export function useTypingLevel(commands: Command[]) {
 
         if (isCommand) {
             return getCommandMatches(currentWord);
+        }
+
+        const commandName = text.split(" ")[0];
+
+        // autocomplete for commands allowed to have paths
+        if (!pathCommands.includes(commandName)) {
+            return [];
         }
 
         return getAutocompleteMatches(text, currentDirectory);
