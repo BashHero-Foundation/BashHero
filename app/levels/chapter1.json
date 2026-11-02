@@ -13,11 +13,11 @@
       "min_accuracy": 80,
       "commands": [
         { "text": "echo \"Hello World\"" },
-        { "text": "cd /home/projekt" },
+        { "text": "cd /home/studia/programowanie_obiektowe/" },
         { "text": "cd .." },
-        { "text": "cd projekt_zaliczeniowy" },
+        { "text": "cd projekt_zaliczeniowy/" },
         { "text": "ls" },
-        { "text": "cd app/lib/modules" },
+        { "text": "cd /lib32/modules/" },
         { "text": "pwd" } 
       ]
     },
@@ -33,7 +33,7 @@
       "commands": [
         { "text": "cd ~" },
         { "text": "cd -" },
-        { "text": "cd ../.." },
+        { "text": "cd ../../" },
         { "text": "ls -a" },
         { "text": "cd ~/Downloads" },
         { "text": "ls -la" },

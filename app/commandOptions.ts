@@ -35,7 +35,7 @@ export const commands = [
    
     "rar", "read", "reboot", "rename", "rm", "rmdir", 
 
-    "scp", "sed", "sftp", "sha256sum", "sleep", "sort", "split", "sudo", "sum",
+    "scp", "sed", "sftp", "sha256sum", "shutdown", "sleep", "sort", "split", "sudo", "sum",
 
     "tail", "time", "touch", "top", "traceroute", "type",
 

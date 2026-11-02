@@ -30,16 +30,37 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     // blocking shortcuts hook
     const { handleKeyDown } = useKeyboardShortcuts({
         handleEnter: () => {
-        if (typing.isFinished && nextLevelId) {
-            router.push(scormify_path(`/game/${nextLevelId}`));
-        }
-        else {
-            if (typing.text === typing.currentCommand?.text) {
+            if (isShutdown) return;
+
+            if (typing.text.trim() === "shutdown") {
+                setIsShutdown(true);
+                setShowShutdownMessage(true);
                 setSuggestionsOpen(false);
+
+
+                setTimeout(() => {
+                    setShowShutdownMessage(false);
+                }, 5000);
+
+
+                setTimeout(() => {
+                    typing.reset();
+                    setIsShutdown(false);
+                }, 10000);
+
+                return;
             }
 
-            typing.handleEnter();
-        }
+            if (typing.isFinished && nextLevelId) {
+                router.push(scormify_path(`/game/${nextLevelId}`));
+            }
+            else {
+                if (typing.text === typing.currentCommand?.text) {
+                    setSuggestionsOpen(false);
+                }
+
+                typing.handleEnter();
+            }
         },
 
         handleAutocomplete: () => {
@@ -59,6 +80,9 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         }
 
     });
+
+    const [isShutdown, setIsShutdown] = useState(false);
+    const [showShutdownMessage, setShowShutdownMessage] = useState(false);
 
     // settings sidebar
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -286,6 +310,21 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
             </div> }
             </div>
+
+            {isShutdown && (
+                <div className="fixed inset-0 z-9999 bg-black
+                                flex items-center justify-center">
+
+                    {showShutdownMessage && (
+                        <div className="text-center font-mono text-white animate-pulse">
+                            <span className="text-4xl mb-2">
+                                Wyłączanie komputera
+                            </span>
+                        </div>
+                    )}
+
+                </div>
+            )}
             
         </div>
     );
