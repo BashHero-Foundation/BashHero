@@ -63,6 +63,14 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             }
         },
 
+        handleMoveToStart: () => {
+            const textarea = textareaRef.current;
+
+            if (!textarea) return;
+
+            textarea.setSelectionRange(0, 0);
+        },
+
         handleAutocomplete: () => {
             const targetText = typing.currentCommand?.text ?? "";
 

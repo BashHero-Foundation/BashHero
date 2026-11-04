@@ -1,4 +1,4 @@
-export function useKeyboardShortcuts({handleEnter, handleAutocomplete}: {handleEnter: () => void, handleAutocomplete: () => void}) {
+export function useKeyboardShortcuts({handleEnter, handleAutocomplete, handleMoveToStart}: {handleEnter: () => void, handleAutocomplete: () => void, handleMoveToStart: () => void}) {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         
@@ -18,6 +18,15 @@ export function useKeyboardShortcuts({handleEnter, handleAutocomplete}: {handleE
             e.preventDefault();
             handleAutocomplete()
         }
+
+
+        if (e.ctrlKey && e.key.toLowerCase() === "a") {
+            console.log("CTRL + A pressed")
+            e.preventDefault();
+            handleMoveToStart();
+            return;
+        }
+
         if (e.ctrlKey && e.key === "e"){
             e.preventDefault();
             console.log("CTRL + e pressed")
