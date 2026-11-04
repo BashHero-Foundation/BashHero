@@ -1,17 +1,41 @@
-import { Bench } from "tinybench";
-import { generateRandomScormStorageStruct } from "./bench-utils";
+import LZString from "lz-string";
+import {
+    generateRandomScormStorageStruct,
+    BenchmarkResult,
+    saveBenchmarkResult,
+} from "./bench-utils";
 
-const bench = new Bench({ name: "simple benchmark", time: 100 });
+const sizeJsonBenchmarkResult: BenchmarkResult = {
+    algorithm: "JSON stringify",
+    experiment: "size",
+    xs: [],
+    ys: [],
+};
 
-bench
-    .add("faster task", () => {})
-    .add("slower task", async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1));
-    });
+const sizeLZStringBenchmarkResult: BenchmarkResult = {
+    algorithm: "LZString",
+    experiment: "size",
+    xs: [],
+    ys: [],
+};
 
-bench.run();
+for (let numberOfLevels = 1; numberOfLevels <= 100; numberOfLevels += 10) {
+    for (let i = 0; i < 100; i++) {
+        const randomScormStorageStruct =
+            generateRandomScormStorageStruct(numberOfLevels);
 
-console.log(bench.name);
-console.table(bench.table());
+        const jsonEncoded = JSON.stringify(randomScormStorageStruct);
+        sizeJsonBenchmarkResult.xs.push(numberOfLevels);
+        sizeJsonBenchmarkResult.ys.push(jsonEncoded.length);
 
-console.log(generateRandomScormStorageStruct(3));
+        const lzstringEncoded = LZString.compressToBase64(jsonEncoded);
+        sizeLZStringBenchmarkResult.xs.push(numberOfLevels);
+        sizeLZStringBenchmarkResult.ys.push(lzstringEncoded.length);
+    }
+}
+
+saveBenchmarkResult("json-size.json", sizeJsonBenchmarkResult);
+saveBenchmarkResult("lzstring-size.json", sizeLZStringBenchmarkResult);
+
+
+console.log(JSON.stringify(generateRandomScormStorageStruct(2)));
