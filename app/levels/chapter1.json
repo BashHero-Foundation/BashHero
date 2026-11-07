@@ -35,10 +35,10 @@
         { "text": "cd -" },
         { "text": "cd ../../" },
         { "text": "ls -a" },
-        { "text": "cd ~/Downloads" },
+        { "text": "cd ~/Downloads/" },
         { "text": "ls -la" },
         { "text": "ls -t" },
-        { "text": "cd /usr/local/bin/../share" },
+        { "text": "cd /usr/local/bin/../share/" },
         { "text": "cd ../" },
         { "text": "pwd" }
       ]
@@ -57,8 +57,8 @@
         { "text": "which ls" },
         { "text": "whereis bash" },
         { "text": "ls -F" },
-        { "text": "ls -F /usr/bin" },
-        { "text": "cd /usr/bin" }
+        { "text": "ls -F /usr/bin/" },
+        { "text": "cd /usr/bin/" }
       ]
     },
     {
@@ -67,15 +67,15 @@
       "description": "Wyświetlanie i interpretowanie różnych widoków listingów plików.",
       "difficulty": "easy",
       "category": "navigation",
-      "points": 10,
+      "points": 8,
       "min_wpm": 30,
       "min_accuracy": 85,
       "commands": [
         { "text": "ls -l" },
         { "text": "ls -lh" },
-        { "text": "cd /etc" },
+        { "text": "cd /host/" },
         { "text": "ls -lt" },
-        { "text": "cd /var/log" },
+        { "text": "cd /var/log/" },
         { "text": "ls -lS" },
         { "text": "cd -" },
         { "text": "pwd" }
@@ -91,18 +91,18 @@
       "min_wpm": 40,
       "min_accuracy": 80,
       "commands": [
-        { "text": "cd /etc/network/interfaces.d" },
-        { "text": "ls -l /etc/network/interfaces.d" },
+        { "text": "ls -l /var/log/network/interfaces/" },
+        { "text": "cd /var/log/network/interfaces/" },
         { "text": "pwd" },
 
-        { "text": "cd /var/log/nginx" },
+        { "text": "cd /etc/nginx/" },
         { "text": "ls -l access.log" },
 
-        { "text": "cd /var/log/nginx/archive" },
+        { "text": "cd /var/log/nginx/archive/" },
         { "text": "ls -lh error.log.1" },
         { "text": "pwd" },
 
-        { "text": "cd /usr/share/doc/bash-completion/examples" },
+        { "text": "cd /usr/local/share/" },
         { "text": "ls -R" }
       ]
         }

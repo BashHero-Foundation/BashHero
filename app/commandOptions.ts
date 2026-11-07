@@ -23,7 +23,7 @@ export const commands = [
   
     "less", "ln", "locate", "login", "ls", "lsof",
     
-    "make", "man", "md5sum", "mkdir", "mount", "mv",
+    "make", "man", "md5sum", "mkdir", "modinfo", "mount", "mv",
    
     "nc", "netstat", "nice", "nohup", "nslookup",
     
@@ -62,7 +62,7 @@ export const pathCommands = [
     "head",
     "iconv", "install",
     "less", "ln", "locate", "ls", "lsof",
-    "make", "man", "md5sum", "mkdir", "mount", "mv",
+    "make", "man", "md5sum", "mkdir", "modinfo", "mount", "mv",
     "nc", "nohup",
     "open", "openssl",
     "rar", "rename", "rm", "rmdir",

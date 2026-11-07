@@ -77,8 +77,13 @@ export interface ScormIframeMessage {
   }
 }
 
-export type FileSystemNode = {
-    name: string;
-    type: "directory" | "file";
+export type FileSystemNode = 
+  | {    name: string;
+    type: "directory";
     children?: FileSystemNode[];
-};
+  }
+  | 
+  { name: string;
+    type: "file";
+    children?: never;
+  };

@@ -9,7 +9,7 @@
       "description": "Uzupełniaj ścieżki do plików i katalogów za pomocą Tab.",
       "difficulty": "medium",
       "category": "file-management",
-      "points": 10,
+      "points": 12,
       "min_wpm": 32,
       "min_accuracy": 93,
       "min_tab_count": 5,
@@ -36,7 +36,7 @@
       "min_accuracy": 93,
       "min_tab_count": 5,
       "commands": [
-        { "text": "cd /logs/" },
+        { "text": "cd /var/log/" },
         { "text": "cat app.log" },
         { "text": "tail error.log" },
         { "text": "cd /home/studia/" },
@@ -69,6 +69,93 @@
       { "text": "cd ../../security/" },
       { "text": "md5sum pam_unix.so" },
       { "text": "cd /lib32/" }
+    ]
+  },
+  {
+    "id": "24",
+    "title": "24 Konfiguracja Nginx i logi",
+    "autocomplete": true,
+    "description": "Przejdź do katalogu konfiguracyjnego Nginx, sprawdź logi dostępu oraz zawartość archiwów.",
+    "difficulty": "easy",
+    "category": "file-management",
+    "points": 5,
+    "min_wpm": 30,
+    "min_accuracy": 92,
+    "min_tab_count": 6,
+    "commands": [
+      { "text": "cd /etc/nginx/" },
+      { "text": "ls -la" },
+      { "text": "cat nginx.conf" },
+      { "text": "tail -n 20 access.log" },
+      { "text": "grep 'server' nginx.conf" },
+      { "text": "cd .." }
+    ]
+  },
+  {
+    "id": "25",
+    "title": "25 Sprawdzanie dostępnych plików w katalogu studenta",
+    "autocomplete": true,
+    "description": "Zarządzaj plikami projektowymi w katalogu studenta, czytaj instrukcje i sprawdź status plików.",
+    "difficulty": "medium",
+    "category": "file-management",
+    "points": 10,
+    "min_wpm": 30,
+    "min_accuracy": 95,
+    "min_tab_count": 5,
+    "commands": [
+      { "text": "cd /home/studia/projekt_zaliczeniowy/" },
+      { "text": "ls -la" },
+      { "text": "cat README.md" },
+      { "text": "cd .." },
+      { "text": "cd programowanie_obiektowe/" },
+      { "text": "ls -lh" },
+      { "text": "cat zadanie1-opis.doc" },
+      { "text": "cat zadanie2-opis.doc" },
+      { "text": "unrar Zadania.rar" }
+    ]
+  },
+  {
+    "id": "26",
+    "title": "26 Diagnostyka logów systemowych",
+    "autocomplete": "true",
+    "description": "Przeanalizuj pliki logów w katalogu systemowym, sprawdź błędy oraz aplikacje.",
+    "difficulty": "easy",
+    "category": "file-management",
+    "points": 5,
+    "min_wpm": 30,
+    "min_accuracy": 93,
+    "min_tab_count": 4,
+    "commands": [
+      { "text": "cd /var/log/" },
+      { "text": "ls -la" },
+      { "text": "cat app.log" },
+      { "text": "grep 'ERROR' error.log" },
+      { "text": "cd network/" },
+      { "text": "pwd" },
+      { "text": "cd ~" }
+    ]
+  },
+  {
+    "id": "27",
+    "title": "27 Pliki użytkownika i pliki binarne",
+    "autocomplete": true,
+    "description": "Przeglądaj katalog pobranych plików, analizuj pliki danych i konfiguracje usr.",
+    "difficulty": "medium",
+    "category": "file-management",
+    "points": 12,
+    "min_wpm": 32,
+    "min_accuracy": 94,
+    "min_tab_count": 6,
+    "commands": [
+      { "text": "cd ~/Downloads" },
+      { "text": "ls -lh" },
+      { "text": "file big_file.parquet" },
+      { "text": "cd /usr/local" },
+      { "text": "ls -la" },
+      { "text": "cd ssh/" },
+      { "text": "head -50 config" },
+      { "text": "pwd" },
+      { "text": "cd /" }
     ]
   }
   ]
