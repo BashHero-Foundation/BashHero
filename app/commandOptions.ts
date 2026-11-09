@@ -3,7 +3,7 @@ export const commands = [
   
     "base64", "bash", "bc", "bg", "bzip2",
   
-    "cat", "cd", "chattr", "chmod", "chown", "cmp", "cp", "curl", "cut",
+    "cat", "cd", "chattr", "chgrp","chmod", "chown", "cmp", "cp", "curl", "cut",
  
     "date", "df", "diff", "dmesg", "du",
 
@@ -54,7 +54,7 @@ export const commands = [
 export const pathCommands = [
     "apt", "apt-get", "awk",
     "base64", "bash", "bzip2",
-    "cat", "cd", "chmod", "chown", "cmp", "cp", "curl", "cut",
+    "cat", "cd", "chattr", "chmod", "chown", "cmp", "cp", "curl", "cut",
     "diff", "du",
     "exec",
     "fdisk", "file", "find", "ftp",
@@ -68,7 +68,7 @@ export const pathCommands = [
     "rar", "rename", "rm", "rmdir",
     "scp", "sed", "sftp", "sha256sum", "sort", "split", "stat", "sudo", "sum",
     "tail",  "traceroute",
-    "unix2dos", "unrar",
+    "unix2dos", "unrar", "useradd", "userdel", "usermod", "users",
     "vi",
     "wc", "whereis", "which", "wget",
     "xargs", "xz",

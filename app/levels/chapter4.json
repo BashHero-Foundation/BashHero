@@ -12,8 +12,9 @@
       "min_wpm": 28,
       "min_accuracy": 90,
       "commands": [
+        { "text": "cd /lib32/security/private/" },
         { "text": "chmod +x script.sh" },
-        { "text": "chmod 777 public_file.txt" },
+        { "text": "chmod 700 secure_audit.sh" },
         { "text": "sudo chown root:root secret.txt" },
         { "text": "whoami" },
         { "text": "groups" }
@@ -29,10 +30,11 @@
       "min_wpm": 32,
       "min_accuracy": 92,
       "commands": [
+        { "text": "cd projekt_zaliczeniowy/dev" },
         { "text": "chmod 644 config.cfg" },
         { "text": "ls -l private.key" },
         { "text": "chmod 700 private.key" },
-        { "text": "sudo chgrp developers data/" },
+        { "text": "sudo chgrp developers ." },
         { "text": "id student" },
         { "text": "groups student" }
       ]
@@ -47,10 +49,12 @@
       "min_wpm": 35,
       "min_accuracy": 95,
       "commands": [
-        { "text": "sudo chattr +i secure.log" },
-        { "text": "chmod u+s /bin/program" },
-        { "text": "chmod g+s shared_folder/" },
-        { "text": "chmod +t public_dump/" }
+        { "text": "pwd" },
+        { "text": "cd projekt_zaliczeniowy/dev" },
+        { "text": "sudo chattr +i private.key" },
+        { "text": "chmod u+s /usr/bin/bash" },
+        { "text": "chmod g+s ../shared_folder/" },
+        { "text": "chmod +t ../docs/" }
       ]
     },
     {
@@ -59,11 +63,11 @@
       "description": "Dodawanie kont użytkowników, modyfikacja powłoki oraz blokowanie kont.",
       "difficulty": "hard",
       "category": "permissions",
-      "points": 15,
+      "points": 20,
       "min_wpm": 40,
-      "min_accuracy": 95,
+      "min_accuracy": 90,
       "commands": [
-        { "text": "sudo useradd -m -s /bin/bash newuser" },
+        { "text": "sudo useradd -m -s /usr/bin/bash newuser" },
         { "text": "sudo passwd newuser" },
         { "text": "sudo usermod -aG sudo adam" },
         { "text": "id adam" },

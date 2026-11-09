@@ -94,7 +94,7 @@
       "min_accuracy": 90,
       "commands": [
         { "text": "cat warsztat_programisty/file.txt | sort" },
-        { "text": "sort file1.txt | uniq -c" },
+        { "text": "sort warsztat_programisty/file1.txt | uniq -c" },
         { "text": "grep -i \"warning\" /var/log/auth.log" },
         { "text": "tail -f /var/log/error.log | grep -i \"error\"" },
         { "text": "cat /home/student/warsztat_programisty/file125.txt | sort | uniq" }

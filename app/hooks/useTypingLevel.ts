@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Command } from "../types";
-import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches } from "../autocompleteMatches";
+import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches, getCommandContext } from "../autocompleteMatches";
 import { mockFileSystem, homeDirectory } from "../types/mockFileSystem";
 import { pathCommands } from "../commandOptions";
 
@@ -54,7 +54,9 @@ export function useTypingLevel(commands: Command[]) {
 
         // start of actual word
         const lastSpaceIndex = text.lastIndexOf(" ");
-        const wordStart = lastSpaceIndex + 1;
+        const lastPipeIndex = text.lastIndexOf("|");
+
+        const wordStart = Math.max(lastSpaceIndex, lastPipeIndex) + 1;
         const currentWord = text.slice(wordStart);
 
         // do not complete command arguments
@@ -64,7 +66,7 @@ export function useTypingLevel(commands: Command[]) {
 
         if (currentWord.length === 0) return;
 
-        const isCommand = wordStart === 0;
+        const { isCommand, commandName } = getCommandContext(text);
 
 
         // COMMANDS
@@ -80,8 +82,11 @@ export function useTypingLevel(commands: Command[]) {
                     ? matches[0]
                     : getPrefix(matches);
 
+            // works with pipes (|)        
+            const completedText = text.slice(0, wordStart) + completion;        
+
             if (completion.length > currentWord.length) {
-                setText(completion);
+                setText(completedText);
                 setTabCount(prev => prev + 1);
             }
 
@@ -89,16 +94,18 @@ export function useTypingLevel(commands: Command[]) {
         }
         
         // --- FILE SYSTEM ---
-        // prevent "/" to command bug
-        if (isCommand && (currentWord.startsWith("/") || currentWord.startsWith("."))) {
-            return;
-        }
-
-        const commandName = text.split(" ")[0];
-
         if (!pathCommands.includes(commandName)) {
             return;
         }
+
+        console.log("AUTOCOMPLETE DEBUG", {
+            text,
+            commandName,
+            isCommand,
+            pathAllowed: pathCommands.includes(commandName),
+            currentDirectory,
+            matches: getAutocompleteMatches(text, currentDirectory)
+        });
 
         const matches = getAutocompleteMatches(text, currentDirectory);
 
@@ -140,18 +147,18 @@ export function useTypingLevel(commands: Command[]) {
         if (!text) return [];
 
         const lastSpaceIndex = text.lastIndexOf(" ");
-        const wordStart = lastSpaceIndex + 1;
+        const lastPipeIndex = text.lastIndexOf("|");
+
+        const wordStart = Math.max(lastSpaceIndex, lastPipeIndex) + 1;
         const currentWord = text.slice(wordStart);
 
         if (!currentWord || currentWord.startsWith("-")) return [];
 
-        const isCommand = wordStart === 0;
+        const { isCommand, commandName } = getCommandContext(text);
 
         if (isCommand) {
             return getCommandMatches(currentWord);
         }
-
-        const commandName = text.split(" ")[0];
 
         // autocomplete for commands allowed to have paths
         if (!pathCommands.includes(commandName)) {

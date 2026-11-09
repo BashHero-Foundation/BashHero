@@ -144,3 +144,21 @@ export function getCommandMatches(input: string): string[] {
         command.startsWith(input)
     );
 }
+
+// check is it a pipe or sudo prefix in a command
+export function getCommandContext(text: string) {
+    const lastPipeIndex = text.lastIndexOf("|");
+
+    // text after last pipe
+    const segment = text.slice(lastPipeIndex + 1).trimStart();
+    const words = segment.split(/\s+/);
+
+    // ignore sudo prefix
+    const commandIndex = words[0] === "sudo" ? 1 : 0;
+
+    const commandName = words[commandIndex] ?? "";
+    // check is it still a command 
+    const isCommand = words.length === commandIndex + 1;
+
+    return { isCommand, commandName };
+}

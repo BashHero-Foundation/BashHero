@@ -38,6 +38,24 @@ export const mockFileSystem: FileSystemNode = {
                                         }
                                     ],
                                 },
+                                {
+                                    name: "shared_folder",
+                                    type: "directory",
+                                    children: [
+                                        
+                                     ]
+                                },
+                                {
+                                    name: "dev",
+                                    type: "directory",
+                                    children: [
+                                        {name: "config.cfg",type: "file" },
+                                        {name: "core.py",type: "file" },
+                                        {name: "main.py",type: "file" },
+                                        {name: "private.key",type: "file" },
+                                        {name: "project.log",type: "file" },
+                                    ]
+                                },
                                 {name: "README.md",type: "file" },
                                 { name: "Realms.mc",type: "file" }
                             ],
@@ -104,7 +122,12 @@ export const mockFileSystem: FileSystemNode = {
                                 { name: "bigLinux.iso", type: "file"},
                                 { name: "big_film.mov", type: "file"},                                        
                             ],
-                        },                    
+                        },   
+                        {
+                            name: "Desktop",
+                            type: "directory",
+                            children: []
+                        }                 
                         
                     ],
                 },
@@ -201,6 +224,16 @@ export const mockFileSystem: FileSystemNode = {
                     type: "directory",
                     children: [
                         {
+                            name: "private",
+                            type: "directory",
+                            children: [
+                                {name: "script.sh", type: "file"},
+                                {name: "secure_audit.sh", type: "file"},
+                                {name: "script_hash.sh", type: "file"},
+                                {name: "secret.txt", type: "file"}
+                            ]
+                        },
+                        {
                             name: "pam_unix.so",
                             type: "file",
                         },
@@ -232,7 +265,6 @@ export const mockFileSystem: FileSystemNode = {
                             name: "bin",
                             type: "directory",
                             children: [
-                                {name: "bash", type:"directory", children: []}
                             ],
                         }, 
                         {
@@ -256,7 +288,9 @@ export const mockFileSystem: FileSystemNode = {
                 {
                     name: "bin",
                     type: "directory",
-                    children: [],
+                    children: [
+                        {name: "bash", type:"file"},
+                    ],
                 },     
                       
             ],
