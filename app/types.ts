@@ -38,6 +38,15 @@ export type LevelStats = {
   timestamp: string;
 }
 
+export type LevelStatsShortKeys = {
+  i: string;
+  d: number;
+  w: number;
+  e: number;
+  a: number;
+  t: string;
+}
+
 export type GlobalStats = {
   levelsCompleted: number;
   totalDuration: number;
@@ -81,6 +90,8 @@ export interface ScormIframeMessage {
 }
 
 export type ScormStorageStruct = Record<string, LevelStats>;
+
+export type ScormStorageStructShortKeys = Record<string, LevelStatsShortKeys>;
 
 export type SetLevelIdFn = Dispatch<SetStateAction<string | null>>;
 export type SetStatsPageFn = Dispatch<SetStateAction<boolean>>;

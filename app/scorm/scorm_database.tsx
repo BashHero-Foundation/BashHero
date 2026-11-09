@@ -9,7 +9,11 @@ import {
 } from "./scorm_utils";
 
 import { allLevels } from "../levelsUtils";
-import { LevelStats, ScormStorageStruct } from "../types";
+import {
+    LevelStats,
+    ScormStorageStruct,
+    ScormStorageStructShortKeys,
+} from "../types";
 import LZString from "lz-string";
 
 /**
@@ -48,6 +52,40 @@ export async function setScormLevelWpm(id: string, wpm: number) {
     await updateScormGlobalScore();
 }
 
+function shortenKeysScormStorageStruct(
+    scormStorageStruct: ScormStorageStruct,
+): ScormStorageStructShortKeys {
+    const scormStorageStructShortKeys: ScormStorageStructShortKeys = {};
+    for (const [key, stats] of Object.entries(scormStorageStruct)) {
+        scormStorageStructShortKeys[key] = {
+            i: stats.levelId,
+            d: stats.duration,
+            w: stats.WPM,
+            e: stats.Errors,
+            a: stats.Accuracy,
+            t: stats.timestamp,
+        };
+    }
+    return scormStorageStructShortKeys;
+}
+
+function expandKeysScormStorageStruct(
+    scormStorageStructShortKeys: ScormStorageStructShortKeys,
+): ScormStorageStruct {
+    const scormStorageStruct: ScormStorageStruct = {};
+    for (const [key, stats] of Object.entries(scormStorageStructShortKeys)) {
+        scormStorageStruct[key] = {
+            levelId: stats.i,
+            duration: stats.d,
+            WPM: stats.w,
+            Errors: stats.e,
+            Accuracy: stats.a,
+            timestamp: stats.t,
+        };
+    }
+    return scormStorageStruct;
+}
+
 async function getScormStorageStruct(): Promise<ScormStorageStruct> {
     const compressed = await scormGet(SCORM_FIELDS.SUSPEND_DATA);
     const suspendStorageString =
@@ -55,7 +93,7 @@ async function getScormStorageStruct(): Promise<ScormStorageStruct> {
             ? LZString.decompressFromBase64(compressed)
             : null;
 
-    let suspendStorage: ScormStorageStruct = {};
+    let suspendStorage: ScormStorageStructShortKeys = {};
 
     if (
         typeof suspendStorageString === "string" &&
@@ -64,15 +102,15 @@ async function getScormStorageStruct(): Promise<ScormStorageStruct> {
         const parsed = JSON.parse(suspendStorageString);
 
         if (parsed && suspendStorageString.trim().length > 0) {
-            suspendStorage = parsed as ScormStorageStruct;
+            suspendStorage = parsed as ScormStorageStructShortKeys;
         }
     }
 
-    return suspendStorage;
+    return expandKeysScormStorageStruct(suspendStorage);
 }
 
 async function saveScormStorageStruct(scormStorageStruct: ScormStorageStruct) {
-    const resultSuspendStorage = JSON.stringify(scormStorageStruct);
+    const resultSuspendStorage = JSON.stringify(shortenKeysScormStorageStruct(scormStorageStruct));
 
     const compressedResultSuspendStorage =
         LZString.compressToBase64(resultSuspendStorage);
