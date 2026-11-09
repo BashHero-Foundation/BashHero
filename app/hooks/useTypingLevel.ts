@@ -165,7 +165,7 @@ export function useTypingLevel(commands: Command[]) {
     const handleEnter = () => {
         if (isFinished || !currentCommand) return; //  not allow to change text if finished
 
-        // ------------->  text.trim() will allow spaces at start and end of text <------ to discuss on next meeting
+        // -------  text.trim() will allow spaces at end of text ------
         if (text !== targetText) return; // nothing when not correct 
 
         // check is it cd command
@@ -175,7 +175,7 @@ export function useTypingLevel(commands: Command[]) {
         const destination = cdMatch[1] ?? "/home";
 
         const nextDirectory = normalizePath(
-            destination.startsWith("/")
+            destination.startsWith("/") || destination.startsWith("~")
                 ? destination
                 : `${currentDirectory}/${destination}`
         );

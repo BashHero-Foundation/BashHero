@@ -25,7 +25,7 @@ export const commands = [
     
     "make", "man", "md5sum", "mkdir", "modinfo", "mount", "mv",
    
-    "nc", "netstat", "nice", "nohup", "nslookup",
+    "nano", "nc", "netstat", "nice", "nohup", "nslookup",
     
     "op", "open", "openssl",
    
@@ -35,11 +35,11 @@ export const commands = [
    
     "rar", "read", "reboot", "rename", "rm", "rmdir", 
 
-    "scp", "sed", "sftp", "sha256sum", "shutdown", "sleep", "sort", "split", "sudo", "sum",
+    "scp", "sed", "sftp", "sha256sum", "shutdown", "sleep", "sort", "split", "stat", "sudo", "sum",
 
     "tail", "time", "touch", "top", "traceroute", "type",
 
-    "umask", "unix2dos", "unrar", "useradd", "userdel", "usermod", "users",
+    "umask", "uniq", "unix2dos", "unrar", "useradd", "userdel", "usermod", "users",
 
     "vi", "vmstat",
 
@@ -63,11 +63,11 @@ export const pathCommands = [
     "iconv", "install",
     "less", "ln", "locate", "ls", "lsof",
     "make", "man", "md5sum", "mkdir", "modinfo", "mount", "mv",
-    "nc", "nohup",
+    "nano","nc", "nohup",
     "open", "openssl",
     "rar", "rename", "rm", "rmdir",
-    "scp", "sed", "sftp", "sha256sum", "sort", "split", "sudo", "sum",
-    "tail", "touch", "traceroute",
+    "scp", "sed", "sftp", "sha256sum", "sort", "split", "stat", "sudo", "sum",
+    "tail",  "traceroute",
     "unix2dos", "unrar",
     "vi",
     "wc", "whereis", "which", "wget",

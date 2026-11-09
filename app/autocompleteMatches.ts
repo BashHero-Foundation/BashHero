@@ -5,9 +5,18 @@ import { commands, pathCommands } from "./commandOptions";
 
 // simplify path 
 export function normalizePath(path: string): string {
+    const expandedPath =
+            // ~ is alias for /home
+        path === "~"
+            ? "/home"
+            : path.startsWith("~/")
+                ? "/home/" + path.slice(2)
+                : path;
+
+
     const parts: string[] = [];
 
-    for (const part of path.split("/")) {
+    for (const part of expandedPath.split("/")) {
         if (!part || part === ".") {
             continue;
         }
@@ -91,12 +100,11 @@ export function getAutocompleteMatches(
 
     let directoryPath: string;
 
-    if (fragmentPath.startsWith("/")) {
+    if (fragmentPath.startsWith("/") || fragmentPath.startsWith("~/")) {
         // absolute path
-        directoryPath =
-            lastSlashIndex === 0
-                ? "/"
-                : fragmentPath.slice(0, lastSlashIndex);
+        directoryPath = normalizePath(
+            fragmentPath.slice(0, lastSlashIndex)
+        );
 
     } else {
         // realtive path

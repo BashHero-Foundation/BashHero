@@ -9,7 +9,7 @@ export const mockFileSystem: FileSystemNode = {
             type: "directory",
             children: [
                 {
-                    name: "studia",
+                    name: "sudia",
                     type: "directory",
                     children: [
                         {
@@ -36,21 +36,73 @@ export const mockFileSystem: FileSystemNode = {
                                         }
                                     ],
                                 },
-                                {
-                                    name: "README.md",
-                                    type: "file",
-                                },
-                                {
-                                    name: "Realms.mc",
-                                    type: "file",
-                                }
+                                {name: "README.md",type: "file" },
+                                { name: "Realms.mc",type: "file" }
                             ],
                         },
                         {
                             name: "projektowanie_ui",
                             type: "directory",
-                            children: [],
+                            children: [
+                                { name: "index.html",type: "file" },
+                                { name: "folder_do_usuniecia",type: "directory", children: [] },
+                            ],
                         },
+                        {
+                            name: "aplikacje_webowe",
+                            type: "directory",
+                            children: [
+                                { name: "test", type: "directory", children: [] },
+                                { name: "config.json", type: "file" },
+                                { name: "chunks", type: "file" },
+                                { name: "conf.app", type: "file" },
+                                { name: "logs.txt", type: "file" },
+                                { name: "logs_old.txt", type: "file" },
+                                { name: "logs.tar", type: "file" },
+                                { name: "access.log", type: "file" },
+                                { name: "app.log", type: "file" }
+                            ]
+                        },
+                        {
+                            name: "algorytmy_zadania",
+                            type: "directory",
+                            children: []
+                        },    
+                        {
+                            name: "warsztat_programisty",
+                            type: "directory",
+                            children: [
+                                { name: "file1.txt", type: "file" },
+                                { name: "file11.txt", type: "file" },
+                                { name: "file_file.txt", type: "file" },
+                                { name: "file", type: "file" },
+                                { name: "file125.txt", type: "file" },
+                                { name: "data.csv", type: "file" },
+                                { name: "nieznany_plik", type: "file" },
+                                { name: "document.docx", type: "file" },
+                                { name: "nieznajomy", type: "file" },
+                                { name: "nieziemski_plik", type: "file" },
+                                { name: "stare_zadania", type: "directory", children: []},
+                                { name: "archiwum", type: "directory", children: [
+                                    { name: "pusty_katalog", type: "directory", children: [] },
+                                    { name: "pelny_katalog", type: "directory", children: [] },
+                                    { name: "pusty_plik", type: "file"},
+                                    { name: "plik", type: "file"}
+                                ]}
+                            ]
+                        },                            
+                        {
+                            name: "Downloads",
+                            type: "directory",
+                            children: [
+                                {name: "image1.png", type: "file"},
+                                { name: "big_file.parquet",type: "file" },     
+                                { name: "big_file.hdf5", type: "file"}, 
+                                { name: "bigger_file.tar", type: "file"},  
+                                { name: "bigLinux.iso", type: "file"},
+                                { name: "big_film.mov", type: "file"},                                        
+                            ],
+                        },                    
                         
                     ],
                 },
@@ -167,19 +219,6 @@ export const mockFileSystem: FileSystemNode = {
             ],
         },
         {
-            name: "Downloads",
-            type: "directory",
-            children: [
-                {name: "image1.png", type: "file"},
-                { name: "big_file.parquet",type: "file" },     
-                { name: "big_file.hdf5", type: "file"}, 
-                { name: "bigger_file.tar", type: "file"},          
-                { name: "big_file.hdf5", type: "file"},
-                { name: "bigLinux.iso", type: "file"},
-                { name: "big_film.mov", type: "file"},                                        
-            ],
-        },
-        {
             name: "usr",
             type: "directory",
             children: [
@@ -190,7 +229,9 @@ export const mockFileSystem: FileSystemNode = {
                         {
                             name: "bin",
                             type: "directory",
-                            children: [],
+                            children: [
+                                {name: "bash", type:"directory", children: []}
+                            ],
                         }, 
                         {
                             name: "share",
