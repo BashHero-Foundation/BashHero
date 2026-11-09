@@ -51,33 +51,35 @@ export async function setScormLevelWpm(id: string, wpm: number) {
 async function getScormStorageStruct(): Promise<ScormStorageStruct> {
     const compressed = await scormGet(SCORM_FIELDS.SUSPEND_DATA);
     const suspendStorageString =
-            typeof compressed === "string" && compressed.length > 0
-                ? LZString.decompressFromBase64(compressed)
-                : null;
+        typeof compressed === "string" && compressed.length > 0
+            ? LZString.decompressFromBase64(compressed)
+            : null;
 
-  let suspendStorage: ScormStorageStruct = {
-      levelStats: {},
-  };
+    let suspendStorage: ScormStorageStruct = {};
 
-  if (typeof suspendStorageString === "string" && suspendStorageString.trim().length > 0) {
-      const parsed = JSON.parse(suspendStorageString);
+    if (
+        typeof suspendStorageString === "string" &&
+        suspendStorageString.trim().length > 0
+    ) {
+        const parsed = JSON.parse(suspendStorageString);
 
-      if (parsed && suspendStorageString.trim().length > 0) {
-          suspendStorage = parsed as ScormStorageStruct;
-      }
-  }
+        if (parsed && suspendStorageString.trim().length > 0) {
+            suspendStorage = parsed as ScormStorageStruct;
+        }
+    }
 
     return suspendStorage;
 }
 
 async function saveScormStorageStruct(scormStorageStruct: ScormStorageStruct) {
-  const resultSuspendStorage = JSON.stringify(scormStorageStruct);
+    const resultSuspendStorage = JSON.stringify(scormStorageStruct);
 
-  const compressedResultSuspendStorage = LZString.compressToBase64(resultSuspendStorage);
+    const compressedResultSuspendStorage =
+        LZString.compressToBase64(resultSuspendStorage);
 
-  scormLog(resultSuspendStorage);
+    scormLog(resultSuspendStorage);
 
-  await scormSet(SCORM_FIELDS.SUSPEND_DATA, compressedResultSuspendStorage);
+    await scormSet(SCORM_FIELDS.SUSPEND_DATA, compressedResultSuspendStorage);
 }
 
 export async function saveScormLevelStats(stats: LevelStats) {
@@ -85,24 +87,26 @@ export async function saveScormLevelStats(stats: LevelStats) {
 
     const storageStruct = await getScormStorageStruct();
 
-    storageStruct.levelStats[stats.levelId] = stats;
+    storageStruct[stats.levelId] = stats;
 
     await saveScormStorageStruct(storageStruct);
 }
 
-export async function getScormLevelStats(levelId: string): Promise<LevelStats | null> {
+export async function getScormLevelStats(
+    levelId: string,
+): Promise<LevelStats | null> {
     const suspendStorage = await getScormStorageStruct();
 
-    if (levelId in suspendStorage.levelStats) {
-        return suspendStorage.levelStats[levelId];
+    if (levelId in suspendStorage) {
+        return suspendStorage[levelId];
     }
 
     return null;
 }
 
-export async function getScormAllLevelStats(): Promise<Record<string, LevelStats>> {
+export async function getScormAllLevelStats(): Promise<ScormStorageStruct> {
     const suspendStorage = await getScormStorageStruct();
-    return suspendStorage.levelStats;
+    return suspendStorage;
 }
 
 export async function updateScormGlobalScore() {

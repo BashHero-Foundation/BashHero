@@ -1,4 +1,8 @@
-import {  getScormAllLevelStats, getScormLevelStats, saveScormLevelStats } from "@/app/scorm/scorm_database";
+import {
+    getScormAllLevelStats,
+    getScormLevelStats,
+    saveScormLevelStats,
+} from "@/app/scorm/scorm_database";
 import { GlobalStats, LevelStats } from "@/app/types";
 
 export async function getGlobalStats(): Promise<GlobalStats> {
@@ -18,10 +22,14 @@ export async function getGlobalStats(): Promise<GlobalStats> {
     return {
         levelsCompleted: allStatsList.length,
 
-        totalDuration: allStatsList.reduce((sum, stat) => sum + stat.duration, 0),
+        totalDuration: allStatsList.reduce(
+            (sum, stat) => sum + stat.duration,
+            0,
+        ),
 
         averageWPM: Math.round(
-            allStatsList.reduce((sum, stat) => sum + stat.WPM, 0) / allStatsList.length,
+            allStatsList.reduce((sum, stat) => sum + stat.WPM, 0) /
+                allStatsList.length,
         ),
 
         totalErrors: allStatsList.reduce((sum, stat) => sum + stat.Errors, 0),
@@ -33,7 +41,9 @@ export async function getGlobalStats(): Promise<GlobalStats> {
     };
 }
 
-export async function getLevelStats(levelId: string): Promise<LevelStats | null> {
+export async function getLevelStats(
+    levelId: string,
+): Promise<LevelStats | null> {
     const savedStats = await getScormLevelStats(levelId);
     if (savedStats) {
         return savedStats;

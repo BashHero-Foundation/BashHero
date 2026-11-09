@@ -80,9 +80,7 @@ export interface ScormIframeMessage {
   }
 }
 
-export interface ScormStorageStruct {
-    levelStats: Record<string, LevelStats>;
-}
+export type ScormStorageStruct = Record<string, LevelStats>;
 
 export type SetLevelIdFn = Dispatch<SetStateAction<string | null>>;
 export type SetStatsPageFn = Dispatch<SetStateAction<boolean>>;
