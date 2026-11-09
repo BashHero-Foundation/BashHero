@@ -45,13 +45,13 @@
       "description": "Pobieranie zasobów zdalnych oraz synchronizacja plików przez sieć.",
       "difficulty": "hard",
       "category": "network",
-      "points": 20,
-      "min_wpm": 45,
-      "min_accuracy": 94,
+      "points": 25,
+      "min_wpm": 35,
+      "min_accuracy": 90,
       "commands": [
-        { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
-        { "text": "rsync -av /home/user/projects user@remote-server:/var/backups/projects_2026" },
-        { "text": "scp -r /home/user/photos/holiday_2025 user@remote-server:/home/user/backup/photos" }
+          { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
+          { "text": "rsync -av /home/student/projekt_zaliczeniowy/ student@remote-server:/home/student_wmi/" },
+          { "text": "scp -r /home/student/projekt_zaliczeniowy/docs/ student@remote-server:/home/student_wmi/" }
       ]
     }
   ]

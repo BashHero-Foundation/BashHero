@@ -70,7 +70,7 @@ export function useTypingLevel(commands: Command[]) {
 
 
         // COMMANDS
-        if (isCommand) {
+        if (isCommand && !currentWord.includes("/")) {
             const matches = getCommandMatches(currentWord);
 
             if (matches.length === 0) return;
@@ -94,18 +94,9 @@ export function useTypingLevel(commands: Command[]) {
         }
         
         // --- FILE SYSTEM ---
-        if (!pathCommands.includes(commandName)) {
+        if (!pathCommands.includes(commandName) && !(isCommand && currentWord.includes("/"))) {
             return;
         }
-
-        console.log("AUTOCOMPLETE DEBUG", {
-            text,
-            commandName,
-            isCommand,
-            pathAllowed: pathCommands.includes(commandName),
-            currentDirectory,
-            matches: getAutocompleteMatches(text, currentDirectory)
-        });
 
         const matches = getAutocompleteMatches(text, currentDirectory);
 
@@ -156,12 +147,12 @@ export function useTypingLevel(commands: Command[]) {
 
         const { isCommand, commandName } = getCommandContext(text);
 
-        if (isCommand) {
+        if (isCommand && !currentWord.includes("/")) {
             return getCommandMatches(currentWord);
         }
 
         // autocomplete for commands allowed to have paths
-        if (!pathCommands.includes(commandName)) {
+        if (!pathCommands.includes(commandName) && !(isCommand && currentWord.includes("/"))) {
             return [];
         }
 
