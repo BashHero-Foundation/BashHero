@@ -3,8 +3,8 @@
   "chapterTitle": "Rozdział 4: Uprawnienia i bezpieczeństwo",
   "levels": [
     {
-      "id": "11",
-      "title": "11 Uprawnienia i Właściciele",
+      "id": "18",
+      "title": "18 Uprawnienia i Właściciele",
       "description": "Zarządzanie dostępem do plików i folderów.",
       "difficulty": "easy",
       "category": "permissions",
@@ -21,8 +21,8 @@
       ]
     },
     {
-      "id": "12",
-      "title": "12 Modyfikacje ósemkowe (Octal) i grupy",
+      "id": "19",
+      "title": "19 Modyfikacje ósemkowe (Octal) i grupy",
       "description": "Precyzyjne nadawanie praw dostępu za pomocą cyfr oraz zmiana przynależności grupowej.",
       "difficulty": "medium",
       "category": "permissions",
@@ -40,8 +40,8 @@
       ]
     },
     {
-      "id": "13",
-      "title": "13 Zaawansowane atrybuty i SUID",
+      "id": "20",
+      "title": "20 Zaawansowane atrybuty i SUID",
       "description": "Zabezpieczanie plików przed modyfikacją oraz specjalne bity uprawnień.",
       "difficulty": "hard",
       "category": "permissions",
@@ -58,8 +58,8 @@
       ]
     },
     {
-      "id": "14",
-      "title": "14 Zarządzanie użytkownikami z poziomu Root",
+      "id": "21",
+      "title": "21 Zarządzanie użytkownikami z poziomu Root",
       "description": "Dodawanie kont użytkowników, modyfikacja powłoki oraz blokowanie kont.",
       "difficulty": "hard",
       "category": "permissions",

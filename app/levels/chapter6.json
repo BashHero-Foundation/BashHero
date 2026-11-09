@@ -3,8 +3,8 @@
   "chapterTitle": "Rozdział 6: Sieci komputerowe i diagnostyka",
   "levels": [
     {
-      "id": "18",
-      "title": "18 Podstawowa diagnostyka sieciowa",
+      "id": "25",
+      "title": "25 Podstawowa diagnostyka sieciowa",
       "description": "Weryfikacja połączeń sieciowych oraz translacji nazw DNS.",
       "difficulty": "easy",
       "category": "network",
@@ -21,8 +21,8 @@
       ]
     },
     {
-      "id": "19",
-      "title": "19 Analiza portów i interfejsów",
+      "id": "26",
+      "title": "26 Analiza portów i interfejsów",
       "description": "Sprawdzanie aktywnych kart sieciowych oraz nasłuchujących gniazd.",
       "difficulty": "medium",
       "category": "network",
@@ -40,8 +40,8 @@
       ]
     },
     {
-      "id": "20",
-      "title": "20 Pobieranie danych i transfer",
+      "id": "27",
+      "title": "27 Pobieranie danych i transfer",
       "description": "Pobieranie zasobów zdalnych oraz synchronizacja plików przez sieć.",
       "difficulty": "hard",
       "category": "network",

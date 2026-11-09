@@ -3,8 +3,8 @@
   "chapterTitle": "Rozdział 5: Zarządzanie procesami i systemem",
   "levels": [
     {
-      "id": "15",
-      "title": "15 Podgląd procesów i zasobów",
+      "id": "22",
+      "title": "22 Podgląd procesów i zasobów",
       "description": "Monitorowanie wykorzystania pamięci RAM, procesora oraz listy zadań.",
       "difficulty": "medium",
       "category": "system",
@@ -22,8 +22,8 @@
       ]
     },
     {
-      "id": "16",
-      "title": "16 Kontrola i zabijanie procesów",
+      "id": "23",
+      "title": "23 Kontrola i zabijanie procesów",
       "description": "Wyszukiwanie konkretnych programów i wysyłanie sygnałów zakończenia.",
       "difficulty": "medium",
       "category": "system",
@@ -41,8 +41,8 @@
       ]
     },
     {
-      "id": "17",
-      "title": "17 Zarządzanie zadaniami w tle",
+      "id": "24",
+      "title": "24 Zarządzanie zadaniami w tle",
       "description": "Uruchamianie skryptów w tle oraz wznawianie zadań w terminalu.",
       "difficulty": "hard",
       "category": "system",

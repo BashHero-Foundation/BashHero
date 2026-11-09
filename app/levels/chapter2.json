@@ -3,8 +3,8 @@
   "chapterTitle": "Rozdział 2: Nawigacja z wykorzystaniem autouzupełniania",
   "levels": [
     {
-      "id": "21",
-      "title": "21 Autouzupełnianie ścieżek",
+      "id": "6",
+      "title": "6 Autouzupełnianie ścieżek",
       "autocomplete": true,
       "description": "Uzupełniaj ścieżki do plików i katalogów za pomocą Tab.",
       "difficulty": "medium",
@@ -25,8 +25,8 @@
       ]
     },
     {
-      "id": "22",
-      "title": "22 Praca z logami i katalogami studiów",
+      "id": "7",
+      "title": "7 Praca z logami i katalogami studiów",
       "autocomplete": true,
       "description": "Nawiguj po strukturze katalogów, odczytuj pliki z logami i sprawdzaj zawartość folderów.",
       "difficulty": "medium",
@@ -48,8 +48,8 @@
       ]
     },
       {
-    "id": "23",
-    "title": "23 Biblioteki systemowe lib32",
+    "id": "8",
+    "title": "8 Biblioteki systemowe lib32",
     "autocomplete": true,
     "description": "Nawiguj po bibliotekach 32-bitowych, sprawdzaj i weryfikuj pliki.",
     "difficulty": "hard",
@@ -72,8 +72,8 @@
     ]
   },
   {
-    "id": "24",
-    "title": "24 Konfiguracja Nginx i logi",
+    "id": "9",
+    "title": "9 Konfiguracja Nginx i logi",
     "autocomplete": true,
     "description": "Przejdź do katalogu konfiguracyjnego Nginx, sprawdź logi dostępu oraz zawartość archiwów.",
     "difficulty": "easy",
@@ -92,8 +92,8 @@
     ]
   },
   {
-    "id": "25",
-    "title": "25 Sprawdzanie dostępnych plików w katalogu studenta",
+    "id": "10",
+    "title": "10 Sprawdzanie dostępnych plików w katalogu studenta",
     "autocomplete": true,
     "description": "Zarządzaj plikami projektowymi w katalogu studenta, czytaj instrukcje i sprawdź status plików.",
     "difficulty": "medium",
@@ -115,8 +115,8 @@
     ]
   },
   {
-    "id": "26",
-    "title": "26 Diagnostyka logów systemowych",
+    "id": "11",
+    "title": "11 Diagnostyka logów systemowych",
     "autocomplete": "true",
     "description": "Przeanalizuj pliki logów w katalogu systemowym, sprawdź błędy oraz aplikacje.",
     "difficulty": "easy",
@@ -136,8 +136,8 @@
     ]
   },
   {
-    "id": "27",
-    "title": "27 Pliki użytkownika i pliki binarne",
+    "id": "12",
+    "title": "12 Pliki użytkownika i pliki binarne",
     "autocomplete": true,
     "description": "Przeglądaj katalog pobranych plików, analizuj pliki danych i konfiguracje usr.",
     "difficulty": "medium",

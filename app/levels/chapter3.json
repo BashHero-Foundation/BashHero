@@ -3,8 +3,8 @@
   "chapterTitle": "Rozdział 3: Pliki i praca z treścią",
   "levels": [
     {
-      "id": "6",
-      "title": "6 Zarządzanie Plikami",
+      "id": "13",
+      "title": "13 Zarządzanie Plikami",
       "description": "Tworzenie, kopiowanie i przenoszenie zasobów w terminalu.",
       "difficulty": "medium",
       "category": "file-management",
@@ -22,8 +22,8 @@
       ]
     },
     {
-      "id": "7",
-      "title": "7 Praca z treścią plików",
+      "id": "14",
+      "title": "14 Praca z treścią plików",
       "description": "Podglądanie i edycja plików tekstowych bez opuszczania terminala.",
       "difficulty": "hard",
       "category": "content",
@@ -43,8 +43,8 @@
       ]
     },
     {
-      "id": "8",
-      "title": "8 Zaawansowane operacje plikowe",
+      "id": "15",
+      "title": "15 Zaawansowane operacje plikowe",
       "description": "Przenoszenie z nadpisywaniem oraz tworzenie powiązań między plikami.",
       "difficulty": "hard",
       "category": "file-management",
@@ -63,8 +63,8 @@
       ]
     },
     {
-      "id": "9",
-      "title": "9 Inspekcja i statystyki plików",
+      "id": "16",
+      "title": "16 Inspekcja i statystyki plików",
       "description": "Zliczanie linii, słów, sprawdzanie typów plików oraz sum kontrolnych.",
       "difficulty": "hard",
       "category": "content",
@@ -84,8 +84,8 @@
       ]
     },
     {
-      "id": "10",
-      "title": "10 Filtrowanie strumieni i potoki",
+      "id": "17",
+      "title": "17 Filtrowanie strumieni i potoki",
       "description": "Łączenie komend w celu zaawansowanego przetwarzania tekstu.",
       "difficulty": "hard",
       "category": "content",
