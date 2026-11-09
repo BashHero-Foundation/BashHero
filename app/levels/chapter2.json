@@ -15,10 +15,10 @@
       "min_tab_count": 5,
       "commands": [
         { "text": "cd /home/" },
-        { "text": "cd /home/studia/" },
+        { "text": "cd /home/student/" },
         { "text": "cd projekt_zaliczeniowy/" },
         { "text": "cat README.md" },
-        { "text": "cd /home/studia/projekt_zaliczeniowy/docs/" },
+        { "text": "cd /home/student/projekt_zaliczeniowy/docs/" },
         { "text": "cat instrukcja.txt" },
         { "text": "cd .." },
         { "text": "pwd" }
@@ -39,7 +39,7 @@
         { "text": "cd /var/log/" },
         { "text": "cat app.log" },
         { "text": "tail error.log" },
-        { "text": "cd /home/studia/" },
+        { "text": "cd /home/student/" },
         { "text": "ls programowanie_obiektowe/" },
         { "text": "cd projektowanie_ui/" },
         { "text": "cd ../../student_wmi/" },
@@ -103,7 +103,7 @@
     "min_accuracy": 95,
     "min_tab_count": 5,
     "commands": [
-      { "text": "cd /home/studia/projekt_zaliczeniowy/" },
+      { "text": "cd /home/student/projekt_zaliczeniowy/" },
       { "text": "ls -la" },
       { "text": "cat README.md" },
       { "text": "cd .." },

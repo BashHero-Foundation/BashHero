@@ -13,7 +13,7 @@
       "min_accuracy": 80,
       "commands": [
         { "text": "echo \"Hello World\"" },
-        { "text": "cd /home/studia/programowanie_obiektowe/" },
+        { "text": "cd /home/student/programowanie_obiektowe/" },
         { "text": "cd .." },
         { "text": "cd projekt_zaliczeniowy/" },
         { "text": "ls" },

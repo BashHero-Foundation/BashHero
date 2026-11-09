@@ -13,7 +13,7 @@
       "min_accuracy": 93,
       "commands": [
         { "text": "mkdir zadania_nowe" },
-        { "text": "cd /home/studia/projektowanie_ui/" },
+        { "text": "cd /home/student/projektowanie_ui/" },
         { "text": "touch page.html" },
         { "text": "cp index.html backup.html" },
         { "text": "mv backup.html /home/student_wmi/" },
@@ -31,7 +31,7 @@
       "min_wpm": 38,
       "min_accuracy": 92,
       "commands": [
-        { "text": "cd /home/studia/aplikacje_webowe/test/" },
+        { "text": "cd /home/student/aplikacje_webowe/test/" },
         { "text": "ls -lh" },
         { "text": "cat config.json" },
         { "text": "head -n 5 logs.txt" },
@@ -52,7 +52,7 @@
       "min_wpm": 36,
       "min_accuracy": 92,
       "commands": [
-        { "text": "cd studia/warsztat_programisty/" },
+        { "text": "cd warsztat_programisty/" },
         { "text": "mv -i file1.txt moved_file.txt" },
         { "text": "ln -s file125.txt link125.txt" },
         { "text": "ls -l link125.txt" },
@@ -72,7 +72,7 @@
       "min_wpm": 32,
       "min_accuracy": 90,
       "commands": [
-        { "text": "cd studia/warsztat_programisty/"},
+        { "text": "cd warsztat_programisty/"},
         { "text": "wc -l data.csv" },
         { "text": "wc -w file1.txt" },
         { "text": "stat document.docx" },
@@ -93,11 +93,11 @@
       "min_wpm": 35,
       "min_accuracy": 90,
       "commands": [
-        { "text": "cat studia/warsztat_programisty/file.txt | sort" },
-        { "text": "sort file11.txt | uniq -c" },
+        { "text": "cat warsztat_programisty/file.txt | sort" },
+        { "text": "sort file1.txt | uniq -c" },
         { "text": "grep -i \"warning\" /var/log/auth.log" },
         { "text": "tail -f /var/log/error.log | grep -i \"error\"" },
-        { "text": "cat /home/studia/warsztat_programisty/file125.txt | sort | uniq" }
+        { "text": "cat /home/student/warsztat_programisty/file125.txt | sort | uniq" }
       ]
     }
   ]

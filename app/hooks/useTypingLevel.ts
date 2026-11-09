@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Command } from "../types";
 import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches } from "../autocompleteMatches";
-import { mockFileSystem } from "../types/mockFileSystem";
+import { mockFileSystem, homeDirectory } from "../types/mockFileSystem";
 import { pathCommands } from "../commandOptions";
 
 export function useTypingLevel(commands: Command[]) {
@@ -13,7 +13,7 @@ export function useTypingLevel(commands: Command[]) {
     const [errors, setErrors] = useState(0);
     const [typedChars, setTypedChars] = useState(0);
     const [tabCount, setTabCount] = useState(0);
-    const [currentDirectory, setCurrentDirectory] = useState("/home");
+    const [currentDirectory, setCurrentDirectory] = useState(homeDirectory);
 
     const currentCommand = commands[currentIndex];
     const targetText = currentCommand?.text || "";
@@ -172,7 +172,7 @@ export function useTypingLevel(commands: Command[]) {
         const cdMatch = targetText.match(/^cd(?:\s+(.+))?$/);
 
         if (cdMatch) {
-        const destination = cdMatch[1] ?? "/home";
+        const destination = cdMatch[1] ?? homeDirectory;
 
         const nextDirectory = normalizePath(
             destination.startsWith("/") || destination.startsWith("~")
@@ -213,7 +213,7 @@ export function useTypingLevel(commands: Command[]) {
         setErrors(0);
         setTypedChars(0);
         setTabCount(0);
-        setCurrentDirectory("/home");
+        setCurrentDirectory(homeDirectory);
     };
 
     return {

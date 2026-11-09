@@ -1,16 +1,16 @@
 
 import { FileSystemNode } from "./types";
-import { mockFileSystem} from "./types/mockFileSystem";
-import { commands, pathCommands } from "./commandOptions";
+import { mockFileSystem, homeDirectory} from "./types/mockFileSystem";
+import { commands } from "./commandOptions";
 
 // simplify path 
 export function normalizePath(path: string): string {
     const expandedPath =
-            // ~ is alias for /home
+            // ~ is alias for /home/student
         path === "~"
-            ? "/home"
+            ? homeDirectory
             : path.startsWith("~/")
-                ? "/home/" + path.slice(2)
+                ? homeDirectory + "/" + path.slice(2)
                 : path;
 
 
@@ -83,7 +83,7 @@ export function getPrefix(matches: string[]): string {
 // PATHS
 export function getAutocompleteMatches(
     inputPath: string,
-    currentDirectory = "/home",
+    currentDirectory = homeDirectory,
     fileSystem: FileSystemNode = mockFileSystem
 ): string[] {
 

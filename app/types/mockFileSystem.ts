@@ -1,5 +1,7 @@
 import { FileSystemNode } from "../types";
 
+export const homeDirectory = "/home/student";
+
 export const mockFileSystem: FileSystemNode = {
     name: "/",
     type: "directory",
@@ -9,7 +11,7 @@ export const mockFileSystem: FileSystemNode = {
             type: "directory",
             children: [
                 {
-                    name: "sudia",
+                    name: "student",
                     type: "directory",
                     children: [
                         {
@@ -73,7 +75,7 @@ export const mockFileSystem: FileSystemNode = {
                             type: "directory",
                             children: [
                                 { name: "file1.txt", type: "file" },
-                                { name: "file11.txt", type: "file" },
+                                { name: "file.txt", type: "file" },
                                 { name: "file_file.txt", type: "file" },
                                 { name: "file", type: "file" },
                                 { name: "file125.txt", type: "file" },
