@@ -5,6 +5,8 @@ import {
     saveBenchmarkResult,
 } from "./bench-utils";
 
+import { shortenKeysScormStorageStruct } from "@/app/scorm/scorm_database";
+
 const sizeJsonBenchmarkResult: BenchmarkResult = {
     algorithm: "JSON stringify",
     experiment: "size",
@@ -19,7 +21,10 @@ const sizeLZStringBenchmarkResult: BenchmarkResult = {
     ys: [],
 };
 
-for (let numberOfLevels = 1; numberOfLevels <= 100; numberOfLevels += 10) {
+const numbers_of_levels = [ 1, 2, 4, 8, 16, 32, 64, 128]
+
+for (let i = 0; i < numbers_of_levels.length; i++) {
+  const numberOfLevels = numbers_of_levels[i]
     for (let i = 0; i < 100; i++) {
         const randomScormStorageStruct =
             generateRandomScormStorageStruct(numberOfLevels);
@@ -28,7 +33,10 @@ for (let numberOfLevels = 1; numberOfLevels <= 100; numberOfLevels += 10) {
         sizeJsonBenchmarkResult.xs.push(numberOfLevels);
         sizeJsonBenchmarkResult.ys.push(jsonEncoded.length);
 
-        const lzstringEncoded = LZString.compressToBase64(jsonEncoded);
+        const shortenJson = JSON.stringify(
+            shortenKeysScormStorageStruct(randomScormStorageStruct),
+        );
+        const lzstringEncoded = LZString.compressToBase64(shortenJson);
         sizeLZStringBenchmarkResult.xs.push(numberOfLevels);
         sizeLZStringBenchmarkResult.ys.push(lzstringEncoded.length);
     }
@@ -36,6 +44,3 @@ for (let numberOfLevels = 1; numberOfLevels <= 100; numberOfLevels += 10) {
 
 saveBenchmarkResult("json-size.json", sizeJsonBenchmarkResult);
 saveBenchmarkResult("lzstring-size.json", sizeLZStringBenchmarkResult);
-
-
-console.log(JSON.stringify(generateRandomScormStorageStruct(2)));

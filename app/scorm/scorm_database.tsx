@@ -52,7 +52,7 @@ export async function setScormLevelWpm(id: string, wpm: number) {
     await updateScormGlobalScore();
 }
 
-function shortenKeysScormStorageStruct(
+export function shortenKeysScormStorageStruct(
     scormStorageStruct: ScormStorageStruct,
 ): ScormStorageStructShortKeys {
     const scormStorageStructShortKeys: ScormStorageStructShortKeys = {};
@@ -69,7 +69,7 @@ function shortenKeysScormStorageStruct(
     return scormStorageStructShortKeys;
 }
 
-function expandKeysScormStorageStruct(
+export function expandKeysScormStorageStruct(
     scormStorageStructShortKeys: ScormStorageStructShortKeys,
 ): ScormStorageStruct {
     const scormStorageStruct: ScormStorageStruct = {};

@@ -26,13 +26,10 @@ export function generateRandomLevelStats(levelIndex: number): LevelStats {
 export function generateRandomScormStorageStruct(
     numberOfLevelStats: number,
 ): ScormStorageStruct {
-    const scormStorageStruct: ScormStorageStruct = {
-        levelStats: {},
-    };
+    const scormStorageStruct: ScormStorageStruct = {};
     for (let i = 0; i < numberOfLevelStats; i++) {
         const randomLevelStats = generateRandomLevelStats(i);
-        scormStorageStruct.levelStats[randomLevelStats.levelId] =
-            randomLevelStats;
+        scormStorageStruct[randomLevelStats.levelId] = randomLevelStats;
     }
     return scormStorageStruct;
 }
