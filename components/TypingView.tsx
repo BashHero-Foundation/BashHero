@@ -187,7 +187,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 </div>
 
                 {level.category === "shortcuts" && (
-                <div className="flex flex-row items-center justify-center gap-2 mt-5 w-full">
+                <div className="flex flex-col items-center justify-center gap-2 mt-5 w-full">
+                    <div className="flex flex-wrap gap-2 items-center justify-center"> 
                     <p className="text-text-neutral font-medium">Wykorzystaj: </p>
                     {level.required_shortcuts?.map((shortcut) => (
                         <span
@@ -199,6 +200,15 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                             </span>
                         </span>
                     ))}
+                    </div>
+                    <div className="mt-2">
+                    {typing.currentCommand?.initialText !== undefined && (
+                    <p className="px-4 mb-2 text-md font-medium text-text-neutral">
+                        Wymagana komenda:
+                        <span className="pl-2 font-mono text-lg">{typing.currentCommand.text}</span>
+                    </p>
+                    )}
+                    </div>
                 </div>
                 )}
             </div>

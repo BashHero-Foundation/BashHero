@@ -1,5 +1,6 @@
 export type Command = {
   text: string;
+  initialText?: string;
   hint?: string;
 };
 

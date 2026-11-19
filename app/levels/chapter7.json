@@ -9,12 +9,13 @@
       "autocomplete": false,
       "difficulty": "easy",
       "category": "shortcuts",
-      "points": 10,
+      "points": 2,
       "min_wpm": 0,
       "min_accuracy": 0,
       "required_shortcuts": ["Ctrl+A"],
       "commands": [
-        { "text": "blablabla pomylka" }
+        { "initialText": "/var/log/logs.txt", "text": "cat /var/log/logs.txt" },
+        { "initialText": "apt-update", "text": "sudo apt-update" }
       ]
     }
   ]

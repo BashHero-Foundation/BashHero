@@ -7,7 +7,7 @@ import { pathCommands } from "../commandOptions";
 
 export function useTypingLevel(commands: Command[]) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [text, setText] = useState('');
+    const [text, setText] = useState(commands[0]?.initialText ?? "");
     const [startTime, setStartTime] = useState<number | null>(null);
     const [duration, setDuration] = useState(0);
     const [errors, setErrors] = useState(0);
@@ -28,7 +28,7 @@ export function useTypingLevel(commands: Command[]) {
         if (newText.length > 2 * targetText.length) return; // not allow to write more
 
         // start with first character
-        if (startTime === null && newText.length === 1) {
+        if (startTime === null) {
             setStartTime(Date.now());
         }
 
@@ -193,8 +193,9 @@ export function useTypingLevel(commands: Command[]) {
         
         if (currentIndex < commands.length - 1) {
             // next command
-            setCurrentIndex(prev => prev + 1);
-            setText('');
+            const nextIndex = currentIndex + 1;
+            setCurrentIndex(nextIndex);
+            setText(commands[nextIndex].initialText ?? "");
             } else {
             // end of level
                 if (startTime) {
@@ -206,7 +207,7 @@ export function useTypingLevel(commands: Command[]) {
     };
 
     const reset = () => {
-        setText('');
+        setText(commands[0]?.initialText ?? "");
         setCurrentIndex(0);
         setStartTime(null);
         setDuration(0);
