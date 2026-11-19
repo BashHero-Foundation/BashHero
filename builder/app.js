@@ -641,7 +641,7 @@ $("exportAllBtn").addEventListener("click", async () => {
   }
   if (typeof window.__SOURCE__ !== "object") {
     return setStatus(
-      "Source bundle missing. Run `npm run build:source` and reload.",
+      "Source bundle missing. Ensure build-templates.mjs and build-source.mjs was ran.",
       "error"
     );
   }
@@ -819,7 +819,7 @@ async function loadTemplates() {
 
     if (subdirs.length === 0) {
       list.append(makeElement(
-        "p", "", "No templates staged in OPFS. Rebuild with `npm run build:templates`."
+        "p", "", "No templates staged in OPFS. Ensure build-templates.mjs and build-source.mjs was ran."
       ));
       return;
     }
@@ -830,7 +830,6 @@ async function loadTemplates() {
       const info = makeElement("div", "chapter-select");
       info.append(
         makeElement("strong", "", name),
-        makeElement("small", "", "template")
       );
 
       const addBtn = makeElement("button", "primary small-button", "Add all chapters");
@@ -1141,8 +1140,7 @@ async function importTemplatesFromFileList(fileList) {
     if (list.children.length === 0) {
       list.append(makeElement(
         "p", "",
-        "No templates staged. Ensure builder/templates/ exists and run " +
-        "`npm run build:templates`, then reload."
+        "No templates staged. Ensure build-templates.mjs and build-source.mjs was ran."
       ));
     }
   } catch (e) {
