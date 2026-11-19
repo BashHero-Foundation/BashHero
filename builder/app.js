@@ -586,43 +586,35 @@ $("exportBtn").addEventListener("click", () => {
 });
 
 $("exportAllBtn").addEventListener("click", async () => {
+  if (chapters.length === 0) {
+    return setStatus("No chapters to export.", "error");
+  }
+  if (!fsaSupported) {
+    return setStatus(
+      "Downloading the full app needs folder access (Chrome/Edge/Brave).",
+      "error"
+    );
+  }
   if (typeof JSZip === "undefined") {
-    setStatus("ZIP export unavailable: JSZip failed to load.", "error");
-    return;
+    return setStatus("ZIP export unavailable: JSZip failed to load.", "error");
   }
 
-  if (!Array.isArray(chapters) || chapters.length === 0) {
-    setStatus("No chapters to export.", "error");
-    return;
-  }
-
-  // Validate up front so we never build a partial archive.
+  // Validate everything before touching the filesystem.
   try {
     for (const c of chapters) validateChapter(getExportData(c));
   } catch (e) {
     return setStatus(e.message, "error");
   }
 
-  setStatus("Building ZIP archive…");
-
   try {
+    const projectDir = await ensureProjectDir();
+
+    setStatus("Building app.zip…");
     const zip = new JSZip();
-    let added = 0;
 
-    for (const c of chapters) {
-      const data = getExportData(c);
-      if (!data) continue;
-      zip.file(
-        `chapter${safeFilename(data.chapterId)}.json`,
-        JSON.stringify(data, null, 2) + "\n"
-      );
-      added++;
-    }
-
-    if (added === 0) {
-      setStatus("ZIP export failed: no chapter data was added.", "error");
-      return;
-    }
+    // Single walk: copies the project, swaps app/levels/*.json
+    // for the current chapters, skips builder/ and build junk.
+    await addDirectoryToZipWithLevels(projectDir, zip);
 
     const blob = await zip.generateAsync({
       type: "blob",
@@ -630,27 +622,22 @@ $("exportAllBtn").addEventListener("click", async () => {
       compressionOptions: { level: 6 }
     });
 
-    if (!blob || blob.size === 0) {
-      setStatus("ZIP export failed: generated archive is empty.", "error");
-      return;
-    }
-
-    // Download the Blob directly. Do NOT route it through downloadJson().
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "chapters.zip";
+    a.download = "app.zip";
     document.body.append(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     setStatus(
-      `Exported ${added} chapter(s) as chapters.zip (${blob.size} bytes).`,
+      `Packaged ${chapters.length} chapter(s) into app.zip ` +
+      `(${(blob.size / 1024).toFixed(1)} KB).`,
       "success"
     );
   } catch (e) {
-    setStatus(`ZIP export failed: ${e.message}`, "error");
+    setStatus(`Download failed: ${e.message}`, "error");
   }
 });
 
@@ -694,6 +681,262 @@ $("fileInput").addEventListener("change", async event => {
     event.target.value = "";
   }
 });
+
+// --------------------------------------------------
+// File System Access — project root
+// --------------------------------------------------
+
+let projectDirHandle = null;
+
+const IDB_NAME = "chapter-builder";
+const IDB_STORE = "handles";
+const PROJECT_DIR_KEY = "project-root";
+
+const fsaSupported =
+  typeof window.showDirectoryPicker === "function";
+
+function openIdb() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function idbGet(key) {
+  return openIdb().then(db => new Promise((resolve, reject) => {
+    const req = db.transaction(IDB_STORE, "readonly")
+                  .objectStore(IDB_STORE).get(key);
+    req.onsuccess = () => resolve(req.result ?? null);
+    req.onerror = () => reject(req.error);
+  }));
+}
+
+function idbSet(key, value) {
+  return openIdb().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(IDB_STORE, "readwrite");
+    tx.objectStore(IDB_STORE).put(value, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  }));
+}
+
+async function ensureProjectDir() {
+  if (projectDirHandle) return projectDirHandle;
+  if (!fsaSupported) {
+    throw new Error(
+      "Folder access is not supported in this browser. " +
+      "Use Chrome, Edge, or Brave."
+    );
+  }
+
+  const stored = await idbGet(PROJECT_DIR_KEY);
+  if (stored) {
+    const state = await stored.queryPermission({ mode: "readwrite" });
+    if (state === "granted") { projectDirHandle = stored; return stored; }
+    if (state === "prompt") {
+      const r = await stored.requestPermission({ mode: "readwrite" });
+      if (r === "granted") { projectDirHandle = stored; return stored; }
+    }
+  }
+
+  const picked = await window.showDirectoryPicker({
+    id: "project-root",
+    mode: "readwrite",
+    startIn: "documents"
+  });
+
+  // Sanity check — the folder must contain both app/ and builder/.
+  try {
+    await picked.getDirectoryHandle("app");
+    await picked.getDirectoryHandle("builder");
+  } catch {
+    throw new Error(
+      "Selected folder does not look like the project root. " +
+      "It should contain both 'app/' and 'builder/' subfolders."
+    );
+  }
+
+  projectDirHandle = picked;
+  await idbSet(PROJECT_DIR_KEY, picked);
+  return picked;
+}
+
+// --------------------------------------------------
+// Templates
+// --------------------------------------------------
+
+async function getTemplatesDir() {
+  const project = await ensureProjectDir();
+  const builderDir = await project.getDirectoryHandle("builder");
+  return builderDir.getDirectoryHandle("templates");
+}
+
+async function loadTemplates() {
+  const list = $("templateList");
+  list.replaceChildren();
+
+  try {
+    const templatesDir = await getTemplatesDir();
+    const subdirs = [];
+    for await (const [name, handle] of templatesDir.entries()) {
+      if (handle.kind === "directory") subdirs.push({ name, handle });
+    }
+    subdirs.sort((a, b) => a.name.localeCompare(b.name));
+
+    if (subdirs.length === 0) {
+      list.append(makeElement(
+        "p", "",
+        "No template subfolders found in builder/templates/."
+      ));
+      return;
+    }
+
+    for (const { name, handle } of subdirs) {
+      const item = makeElement("div", "chapter-item");
+
+      const info = makeElement("div", "chapter-select");
+      info.append(
+        makeElement("strong", "", name),
+        makeElement("small", "", "template")
+      );
+
+      const addBtn = makeElement(
+        "button", "primary small-button", "Add all chapters"
+      );
+      addBtn.type = "button";
+      addBtn.addEventListener("click", () => addTemplateChapters(name, handle));
+
+      const actions = makeElement("div", "chapter-actions");
+      actions.append(addBtn);
+
+      item.append(info, actions);
+      list.append(item);
+    }
+  } catch (e) {
+    if (e.name !== "AbortError") {
+      setStatus(`Could not read templates: ${e.message}`, "error");
+    }
+  }
+}
+
+async function addTemplateChapters(name, dirHandle) {
+  try {
+    const files = [];
+    for await (const [fileName, handle] of dirHandle.entries()) {
+      if (handle.kind === "file" && fileName.toLowerCase().endsWith(".json")) {
+        files.push({ fileName, handle });
+      }
+    }
+    files.sort((a, b) => a.fileName.localeCompare(b.fileName));
+
+    if (files.length === 0) {
+      setStatus(`Template "${name}" has no .json files.`, "error");
+      return;
+    }
+
+    const imported = [];
+    const errors = [];
+
+    for (const { fileName, handle } of files) {
+      try {
+        const text = await (await handle.getFile()).text();
+        imported.push(normalizeImportedChapter(JSON.parse(text)));
+      } catch (e) {
+        errors.push(`${fileName}: ${e.message}`);
+      }
+    }
+
+    // Append all successfully-normalized chapters. Each gets a fresh
+    // chapter ID (per the previous turn's rule), then levels are
+    // renumbered globally so they stay consecutive.
+    for (const normalized of imported) {
+      chapters.push({
+        chapterId: allocateChapterId(),
+        ...normalized
+      });
+    }
+
+    if (imported.length > 0) {
+      renumberLevels();
+      activeChapterId = chapters[chapters.length - 1].chapterId;
+      render();
+    }
+
+    const tail = errors.length ? ` — ${errors.length} failed` : "";
+    setStatus(
+      `Added ${imported.length} chapter(s) from template "${name}"${tail}`,
+      errors.length && imported.length === 0 ? "error" : "success"
+    );
+  } catch (e) {
+    setStatus(`Failed to load template "${name}": ${e.message}`, "error");
+  }
+}
+
+$("loadTemplatesBtn").addEventListener("click", loadTemplates);
+
+// --------------------------------------------------
+// Export helpers
+// --------------------------------------------------
+
+const EXCLUDED_DIRS = new Set([
+  "node_modules", ".next", ".git", "dist", "out", "build",
+  ".turbo", ".cache", "builder", ".vercel"
+]);
+
+const EXCLUDED_FILES = new Set([
+  ".DS_Store", "Thumbs.db", ".env.local"
+]);
+
+// Instead of writeLevelsToDisk(projectDir):
+// Build the zip normally, but when encountering app/levels/*.json,
+// skip them and add the current chapters instead.
+
+async function addDirectoryToZipWithLevels(projectDir, zip) {
+  const appDir = await projectDir.getDirectoryHandle("app");
+  const levelsDir = await appDir.getDirectoryHandle("levels", { create: false })
+    .catch(() => null);
+
+  async function walk(dirHandle, prefix, isLevels) {
+    for await (const [name, handle] of dirHandle.entries()) {
+      if (handle.kind === "file" && isLevels && name.endsWith(".json")) continue;
+      if (handle.kind === "directory" && EXCLUDED_DIRS.has(name)) continue;
+      if (handle.kind === "file" && EXCLUDED_FILES.has(name)) continue;
+
+      const path = prefix ? `${prefix}/${name}` : name;
+      if (handle.kind === "directory") {
+        await walk(handle, path, name === "levels" && prefix === "app");
+      } else {
+        zip.file(path, await handle.getFile());
+      }
+    }
+  }
+
+  await walk(projectDir, "", false);
+
+  // Now add the current chapters under app/levels/.
+  for (const c of chapters) {
+    const data = getExportData(c);
+    const name = `chapter-${safeFilename(data.chapterId)}.json`;
+    zip.file(`app/levels/${name}`, JSON.stringify(data, null, 2) + "\n");
+  }
+}
+
+async function addDirectoryToZip(dirHandle, prefix, zip) {
+  for await (const [name, handle] of dirHandle.entries()) {
+    if (handle.kind === "directory" && EXCLUDED_DIRS.has(name)) continue;
+    if (handle.kind === "file" && EXCLUDED_FILES.has(name)) continue;
+
+    const path = prefix ? `${prefix}/${name}` : name;
+    if (handle.kind === "directory") {
+      await addDirectoryToZip(handle, path, zip);
+    } else {
+      zip.file(path, await handle.getFile());
+    }
+  }
+}
+
 
 // --------------------------------------------------
 // Initial state
