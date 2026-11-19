@@ -585,21 +585,67 @@ $("exportBtn").addEventListener("click", () => {
   }
 });
 
+async function buildAppZipFromOPFS() {
+  await ensureSourceStaged();
+
+  const zip = new JSZip();
+  const sourceDir = await getSourceDir();
+
+  async function walk(dirHandle, prefix, isLevels) {
+    for await (const [name, handle] of dirHandle.entries()) {
+      if (name.startsWith(".")) continue;                // skip .version
+      if (handle.kind === "file" && isLevels && name.endsWith(".json")) continue;
+
+      const path = prefix ? `${prefix}/${name}` : name;
+      if (handle.kind === "directory") {
+        await walk(handle, path, path === "app/levels");
+      } else {
+        zip.file(path, await handle.getFile());
+      }
+    }
+  }
+
+  await walk(sourceDir, "", false);
+
+  // Replace app/levels/*.json with the current chapters.
+  for (const c of chapters) {
+    const data = getExportData(c);
+    const name = `chapter-${safeFilename(data.chapterId)}.json`;
+    zip.file(`app/levels/${name}`, JSON.stringify(data, null, 2) + "\n");
+  }
+
+  return zip.generateAsync({
+    type: "blob",
+    compression: "DEFLATE",
+    compressionOptions: { level: 6 }
+  });
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 $("exportAllBtn").addEventListener("click", async () => {
   if (chapters.length === 0) {
     return setStatus("No chapters to export.", "error");
   }
-  if (!fsaSupported) {
-    return setStatus(
-      "Downloading the full app needs folder access (Chrome/Edge/Brave).",
-      "error"
-    );
-  }
   if (typeof JSZip === "undefined") {
     return setStatus("ZIP export unavailable: JSZip failed to load.", "error");
   }
+  if (typeof window.__SOURCE__ !== "object") {
+    return setStatus(
+      "Source bundle missing. Run `npm run build:source` and reload.",
+      "error"
+    );
+  }
 
-  // Validate everything before touching the filesystem.
   try {
     for (const c of chapters) validateChapter(getExportData(c));
   } catch (e) {
@@ -607,29 +653,10 @@ $("exportAllBtn").addEventListener("click", async () => {
   }
 
   try {
-    const projectDir = await ensureProjectDir();
+    setStatus("Staging source in OPFS…");
+    const blob = await buildAppZipFromOPFS();
 
-    setStatus("Building app.zip…");
-    const zip = new JSZip();
-
-    // Single walk: copies the project, swaps app/levels/*.json
-    // for the current chapters, skips builder/ and build junk.
-    await addDirectoryToZipWithLevels(projectDir, zip);
-
-    const blob = await zip.generateAsync({
-      type: "blob",
-      compression: "DEFLATE",
-      compressionOptions: { level: 6 }
-    });
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "app.zip";
-    document.body.append(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    triggerDownload(blob, "app.zip");
 
     setStatus(
       `Packaged ${chapters.length} chapter(s) into app.zip ` +
@@ -682,86 +709,6 @@ $("fileInput").addEventListener("change", async event => {
   }
 });
 
-// --------------------------------------------------
-// File System Access — project root
-// --------------------------------------------------
-
-let projectDirHandle = null;
-
-const IDB_NAME = "chapter-builder";
-const IDB_STORE = "handles";
-const PROJECT_DIR_KEY = "project-root";
-
-const fsaSupported =
-  typeof window.showDirectoryPicker === "function";
-
-function openIdb() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(IDB_NAME, 1);
-    req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function idbGet(key) {
-  return openIdb().then(db => new Promise((resolve, reject) => {
-    const req = db.transaction(IDB_STORE, "readonly")
-                  .objectStore(IDB_STORE).get(key);
-    req.onsuccess = () => resolve(req.result ?? null);
-    req.onerror = () => reject(req.error);
-  }));
-}
-
-function idbSet(key, value) {
-  return openIdb().then(db => new Promise((resolve, reject) => {
-    const tx = db.transaction(IDB_STORE, "readwrite");
-    tx.objectStore(IDB_STORE).put(value, key);
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  }));
-}
-
-async function ensureProjectDir() {
-  if (projectDirHandle) return projectDirHandle;
-  if (!fsaSupported) {
-    throw new Error(
-      "Folder access is not supported in this browser. " +
-      "Use Chrome, Edge, or Brave."
-    );
-  }
-
-  const stored = await idbGet(PROJECT_DIR_KEY);
-  if (stored) {
-    const state = await stored.queryPermission({ mode: "readwrite" });
-    if (state === "granted") { projectDirHandle = stored; return stored; }
-    if (state === "prompt") {
-      const r = await stored.requestPermission({ mode: "readwrite" });
-      if (r === "granted") { projectDirHandle = stored; return stored; }
-    }
-  }
-
-  const picked = await window.showDirectoryPicker({
-    id: "project-root",
-    mode: "readwrite",
-    startIn: "documents"
-  });
-
-  // Sanity check — the folder must contain both app/ and builder/.
-  try {
-    await picked.getDirectoryHandle("app");
-    await picked.getDirectoryHandle("builder");
-  } catch {
-    throw new Error(
-      "Selected folder does not look like the project root. " +
-      "It should contain both 'app/' and 'builder/' subfolders."
-    );
-  }
-
-  projectDirHandle = picked;
-  await idbSet(PROJECT_DIR_KEY, picked);
-  return picked;
-}
 
 // --------------------------------------------------
 // Templates
@@ -948,9 +895,72 @@ async function addTemplateChapters(name, dirHandle) {
   }
 }
 
-$("loadTemplatesBtn").addEventListener("click", loadTemplates);
+// --------------------------------------------------
+// Source — bundle → OPFS staging
+// --------------------------------------------------
 
-$("loadTemplatesBtn").addEventListener("click", loadTemplates);
+async function getSourceDir() {
+  const root = await getOPFSRoot();
+  return root.getDirectoryHandle("source", { create: true });
+}
+
+async function clearOPFSSource() {
+  const sourceDir = await getSourceDir();
+  const toRemove = [];
+  for await (const [name] of sourceDir.entries()) toRemove.push(name);
+  for (const name of toRemove) {
+    await sourceDir.removeEntry(name, { recursive: true });
+  }
+}
+
+async function ensureSourceStaged() {
+  if (typeof window.__SOURCE__ !== "object" || window.__SOURCE__ === null) {
+    return { staged: false, reason: "no bundle loaded" };
+  }
+
+  const sourceDir = await getSourceDir();
+  const want = String(window.__SOURCE_VERSION__ ?? "0");
+
+  try {
+    const marker = await sourceDir.getFileHandle(".version");
+    const have = (await (await marker.getFile()).text()).trim();
+    if (have === want) return { staged: false, reason: "up to date", version: want };
+  } catch { /* no marker */ }
+
+  await clearOPFSSource();
+
+  let fileCount = 0;
+  for (const [relPath, entry] of Object.entries(window.__SOURCE__)) {
+    const parts = relPath.split("/");
+    const fileName = parts.pop();
+
+    let dir = sourceDir;
+    for (const part of parts) {
+      dir = await dir.getDirectoryHandle(part, { create: true });
+    }
+
+    const fh = await dir.getFileHandle(fileName, { create: true });
+    const w = await fh.createWritable();
+
+    if (entry.type === "text") {
+      await w.write(entry.content);
+    } else {
+      const bin = atob(entry.content);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      await w.write(bytes);
+    }
+    await w.close();
+    fileCount++;
+  }
+
+  const marker = await sourceDir.getFileHandle(".version", { create: true });
+  const mw = await marker.createWritable();
+  await mw.write(want);
+  await mw.close();
+
+  return { staged: true, count: fileCount, version: want };
+}
 
 $("importTemplatesBtn").addEventListener("click", () => {
   $("templatesInput").click();
@@ -1036,67 +1046,6 @@ async function ensureTemplatesStaged() {
 }
 
 // --------------------------------------------------
-// Export helpers
-// --------------------------------------------------
-
-const EXCLUDED_DIRS = new Set([
-  "node_modules", ".next", ".git", "dist", "out", "build",
-  ".turbo", ".cache", "builder", ".vercel"
-]);
-
-const EXCLUDED_FILES = new Set([
-  ".DS_Store", "Thumbs.db", ".env.local"
-]);
-
-// Instead of writeLevelsToDisk(projectDir):
-// Build the zip normally, but when encountering app/levels/*.json,
-// skip them and add the current chapters instead.
-
-async function addDirectoryToZipWithLevels(projectDir, zip) {
-  const appDir = await projectDir.getDirectoryHandle("app");
-  const levelsDir = await appDir.getDirectoryHandle("levels", { create: false })
-    .catch(() => null);
-
-  async function walk(dirHandle, prefix, isLevels) {
-    for await (const [name, handle] of dirHandle.entries()) {
-      if (handle.kind === "file" && isLevels && name.endsWith(".json")) continue;
-      if (handle.kind === "directory" && EXCLUDED_DIRS.has(name)) continue;
-      if (handle.kind === "file" && EXCLUDED_FILES.has(name)) continue;
-
-      const path = prefix ? `${prefix}/${name}` : name;
-      if (handle.kind === "directory") {
-        await walk(handle, path, name === "levels" && prefix === "app");
-      } else {
-        zip.file(path, await handle.getFile());
-      }
-    }
-  }
-
-  await walk(projectDir, "", false);
-
-  // Now add the current chapters under app/levels/.
-  for (const c of chapters) {
-    const data = getExportData(c);
-    const name = `chapter-${safeFilename(data.chapterId)}.json`;
-    zip.file(`app/levels/${name}`, JSON.stringify(data, null, 2) + "\n");
-  }
-}
-
-async function addDirectoryToZip(dirHandle, prefix, zip) {
-  for await (const [name, handle] of dirHandle.entries()) {
-    if (handle.kind === "directory" && EXCLUDED_DIRS.has(name)) continue;
-    if (handle.kind === "file" && EXCLUDED_FILES.has(name)) continue;
-
-    const path = prefix ? `${prefix}/${name}` : name;
-    if (handle.kind === "directory") {
-      await addDirectoryToZip(handle, path, zip);
-    } else {
-      zip.file(path, await handle.getFile());
-    }
-  }
-}
-
-// --------------------------------------------------
 
 function parseTemplatePath(relativePath) {
   const parts = relativePath.split("/").filter(Boolean);
@@ -1176,6 +1125,7 @@ async function importTemplatesFromFileList(fileList) {
 // --------------------------------------------------
 
 (async () => {
+  const list = $("templateList");
   try {
     const result = await ensureTemplatesStaged();
     if (result.staged) {
@@ -1183,22 +1133,22 @@ async function importTemplatesFromFileList(fileList) {
         `Staged ${result.templates} template(s) ` +
         `(${result.count} file(s)) from bundle v${result.version}.`
       );
-    } else if (result.reason === "no bundle loaded") {
-      console.warn(
-        "templates.bundle.js missing — run `npm run build:templates`."
-      );
     }
 
-    // If anything is staged, render the template panel.
-    const templatesDir = await getTemplatesDir();
-    let hasAny = false;
-    for await (const [name, handle] of templatesDir.entries()) {
-      if (name.startsWith(".")) continue;
-      if (handle.kind === "directory") { hasAny = true; break; }
+    await loadTemplates();
+
+    // If loadTemplates rendered nothing, the panel is empty — explain why.
+    if (list.children.length === 0) {
+      list.append(makeElement(
+        "p", "",
+        "No templates staged. Ensure builder/templates/ exists and run " +
+        "`npm run build:templates`, then reload."
+      ));
     }
-    if (hasAny) await loadTemplates();
   } catch (e) {
-    console.warn("Template staging skipped:", e.message);
+    list.replaceChildren();
+    list.append(makeElement("p", "", `Templates unavailable: ${e.message}`));
+    console.warn("Template staging failed:", e);
   }
 })();
 

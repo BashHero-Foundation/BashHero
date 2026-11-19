@@ -41,6 +41,3 @@ yarn-error.log*
 next-env.d.ts
 
 *.zip
-
-# builder
-builder/templates.bundle.js

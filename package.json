@@ -4,9 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build:templates": "node builder/build-templates.mjs",
-    "prestart": "npm run build:templates",
-    "prebuild": "npm run build:templates",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

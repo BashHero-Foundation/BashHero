@@ -7,6 +7,7 @@
   <title>BashHero builder</title>
   <link rel="stylesheet" href="style.css">
   <script src="templates.bundle.js"></script>
+  <script src="source.bundle.js"></script>
   <script src="jszip.min.js"></script>
   <script src="app.js" defer></script>
 </head>
@@ -32,6 +33,17 @@
         Export chapter
       </button>
 
+      <button id="importTemplatesBtn" class="secondary">Import template folder</button>
+
+      <input
+        id="templatesInput"
+        type="file"
+        webkitdirectory
+        directory
+        multiple
+        hidden
+      >
+
       <button id="exportAllBtn" class="primary">
         Download all
       </button>
@@ -43,16 +55,7 @@
         hidden
       >
 
-      <button id="importTemplatesBtn" class="secondary">Import template folder</button>
 
-      <input
-        id="templatesInput"
-        type="file"
-        webkitdirectory
-        directory
-        multiple
-        hidden
-      >
     </section>
 
     <p id="status" class="status" role="status" aria-live="polite"></p>
