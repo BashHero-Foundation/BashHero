@@ -13,7 +13,8 @@ export type Level = {
   points: number;
   min_wpm: number;
   min_accuracy: number;
-  min_tab_count: number;
+  min_tab_count?: number;
+  required_shortcuts?: string[];
   commands: Command[];
 };
 

@@ -1,0 +1,21 @@
+{
+  "chapterId": "7",
+  "chapterTitle": "Rozdział 7: Używanie skrótów klawiszowych do nawigacji w terminalu",
+  "levels": [
+    {
+      "id": "28",
+      "title": "28 Używanie skrótów klawiszowych do nawigacji w terminalu",
+      "description": "Zapoznanie z funkcjonalnością skrótów klawiszowych.",
+      "autocomplete": false,
+      "difficulty": "easy",
+      "category": "shortcuts",
+      "points": 10,
+      "min_wpm": 0,
+      "min_accuracy": 0,
+      "required_shortcuts": ["Ctrl+A"],
+      "commands": [
+        { "text": "blablabla pomylka" }
+      ]
+    }
+  ]
+}

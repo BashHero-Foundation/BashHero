@@ -117,6 +117,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+
     useEffect(() => {
         textareaRef.current?.focus();
     }, []);
@@ -148,7 +149,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
             {/* LEVEL INFO */}    
 
-            <div className="flex flex-col items-center mb-10 gap-2">
+            <div className="flex flex-col items-center mb-5 gap-2">
                 <h1 className="text-3xl font-bold text-text-secondary"> { level.title } </h1>
                 <p className="text-text-neutral"> { level.description }</p>
                  
@@ -164,7 +165,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                     </span>
 
                     <span className="text-text-neutral/30 mx-1 text-md">|</span>
-
+                    
+                    
                     <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
                         <span className="opacity-70">WPM: </span>
                         <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
@@ -183,6 +185,22 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                     )}
 
                 </div>
+
+                {level.category === "shortcuts" && (
+                <div className="flex flex-row items-center justify-center gap-2 mt-5 w-full">
+                    <p className="text-text-neutral font-medium">Wykorzystaj: </p>
+                    {level.required_shortcuts?.map((shortcut) => (
+                        <span
+                            key={shortcut}
+                            className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1"
+                        >
+                            <span className="font-bold text-lg text-text-secondary">
+                                {shortcut}
+                            </span>
+                        </span>
+                    ))}
+                </div>
+                )}
             </div>
 
             {/* TYPING AREA */}
