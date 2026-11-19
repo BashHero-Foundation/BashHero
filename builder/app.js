@@ -767,10 +767,94 @@ async function ensureProjectDir() {
 // Templates
 // --------------------------------------------------
 
+// --------------------------------------------------
+// OPFS — template staging
+// --------------------------------------------------
+
+// --------------------------------------------------
+// OPFS — availability + self-test
+// --------------------------------------------------
+
+let opfsSelfTestPromise = null;
+
+function opfsSelfTest() {
+  if (opfsSelfTestPromise) return opfsSelfTestPromise;
+
+  opfsSelfTestPromise = (async () => {
+    const root = await navigator.storage.getDirectory();
+    const dirName = ".selftest";
+
+    try { await root.removeEntry(dirName, { recursive: true }); } catch { /* */ }
+
+    try {
+      const dir = await root.getDirectoryHandle(dirName, { create: true });
+      const fh = await dir.getFileHandle("probe.txt", { create: true });
+      const w = await fh.createWritable();
+      await w.write("ok");
+      await w.close();
+      const read = await (await fh.getFile()).text();
+      if (read !== "ok") throw new Error("OPFS read-back mismatch.");
+    } finally {
+      try { await root.removeEntry(dirName, { recursive: true }); } catch { /* */ }
+    }
+  })();
+
+  return opfsSelfTestPromise;
+}
+
+async function assertOPFSAvailable() {
+  if (!navigator.storage?.getDirectory) {
+    throw new Error(
+      "OPFS is not supported in this browser. " +
+      "Use a recent version of Firefox, Chrome, or Edge."
+    );
+  }
+  if (!window.isSecureContext) {
+    throw new Error(
+      "OPFS requires a secure context. Open the builder via " +
+      "http://localhost or https:// instead of file://."
+    );
+  }
+  if (window.top !== window.self) {
+    throw new Error(
+      "OPFS is blocked inside an iframe without " +
+      'sandbox="allow-same-origin". Open the builder in a top-level tab.'
+    );
+  }
+
+  try {
+    await opfsSelfTest();
+  } catch (e) {
+    throw new Error(
+      `OPFS write test failed (${e.name}): ${e.message}. ` +
+      "If you're using Edge, check Enhanced Security Mode " +
+      "(edge://settings/privacy → Exceptions)."
+    );
+  }
+}
+
+async function getOPFSRoot() {
+  await assertOPFSAvailable();
+  return navigator.storage.getDirectory();
+}
+
+async function getOPFSBuilderDir() {
+  const root = await getOPFSRoot();
+  return root.getDirectoryHandle("builder", { create: true });
+}
+
 async function getTemplatesDir() {
-  const project = await ensureProjectDir();
-  const builderDir = await project.getDirectoryHandle("builder");
-  return builderDir.getDirectoryHandle("templates");
+  const builderDir = await getOPFSBuilderDir();
+  return builderDir.getDirectoryHandle("templates", { create: true });
+}
+
+async function clearOPFSTemplates() {
+  const templatesDir = await getTemplatesDir();
+  const toRemove = [];
+  for await (const [name] of templatesDir.entries()) toRemove.push(name);
+  for (const name of toRemove) {
+    await templatesDir.removeEntry(name, { recursive: true });
+  }
 }
 
 async function loadTemplates() {
@@ -781,14 +865,14 @@ async function loadTemplates() {
     const templatesDir = await getTemplatesDir();
     const subdirs = [];
     for await (const [name, handle] of templatesDir.entries()) {
+      if (name.startsWith(".")) continue;              // skip .version
       if (handle.kind === "directory") subdirs.push({ name, handle });
     }
     subdirs.sort((a, b) => a.name.localeCompare(b.name));
 
     if (subdirs.length === 0) {
       list.append(makeElement(
-        "p", "",
-        "No template subfolders found in builder/templates/."
+        "p", "", "No templates staged in OPFS. Rebuild with `npm run build:templates`."
       ));
       return;
     }
@@ -802,9 +886,7 @@ async function loadTemplates() {
         makeElement("small", "", "template")
       );
 
-      const addBtn = makeElement(
-        "button", "primary small-button", "Add all chapters"
-      );
+      const addBtn = makeElement("button", "primary small-button", "Add all chapters");
       addBtn.type = "button";
       addBtn.addEventListener("click", () => addTemplateChapters(name, handle));
 
@@ -815,9 +897,7 @@ async function loadTemplates() {
       list.append(item);
     }
   } catch (e) {
-    if (e.name !== "AbortError") {
-      setStatus(`Could not read templates: ${e.message}`, "error");
-    }
+    setStatus(`Could not read templates: ${e.message}`, "error");
   }
 }
 
@@ -848,14 +928,8 @@ async function addTemplateChapters(name, dirHandle) {
       }
     }
 
-    // Append all successfully-normalized chapters. Each gets a fresh
-    // chapter ID (per the previous turn's rule), then levels are
-    // renumbered globally so they stay consecutive.
     for (const normalized of imported) {
-      chapters.push({
-        chapterId: allocateChapterId(),
-        ...normalized
-      });
+      chapters.push({ chapterId: allocateChapterId(), ...normalized });
     }
 
     if (imported.length > 0) {
@@ -875,6 +949,91 @@ async function addTemplateChapters(name, dirHandle) {
 }
 
 $("loadTemplatesBtn").addEventListener("click", loadTemplates);
+
+$("loadTemplatesBtn").addEventListener("click", loadTemplates);
+
+$("importTemplatesBtn").addEventListener("click", () => {
+  $("templatesInput").click();
+});
+
+$("templatesInput").addEventListener("change", async event => {
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+
+  try {
+    setStatus("Staging templates in OPFS…");
+    const { templateCount, fileCount } = await importTemplatesFromFileList(files);
+    await loadTemplates();
+    setStatus(
+      `Staged ${templateCount} template(s) (${fileCount} file(s)) in OPFS.`,
+      "success"
+    );
+  } catch (e) {
+    setStatus(`Template import failed: ${e.message}`, "error");
+  } finally {
+    event.target.value = "";  // allow re-picking the same folder
+  }
+});
+
+
+// --------------------------------------------------
+// Templates — bundle → OPFS staging
+// --------------------------------------------------
+
+async function ensureTemplatesStaged() {
+  if (typeof window.__TEMPLATES__ !== "object" || window.__TEMPLATES__ === null) {
+    return { staged: false, reason: "no bundle loaded" };
+  }
+
+  const templatesDir = await getTemplatesDir();
+  const want = String(window.__TEMPLATES_VERSION__ ?? "0");
+
+  // Fast path: bundle version matches what OPFS already holds.
+  try {
+    const marker = await templatesDir.getFileHandle(".version");
+    const have = (await (await marker.getFile()).text()).trim();
+    if (have === want) return { staged: false, reason: "up to date", version: want };
+  } catch { /* no marker yet — stage */ }
+
+  // Wipe and rewrite so removed templates don't linger.
+  const existing = [];
+  for await (const [name] of templatesDir.entries()) existing.push(name);
+  for (const name of existing) {
+    await templatesDir.removeEntry(name, { recursive: true });
+  }
+
+  let fileCount = 0;
+  const templateNames = Object.keys(window.__TEMPLATES__);
+  templateNames.sort((a, b) => a.localeCompare(b));
+
+  for (const tmplName of templateNames) {
+    const safeDir = tmplName.replace(/[^a-zA-Z0-9._-]/g, "_") || "template";
+    const tmplDir = await templatesDir.getDirectoryHandle(safeDir, { create: true });
+
+    const files = window.__TEMPLATES__[tmplName];
+    for (const [fileName, data] of Object.entries(files)) {
+      const safeFile = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const fh = await tmplDir.getFileHandle(safeFile, { create: true });
+      const w = await fh.createWritable();
+      await w.write(JSON.stringify(data, null, 2) + "\n");
+      await w.close();
+      fileCount++;
+    }
+  }
+
+  // Marker file that gates re-staging on the next load.
+  const marker = await templatesDir.getFileHandle(".version", { create: true });
+  const mw = await marker.createWritable();
+  await mw.write(want);
+  await mw.close();
+
+  return {
+    staged: true,
+    count: fileCount,
+    templates: templateNames.length,
+    version: want
+  };
+}
 
 // --------------------------------------------------
 // Export helpers
@@ -937,9 +1096,110 @@ async function addDirectoryToZip(dirHandle, prefix, zip) {
   }
 }
 
+// --------------------------------------------------
+
+function parseTemplatePath(relativePath) {
+  const parts = relativePath.split("/").filter(Boolean);
+  const tIdx = parts.indexOf("templates");
+
+  // Preferred form: ".../templates/<name>/<file>"
+  if (tIdx >= 0 && parts[tIdx + 1]) {
+    const templateName = parts[tIdx + 1];
+    const fileName = parts.slice(tIdx + 2).join("/");
+    return fileName ? { templateName, fileName } : null;
+  }
+
+  // Fallback: user picked a folder whose direct subfolders are templates,
+  // e.g. picking `templates/` itself, or an arbitrary parent.
+  if (parts.length >= 2) {
+    return {
+      templateName: parts[0],
+      fileName: parts.slice(1).join("/")
+    };
+  }
+
+  return null; // a .json sitting loose at the picked root — ignore
+}
+
+async function importTemplatesFromFileList(fileList) {
+  const jsonFiles = Array.from(fileList).filter(f =>
+    f.name.toLowerCase().endsWith(".json")
+  );
+
+  if (jsonFiles.length === 0) {
+    throw new Error(
+      "No .json files found. Pick a folder whose subfolders are templates " +
+      "(for example, builder/templates/ or builder/)."
+    );
+  }
+
+  // Group by template name first, so we can fail early if nothing parsed.
+  const grouped = new Map();
+  for (const file of jsonFiles) {
+    const parsed = parseTemplatePath(file.webkitRelativePath || file.name);
+    if (!parsed) continue;
+    if (!grouped.has(parsed.templateName)) grouped.set(parsed.templateName, []);
+    grouped.get(parsed.templateName).push({ name: parsed.fileName, file });
+  }
+
+  if (grouped.size === 0) {
+    throw new Error(
+      "No template subfolders detected. Pick the folder that contains " +
+      "template subfolders (e.g. builder/templates/)."
+    );
+  }
+
+  // Wipe old staged templates before rewriting.
+  await clearOPFSTemplates();
+  const templatesDir = await getTemplatesDir();
+
+  let fileCount = 0;
+  for (const [templateName, files] of grouped) {
+    const safeDir = templateName.replace(/[^a-zA-Z0-9._-]/g, "_") || "template";
+    const tmplDir = await templatesDir.getDirectoryHandle(safeDir, { create: true });
+
+    for (const { name, file } of files) {
+      const safeFile = name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const fh = await tmplDir.getFileHandle(safeFile, { create: true });
+      const w = await fh.createWritable();
+      await w.write(await file.text());
+      await w.close();
+      fileCount++;
+    }
+  }
+
+  return { templateCount: grouped.size, fileCount };
+}
 
 // --------------------------------------------------
 // Initial state
 // --------------------------------------------------
+
+(async () => {
+  try {
+    const result = await ensureTemplatesStaged();
+    if (result.staged) {
+      console.log(
+        `Staged ${result.templates} template(s) ` +
+        `(${result.count} file(s)) from bundle v${result.version}.`
+      );
+    } else if (result.reason === "no bundle loaded") {
+      console.warn(
+        "templates.bundle.js missing — run `npm run build:templates`."
+      );
+    }
+
+    // If anything is staged, render the template panel.
+    const templatesDir = await getTemplatesDir();
+    let hasAny = false;
+    for await (const [name, handle] of templatesDir.entries()) {
+      if (name.startsWith(".")) continue;
+      if (handle.kind === "directory") { hasAny = true; break; }
+    }
+    if (hasAny) await loadTemplates();
+  } catch (e) {
+    console.warn("Template staging skipped:", e.message);
+  }
+})();
 
 createChapter();

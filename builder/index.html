@@ -6,14 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BashHero builder</title>
   <link rel="stylesheet" href="style.css">
+  <script src="templates.bundle.js"></script>
   <script src="jszip.min.js"></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <header class="topbar">
     <div>
-      <h1>BashHero Level Builder</h1>
-      <p>Create and export level JSONs</p>
+      <h1>BashHero Builder</h1>
+      <p>Create and export app with levels</p>
     </div>
   </header>
 
@@ -31,10 +32,6 @@
         Export chapter
       </button>
 
-      <button id="loadTemplatesBtn" class="secondary">
-        Load templates
-      </button>
-
       <button id="exportAllBtn" class="primary">
         Download all
       </button>
@@ -43,6 +40,17 @@
         id="fileInput"
         type="file"
         accept=".json,application/json"
+        hidden
+      >
+
+      <button id="importTemplatesBtn" class="secondary">Import template folder</button>
+
+      <input
+        id="templatesInput"
+        type="file"
+        webkitdirectory
+        directory
+        multiple
         hidden
       >
     </section>
