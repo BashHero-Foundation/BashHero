@@ -63,6 +63,7 @@ function shortenKeysScormStorageStruct(
             w: stats.WPM,
             e: stats.Errors,
             a: stats.Accuracy,
+            p: stats.earnedPoints,
             t: stats.timestamp,
         };
     }
@@ -80,6 +81,7 @@ function expandKeysScormStorageStruct(
             WPM: stats.w,
             Errors: stats.e,
             Accuracy: stats.a,
+            earnedPoints: stats.p,
             timestamp: stats.t,
         };
     }

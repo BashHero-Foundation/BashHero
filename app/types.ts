@@ -49,6 +49,7 @@ export type LevelStatsShortKeys = {
   w: number;
   e: number;
   a: number;
+  p: number;
   t: string;
 }
 
