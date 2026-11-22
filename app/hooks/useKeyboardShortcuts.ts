@@ -1,4 +1,4 @@
-export function useKeyboardShortcuts({handleEnter}: {handleEnter: () => void}) {
+export function useKeyboardShortcuts({handleEnter, handleAutocomplete}: {handleEnter: () => void, handleAutocomplete: () => void}) {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         
@@ -16,7 +16,7 @@ export function useKeyboardShortcuts({handleEnter}: {handleEnter: () => void}) {
 
         if (e.key === "Tab"){
             e.preventDefault();
-            console.log("I prevented TAB :)")
+            handleAutocomplete()
         }
         if (e.ctrlKey && e.key === "e"){
             e.preventDefault();

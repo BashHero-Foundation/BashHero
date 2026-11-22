@@ -3,5 +3,6 @@
   "./levels/chapter2.json",
   "./levels/chapter3.json",
   "./levels/chapter4.json",
-  "./levels/chapter5.json"
+  "./levels/chapter5.json",
+  "./levels/chapter6.json"
 ]

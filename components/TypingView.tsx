@@ -18,28 +18,91 @@ import { navigateToFn } from "@/app/scorm/scorm_utils";
 export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level: Level; nextLevelId: string | null, chapters: Chapter[], navigateFn: NavigateFn }) {
 
     // main typing (level) logic hook
-    const typing = useTypingLevel(level?.commands || []);
-
-    // realtime timer hook
+    const typing = useTypingLevel(level?.commands || [], level?.autocomplete !== false);
+        
+    // realtime timer hook  
     const liveTime = useLiveTimer(typing.startTime, typing.isFinished);
 
     // blocking shortcuts hook
     const { handleKeyDown } = useKeyboardShortcuts({
         handleEnter: () => {
+            if (isShutdown) return;
+
+            if (typing.text.trim() === "shutdown") {
+                setIsShutdown(true);
+                setShowShutdownMessage(true);
+                setSuggestionsOpen(false);
+
+
+                setTimeout(() => {
+                    setShowShutdownMessage(false);
+                }, 5000);
+
+
+                setTimeout(() => {
+                    typing.reset();
+                    setIsShutdown(false);
+                }, 10000);
+
+                return;
+            }
+
             if (typing.isFinished && nextLevelId) {
                 navigateToFn(nextLevelId, false, navigateFn);
+            }
+            else {
+                if (typing.text === typing.currentCommand?.text) {
+                    setSuggestionsOpen(false);
+                }
+
+                typing.handleEnter();
+            }
+        },
+
+        handleAutocomplete: () => {
+            if (level.autocomplete === false) {
+                setSuggestionsOpen(false);
+                return;
+            }
+
+            const targetText = typing.currentCommand?.text ?? "";
+
+            // do not allow to autocomplete when correct command
+            if ((typing.text === targetText)) {
+                setSuggestionsOpen(false);
+                return;
+            }
+
+            const matches = typing.getCurrentAutocompleteMatches();
+
+            setSuggestionsOpen(matches.length > 1);
+
+            typing.handleAutocomplete();
         }
-        else {
-            typing.handleEnter();
-        }
-        }
+
     });
+
+    const [isShutdown, setIsShutdown] = useState(false);
+    const [showShutdownMessage, setShowShutdownMessage] = useState(false);
 
     // settings sidebar
     const [settingsOpen, setSettingsOpen] = useState(false);
 
+    const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+    const autocompletePaths = typing.getCurrentAutocompleteMatches();
+
     // metrics hook
-    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors});
+    const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors, typedChars: typing.typedChars});
+
+    const earnedPoints = CalculatePoints(
+        metrics.accuracy,
+        metrics.WPM,
+        typing.tabCount,
+        level.points,
+        level.min_wpm,
+        level.min_accuracy,
+        level.min_tab_count ?? 0
+    );
 
     // save stats hook
     useLevelStatsState({
@@ -48,6 +111,8 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
         wpm: metrics.WPM,
         errors: typing.errors,
         accuracy: metrics.accuracy,
+        earnedPoints,
+        Tabs: typing.tabCount,
         level: {
             id: level.id,
             title: level.title
@@ -137,6 +202,13 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                         <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
                     </span>
 
+                    {level.min_tab_count !== undefined && (
+                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                        <span className="opacity-70">TAB: </span>
+                        <span className="font-semibold text-text-secondary">{level.min_tab_count}</span>
+                    </span>
+                    )}
+
                 </div>
             </div>
 
@@ -145,10 +217,24 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
 
             {/* Total commands and timer */}
 
-            <div className="flex justify-between items-center px-4 mb-3 text-lg text-text-neutral font-mono">
-            <span>
-                {typing.currentIndex + 1}/{typing.totalCommands}
-            </span>
+            <div className="flex justify-between items-center px-4 mb-3 text-lg text-text-neutral font-bold tracking-wide">
+                <div className="flex items-center gap-3">
+                    <span>
+                        {typing.currentIndex + 1}/{typing.totalCommands}
+                    </span>
+
+                    <div className="inline-flex items-center gap-3 px-4 py-2 rounded-xl">
+                        <span className="text-lg font-semibold text-text-neutral tracking-wide">TAB:</span>
+                        <span className="inline-flex items-center justify-center w-10 h-8 text-md
+                                         font-bold text-text-secondary bg-bg-body rounded-full border border-border-separator shadow-xl"
+                        >
+                            {typing.tabCount}
+                        </span>
+
+                    </div>
+
+
+                </div>
 
             <div className="flex flex-row items-center justify-center gap-3">
 
@@ -162,10 +248,39 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
             </div>
 
             </div>
+            
+            {/* SUGGESTION PANEL */}
+            <div className="relative"> 
+                 {suggestionsOpen && (
+                <div className="absolute z-50 left-5 top-24
+                                rounded-md border border-white/10
+                                bg-[#252525]/95 px-3 py-2
+                                shadow-lg font-mono text-gray-300
+                                w-max max-w-[min(90vw,40rem)]
+                                max-h-60 overflow-y-auto">
 
-            {/* TYPING AREA - terminal */}
-            <div
-            className="flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden
+                    <span className="text-gray-500 text-sm mr-2">
+                        Dostępne:
+                    </span>
+
+                    <div className="flex flex-wrap gap-x-4.5 gap-y-1.5 mt-2 pr-5">
+                        {autocompletePaths.map((path) => (
+                            <div 
+                                key={path} 
+                                className="text-ellipsis text-md whitespace-nowrap
+                                            max-w-full truncate"
+                            >
+                                {path}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                )}
+            </div>
+
+            {/* TYPING AREA - terminal */}    
+            <div 
+            className="relative flex flex-col w-full h-full max-h-60  rounded-xl overflow-hidden 
             bg-terminal-bg shadow-2xl focus-within:shadow-sm transition duration-300"
             onMouseDown={(e) => {
                 e.preventDefault();
@@ -222,15 +337,30 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                 <h3 className="font-bold text-base text-text-neutral"> Aby przejść dalej nacisnij ENTER lub strzałkę</h3>
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3>
                 {/* Points*/}
-                <div className="mt-5 font-extrabold tracking-wider">
-                    <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                        <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
+                <div className="mt-5 font-extrabold tracking-wider"> 
+                    <span className="flex items-baseline gap-2 bg-red-700 bg-clip-text text-transparent"> 
+                        <span className=" text-3xl"> {earnedPoints}/{level.points}</span>
                         <span className="text-xl"> punktów</span>
                     </span>
                 </div>
             </div> }
             </div>
 
+            {isShutdown && (
+                <div className="fixed inset-0 z-9999 bg-black
+                                flex items-center justify-center">
+
+                    {showShutdownMessage && (
+                        <div className="text-center font-mono text-white animate-pulse">
+                            <span className="text-4xl mb-2">
+                                Wyłączanie komputera
+                            </span>
+                        </div>
+                    )}
+
+                </div>
+            )}
+            
         </div>
     );
 }
