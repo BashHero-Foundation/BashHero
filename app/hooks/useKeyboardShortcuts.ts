@@ -1,4 +1,4 @@
-export function useKeyboardShortcuts({handleEnter, handleAutocomplete, handleMoveToStart}: {handleEnter: () => void, handleAutocomplete: () => void, handleMoveToStart: () => void}) {
+export function useKeyboardShortcuts({handleEnter, handleAutocomplete, handleCtrlA, handleCtrlE}: {handleEnter: () => void, handleAutocomplete: () => void, handleCtrlA: () => void, handleCtrlE: () => void}) {
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         
@@ -21,16 +21,19 @@ export function useKeyboardShortcuts({handleEnter, handleAutocomplete, handleMov
 
 
         if (e.ctrlKey && e.key.toLowerCase() === "a") {
-            console.log("CTRL + A pressed")
             e.preventDefault();
-            handleMoveToStart();
+            handleCtrlA();
             return;
         }
 
-        if (e.ctrlKey && e.key === "e"){
+        if (e.ctrlKey && e.key.toLowerCase() === "e"){
             e.preventDefault();
-            console.log("CTRL + e pressed")
+            handleCtrlE();
+            return;
+            
         }
+
+
         if (e.ctrlKey && e.key === "d"){
             e.preventDefault();
             console.log("CTRL + d pressed")
@@ -39,6 +42,17 @@ export function useKeyboardShortcuts({handleEnter, handleAutocomplete, handleMov
             e.preventDefault();
             console.log("ALT + f pressed")
         }
+
+        if (e.key === "ArrowUp"){
+            e.preventDefault();
+            console.log("Arrow UP")
+        }
+        if (e.key === "ArrowDown"){
+            e.preventDefault();
+            console.log("Arrow DOWN")
+        }
+
+
     };
 
     return { handleKeyDown };

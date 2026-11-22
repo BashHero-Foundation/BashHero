@@ -63,12 +63,21 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             }
         },
 
-        handleMoveToStart: () => {
+        handleCtrlA: () => {
             const textarea = textareaRef.current;
 
             if (!textarea) return;
 
             textarea.setSelectionRange(0, 0);
+        },
+
+        handleCtrlE: () => {
+            const textarea = textareaRef.current;
+
+            if (!textarea) return;
+
+            const end = textarea.value.length;
+            textarea.setSelectionRange(end, end);
         },
 
         handleAutocomplete: () => {
@@ -121,6 +130,15 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     useEffect(() => {
         textareaRef.current?.focus();
     }, []);
+
+    // Set initial cursor position
+    useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea || level.initial_cursor === undefined) return;
+
+    const position = level.initial_cursor === "start" ? 0 : textarea.value.length;
+    textarea.setSelectionRange(position, position);
+    }, [level.id, level.initial_cursor, typing.currentIndex]);
 
     return (
         <div className="flex">
@@ -200,14 +218,6 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                             </span>
                         </span>
                     ))}
-                    </div>
-                    <div className="mt-2">
-                    {typing.currentCommand?.initialText !== undefined && (
-                    <p className="px-4 mb-2 text-md font-medium text-text-neutral">
-                        Wymagana komenda:
-                        <span className="pl-2 font-mono text-lg">{typing.currentCommand.text}</span>
-                    </p>
-                    )}
                     </div>
                 </div>
                 )}
@@ -296,6 +306,13 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                     <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
 
+                {typing.currentCommand?.initialText !== undefined && (
+                    <p className="relative mt-2 ml-10 text-md font-medium text-terminal-main-text/60">
+                        Wymagana komenda:
+                        <span className="pl-2 font-mono">{typing.currentCommand.text}</span>
+                    </p>
+                )}
+
                 {/* Container for terminal workspace */} 
                 <div className="font-mono text-xl px-4 py-6 overflow-y-auto overflow-x-hidden">
 
@@ -326,6 +343,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
 
                         </div>
                     </div>
+
 
                 </div>
             </div>

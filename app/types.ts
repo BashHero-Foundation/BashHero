@@ -16,6 +16,7 @@ export type Level = {
   min_accuracy: number;
   min_tab_count?: number;
   required_shortcuts?: string[];
+  initial_cursor?: "start" | "end";
   commands: Command[];
 };
 
@@ -67,7 +68,7 @@ export interface StatsPageContentProps {
     points: number;
     min_wpm: number;
     min_accuracy: number;
-    min_tab_count: number;
+    min_tab_count?: number;
   };
 }
 
