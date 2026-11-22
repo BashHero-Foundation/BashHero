@@ -8,12 +8,14 @@ export type Command = {
 export type Level = {
   id: string;
   title: string;
+  autocomplete?: boolean;
   description: string;
   difficulty: string;
   category: string;
   points: number;
   min_wpm: number;
   min_accuracy: number;
+  min_tab_count?: number;
   commands: Command[];
 };
 
@@ -27,6 +29,7 @@ export interface LevelMetricsProps {
   commands: Command[];
   duration: number;
   errors: number;
+  typedChars: number;
 }
 
 export type LevelStats = {
@@ -35,6 +38,8 @@ export type LevelStats = {
   WPM: number;
   Errors: number;
   Accuracy: number;
+  earnedPoints: number;
+  Tabs?: number;
   timestamp: string;
 }
 
@@ -44,6 +49,7 @@ export type LevelStatsShortKeys = {
   w: number;
   e: number;
   a: number;
+  p: number;
   t: string;
 }
 
@@ -61,6 +67,8 @@ export interface LevelStatsStateProps {
   wpm: number;
   errors: number;
   accuracy: number;
+  earnedPoints: number;
+  Tabs?: number;
   level: {
     id: string;
     title: string;
@@ -77,6 +85,7 @@ export interface StatsPageContentProps {
     points: number;
     min_wpm: number;
     min_accuracy: number;
+    min_tab_count?: number;
   };
 }
 
@@ -88,6 +97,17 @@ export interface ScormIframeMessage {
     value: string;
   }
 }
+
+export type FileSystemNode = 
+  | {    name: string;
+    type: "directory";
+    children?: FileSystemNode[];
+  }
+  | 
+  { name: string;
+    type: "file";
+    children?: never;
+  }
 
 export type ScormStorageStruct = Record<string, LevelStats>;
 
