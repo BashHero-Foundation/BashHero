@@ -17,36 +17,29 @@ import {
 import LZString from "lz-string";
 
 /**
- * sets score to wpn and status to passed for level with id
- * if wpn is higher than saved dont do anything
- * @param id - unique id for level
- * @param wpm - u can guess what it means (words per minute)
- * @returns 'true' if no error
- */
+* sets score to wpn and status to passed for level with id
+* if wpn is higher than saved dont do anything
+* @param id - unique id for level
+* @param wpm - u can guess what it means (words per minute)
+* @returns 'true' if no error
+*/
 export async function setScormLevelWpm(id: string, wpm: number) {
-    const objective_number = await objectiveNumberFromId(id);
-
-    if (typeof objective_number !== "undefined") {
-        const last_wpm = await scormGet(
-            SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)),
-        );
-
-        if (typeof last_wpm !== "undefined" && Number(last_wpm) < wpm) {
-            await setOrUpdateObjective(id, {
-                score: wpm,
-                status: SCORM_STATUS.PASSED,
-            });
-        } else if (typeof last_wpm === "undefined") {
-            await setOrUpdateObjective(id, {
-                score: wpm,
-                status: SCORM_STATUS.PASSED,
-            });
-        }
+    if (wpm === -1) {
+        await setOrUpdateObjective(id, { score: wpm, status: SCORM_STATUS.PASSED });
     } else {
-        await setOrUpdateObjective(id, {
-            score: wpm,
-            status: SCORM_STATUS.PASSED,
-        });
+        const objective_number = await objectiveNumberFromId(id);
+
+        if (typeof objective_number !== 'undefined') {
+            const last_wpm = await scormGet(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)));
+
+            if (typeof last_wpm !== 'undefined' && Number(last_wpm) < wpm) {
+                await setOrUpdateObjective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+            } else if (typeof last_wpm === 'undefined') {
+                await setOrUpdateObjective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+            }
+        } else {
+            await setOrUpdateObjective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+        }
     }
 
     await updateScormGlobalScore();

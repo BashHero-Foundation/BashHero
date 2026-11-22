@@ -9,6 +9,10 @@ export async function getGlobalStats(): Promise<GlobalStats> {
     const allStats: Record<string, LevelStats> = await getAllLevelStats();
     const allStatsList: LevelStats[] = Object.values(allStats);
 
+    const statsWithWpm = allStatsList.filter((stat) => stat.WPM !== -1);
+    const statsWithErrors = allStatsList.filter((stat) => stat.Errors !== -1);
+    const statsWithAccuracy = allStatsList.filter((stat) => stat.Accuracy !== -1);
+
     if (allStatsList.length === 0) {
         return {
             levelsCompleted: 0,
@@ -28,15 +32,18 @@ export async function getGlobalStats(): Promise<GlobalStats> {
         ),
 
         averageWPM: Math.round(
-            allStatsList.reduce((sum, stat) => sum + stat.WPM, 0) /
-                allStatsList.length,
+        statsWithWpm.reduce((sum, stat) => sum + stat.WPM, 0) /
+        (statsWithWpm.length || 1)
         ),
 
-        totalErrors: allStatsList.reduce((sum, stat) => sum + stat.Errors, 0),
+        totalErrors: statsWithErrors.reduce(
+        (sum, stat) => sum + stat.Errors,
+        0
+        ),
 
         averageAccuracy: Math.round(
-            allStatsList.reduce((sum, stat) => sum + stat.Accuracy, 0) /
-                allStatsList.length,
+        statsWithAccuracy.reduce((sum, stat) => sum + stat.Accuracy, 0) /
+        (statsWithAccuracy.length || 1)
         ),
     };
 }

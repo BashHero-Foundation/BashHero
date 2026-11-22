@@ -1,4 +1,11 @@
-export default function TextCorrecter({ text, currentCommand }: { text: string; currentCommand: { text: string } }) {
+import { Command } from "@/app/types";
+
+export default function TextCorrecter({ text, currentCommand }: { text: string; currentCommand: Command; }) {
+    
+  if (currentCommand.initialText !== undefined) {
+    return <span className="text-terminal-main-text">{text}</span>;
+  }
+  
     const result = []
 
     for (let i = 0; i < text.length; i++) {

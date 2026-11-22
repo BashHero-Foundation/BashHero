@@ -59,6 +59,23 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
             }
         },
 
+        handleCtrlA: () => {
+            const textarea = textareaRef.current;
+
+            if (!textarea) return;
+
+            textarea.setSelectionRange(0, 0);
+        },
+
+        handleCtrlE: () => {
+            const textarea = textareaRef.current;
+
+            if (!textarea) return;
+
+            const end = textarea.value.length;
+            textarea.setSelectionRange(end, end);
+        },
+
         handleAutocomplete: () => {
             if (level.autocomplete === false) {
                 setSuggestionsOpen(false);
@@ -115,15 +132,26 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
         Tabs: typing.tabCount,
         level: {
             id: level.id,
-            title: level.title
+            title: level.title,
+            category: level.category
         }
     });
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+
     useEffect(() => {
         textareaRef.current?.focus();
     }, []);
+
+    // Set initial cursor position
+    useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea || level.initial_cursor === undefined) return;
+
+    const position = level.initial_cursor === "start" ? 0 : textarea.value.length;
+    textarea.setSelectionRange(position, position);
+    }, [level.id, level.initial_cursor, typing.currentIndex]);
 
     return (
         <div className="flex">
@@ -163,19 +191,19 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
             <TutorialPopup
                 storageKey="tutorial-popup"
                 title="Witaj w Bash Hero!"
-                message="Wykonuj zadania, wpisując komendy w terminalu na środku ekranu.
+                message={`Wykonuj zadania, wpisując komendy w terminalu na środku ekranu. 
                     Twoim celem jest jak najszybsze i poprawne przepisanie wszystkich komend.
                     Po lewej stronie znajdziesz listę poziomów.
                     Możesz ją rozwinąć i wybrać zadanie.
                     Po prawej stronie możesz zmienić motyw.
                     Podczas zadania działa timer - zatrzyma się automatycznie po wpisaniu wszystkich komend.
                     Po ukończeniu zobaczysz swoje statystyki (czas, WPM, liczba błędów, dokładność, zdobyte punkty).
-                    Powodzenia i baw się dobrze!"
+                    Powodzenia i baw się dobrze!`}
             />
 
             {/* LEVEL INFO */}
 
-            <div className="flex flex-col items-center mb-10 gap-2">
+            <div className="flex flex-col items-center mb-5 gap-2">
                 <h1 className="text-3xl font-bold text-text-secondary"> { level.title } </h1>
                 <p className="text-text-neutral"> { level.description }</p>
 
@@ -191,16 +219,21 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     </span>
 
                     <span className="text-text-neutral/30 mx-1 text-md">|</span>
+                    
+                    
+                    {level.category !== "shortcuts" && (
+                        <>
+                            <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                                <span className="opacity-70">WPM: </span>
+                                <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
+                            </span>
 
-                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
-                        <span className="opacity-70">WPM: </span>
-                        <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
-                    </span>
-
-                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
-                        <span className="opacity-70">ACC: </span>
-                        <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
-                    </span>
+                            <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                                <span className="opacity-70">ACC: </span>
+                                <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
+                            </span>
+                        </>
+                    )}
 
                     {level.min_tab_count !== undefined && (
                     <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
@@ -210,6 +243,24 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     )}
 
                 </div>
+
+                {level.category === "shortcuts" && (
+                <div className="flex flex-col items-center justify-center gap-2 mt-5 w-full">
+                    <div className="flex flex-wrap gap-2 items-center justify-center"> 
+                    <p className="text-text-neutral font-medium">Wykorzystaj: </p>
+                    {level.required_shortcuts?.map((shortcut) => (
+                        <span
+                            key={shortcut}
+                            className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1"
+                        >
+                            <span className="font-bold text-lg text-text-secondary">
+                                {shortcut}
+                            </span>
+                        </span>
+                    ))}
+                    </div>
+                </div>
+                )}
             </div>
 
             {/* TYPING AREA */}
@@ -295,7 +346,14 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
 
-                {/* Container for terminal workspace */}
+                {typing.currentCommand?.initialText !== undefined && (
+                    <p className="relative mt-2 ml-10 text-md font-medium text-terminal-main-text/60">
+                        Wymagana komenda:
+                        <span className="pl-2 font-mono">{typing.currentCommand.text}</span>
+                    </p>
+                )}
+
+                {/* Container for terminal workspace */} 
                 <div className="font-mono text-xl px-4 py-6 overflow-y-auto overflow-x-hidden">
 
                     <div className="flex">
@@ -325,6 +383,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
 
                         </div>
                     </div>
+
 
                 </div>
             </div>

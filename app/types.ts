@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export type Command = {
   text: string;
+  initialText?: string;
   hint?: string;
 };
 
@@ -16,6 +17,8 @@ export type Level = {
   min_wpm: number;
   min_accuracy: number;
   min_tab_count?: number;
+  required_shortcuts?: string[];
+  initial_cursor?: "start" | "end";
   commands: Command[];
 };
 
@@ -72,6 +75,7 @@ export interface LevelStatsStateProps {
   level: {
     id: string;
     title: string;
+    category: string;
   };
 };
 

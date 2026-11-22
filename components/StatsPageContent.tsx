@@ -10,12 +10,13 @@ import { getLevelStats } from "./persistentStats";
 
 export function StatsPageContent({ level, chapters, navigateFn }: { level: Level, chapters: Chapter[], navigateFn: NavigateFn } ) {
   const [stats, setStats] = useState<LevelStats | null>(null);
+  const showTypingMetrics = level.category !== "shortcuts";
 
   // settings sidebar
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
-    // Get stats from localStorage
+    // Get stats from SCORM 
       getLevelStats(level.id).then((savedStats) => {
         if (savedStats) {
           setStats(savedStats);
@@ -56,14 +57,16 @@ export function StatsPageContent({ level, chapters, navigateFn }: { level: Level
                 <span className="text-3xl font-bold text-green-600">{stats.duration.toFixed(2)}s</span>
               </div>
 
-              {/* WPM */}
-              <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-lg font-semibold text-gray-700">WPM</span>
-                  <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
-                </div>
-                <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
-              </div>
+              {showTypingMetrics && (
+                <>
+                  {/* WPM */}
+                  <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex justify-between items-center w-full">
+                      <span className="text-lg font-semibold text-gray-700">WPM</span>
+                      <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
+                    </div>
+                    <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
+                  </div>
 
               {/* Errors */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
@@ -95,6 +98,8 @@ export function StatsPageContent({ level, chapters, navigateFn }: { level: Level
                   minute: '2-digit'
                 })}
               </div>
+              </>
+              )}
             </div>
           ) :
 
