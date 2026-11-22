@@ -30,6 +30,7 @@ export type LevelStats = {
   WPM: number;
   Errors: number;
   Accuracy: number;
+  earnedPoints: number;
   Tabs?: number;
   timestamp: string;
 }
@@ -48,6 +49,7 @@ export interface LevelStatsStateProps {
   wpm: number;
   errors: number;
   accuracy: number;
+  earnedPoints: number;
   Tabs?: number;
   level: {
     id: string;

@@ -98,6 +98,16 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     // metrics hook
     const metrics = useLevelMetrics({commands: level?.commands || [], duration: typing.duration, errors: typing.errors, typedChars: typing.typedChars});
 
+    const earnedPoints = CalculatePoints(
+        metrics.accuracy,
+        metrics.WPM,
+        typing.tabCount,
+        level.points,
+        level.min_wpm,
+        level.min_accuracy,
+        level.min_tab_count ?? 0
+    );
+
     // save stats hook
     useLevelStatsState({
         isFinished: typing.isFinished,
@@ -105,6 +115,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         wpm: metrics.WPM,
         errors: typing.errors,
         accuracy: metrics.accuracy,
+        earnedPoints,
         Tabs: typing.tabCount,
         level: {
             id: level.id,
@@ -309,7 +320,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
                     <span className="flex items-baseline gap-2 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"> 
-                        <span className=" text-3xl"> {CalculatePoints(metrics.accuracy, metrics.WPM, typing.tabCount, level.points, level.min_wpm, level.min_accuracy, level.min_tab_count ?? 0)}/{level.points}</span>
+                        <span className=" text-3xl"> {earnedPoints}/{level.points}</span>
                         <span className="text-xl"> punktów</span>
                     </span>
                 </div>
