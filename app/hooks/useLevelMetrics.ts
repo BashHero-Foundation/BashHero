@@ -3,7 +3,7 @@ import { LevelMetricsProps } from "../types";
 
 export function useLevelMetrics({commands, duration, errors, typedChars}: LevelMetricsProps) {
 
-    // characters from all comands in level
+    // characters from all commands in level
     const targetText = commands.map(c => c.text).join('');
     const totalChars = targetText.length;
 

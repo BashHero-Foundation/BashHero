@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type Command = {
   text: string;
   hint?: string;
@@ -17,6 +19,12 @@ export type Level = {
   commands: Command[];
 };
 
+export type Chapter = {
+  chapterId: string;
+  chapterTitle: string;
+  levels: Level[];
+}
+
 export interface LevelMetricsProps {
   commands: Command[];
   duration: number;
@@ -33,6 +41,15 @@ export type LevelStats = {
   earnedPoints: number;
   Tabs?: number;
   timestamp: string;
+}
+
+export type LevelStatsShortKeys = {
+  i: string;
+  d: number;
+  w: number;
+  e: number;
+  a: number;
+  t: string;
 }
 
 export type GlobalStats = {
@@ -72,7 +89,8 @@ export interface StatsPageContentProps {
 }
 
 export interface ScormIframeMessage {
-  type: "SET" | "GET";
+  type: "SET" | "GET" | "LOG";
+  id: string,
   payload: {
     field: string;
     value: string;
@@ -88,4 +106,16 @@ export type FileSystemNode =
   { name: string;
     type: "file";
     children?: never;
-  };
+  }
+
+export type ScormStorageStruct = Record<string, LevelStats>;
+
+export type ScormStorageStructShortKeys = Record<string, LevelStatsShortKeys>;
+
+export type SetLevelIdFn = Dispatch<SetStateAction<string | null>>;
+export type SetStatsPageFn = Dispatch<SetStateAction<boolean>>;
+
+export interface NavigateFn {
+    setLevelIdFn: SetLevelIdFn;
+    setStatsPageFn: SetStatsPageFn;
+}

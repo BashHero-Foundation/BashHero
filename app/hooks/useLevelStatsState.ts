@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { LevelStats, LevelStatsStateProps } from "../types";
-import { set_level_wpm } from "../scorm/scorm_database";
+import { saveLevelStats } from "@/components/persistentStats";
 
 export function useLevelStatsState({
   isFinished,
@@ -25,11 +25,7 @@ export function useLevelStatsState({
       timestamp: new Date().toISOString()
     };
 
-    set_level_wpm(level.id, stats.WPM);
+    saveLevelStats(stats);
 
-    localStorage.setItem(
-      `level_${level.id}_stats`,
-      JSON.stringify(stats)
-    );
   }, [isFinished, duration, wpm, errors, accuracy, earnedPoints, level.id, level.title]);
 }
