@@ -22,7 +22,7 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
     const router = useRouter();
 
     // main typing (level) logic hook
-    const typing = useTypingLevel(level?.commands || []);
+    const typing = useTypingLevel(level?.commands || [], level?.autocomplete !== false);
         
     // realtime timer hook  
     const liveTime = useLiveTimer(typing.startTime, typing.isFinished);
@@ -64,6 +64,11 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         },
 
         handleAutocomplete: () => {
+            if (level.autocomplete === false) {
+                setSuggestionsOpen(false);
+                return;
+            }
+
             const targetText = typing.currentCommand?.text ?? "";
 
             // do not allow to autocomplete when correct command

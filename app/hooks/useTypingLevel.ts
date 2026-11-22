@@ -5,7 +5,7 @@ import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, get
 import { mockFileSystem, homeDirectory } from "../types/mockFileSystem";
 import { pathCommands } from "../commandOptions";
 
-export function useTypingLevel(commands: Command[]) {
+export function useTypingLevel(commands: Command[], autocompleteEnabled = true) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [text, setText] = useState('');
     const [startTime, setStartTime] = useState<number | null>(null);
@@ -50,7 +50,7 @@ export function useTypingLevel(commands: Command[]) {
 
     // TAB AUTOCOMPLETE
     const handleAutocomplete = () => {
-        if (isFinished || !currentCommand || text.length === 0) return;
+        if (!autocompleteEnabled || isFinished || !currentCommand || text.length === 0) return;
 
         // start of actual word
         const lastSpaceIndex = text.lastIndexOf(" ");
@@ -135,7 +135,7 @@ export function useTypingLevel(commands: Command[]) {
 
     // return matches - current directories and commands
     const getCurrentAutocompleteMatches = () => {
-        if (!text) return [];
+        if (!autocompleteEnabled || !text) return [];
 
         const lastSpaceIndex = text.lastIndexOf(" ");
         const lastPipeIndex = text.lastIndexOf("|");
