@@ -6,8 +6,11 @@ out_dir = Path.cwd() / "out"
 
 # path_regex = re.compile(r'(<a[^>]*?href=")\/([^"]*)"')
 
+repathing_counter = 0
+
 for html_file_path in list(out_dir.rglob("*.html")):
-    print("reapathing: ", html_file_path)
+    # print("reapathing: ", html_file_path)
+    repathing_counter += 1
     html_dir = html_file_path.parent
 
     # html_content = html_file_path.read_text(encoding="utf-8")
@@ -17,13 +20,15 @@ for html_file_path in list(out_dir.rglob("*.html")):
     #     return f'{match.group(1)}./{re.sub("/", "-", path)}.html"'
 
     # html_content = path_regex.sub(replace_path, html_content)
-    
+
     # html_file_path.write_text(html_content, encoding='utf-8')
 
     if html_dir != out_dir:
-        print(f"moving: {html_file_path}")
+        # print(f"moving: {html_file_path}")
 
         relative_path = os.path.relpath(html_dir, out_dir)
 
         new_filename = f"{re.sub('/', '-', relative_path)}.html"
         html_file_path.rename(out_dir / new_filename)
+
+print(f"repathed: {repathing_counter} files")

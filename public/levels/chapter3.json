@@ -3,8 +3,8 @@
   "chapterTitle": "Rozdział 3: Pliki i praca z treścią",
   "levels": [
     {
-      "id": "6",
-      "title": "6 Zarządzanie Plikami",
+      "id": "13",
+      "title": "13 Zarządzanie Plikami",
       "description": "Tworzenie, kopiowanie i przenoszenie zasobów w terminalu.",
       "difficulty": "medium",
       "category": "file-management",
@@ -12,24 +12,26 @@
       "min_wpm": 32,
       "min_accuracy": 93,
       "commands": [
-        { "text": "mkdir nowe_zadanie" },
-        { "text": "touch index.html" },
+        { "text": "mkdir zadania_nowe" },
+        { "text": "cd /home/student/projektowanie_ui/" },
+        { "text": "touch page.html" },
         { "text": "cp index.html backup.html" },
-        { "text": "mv backup.html ./old/backup.html" },
+        { "text": "mv backup.html /home/student_wmi/" },
         { "text": "rm index.html" },
-        { "text": "rm -rf folder_do_usuniecia" }
+        { "text": "rm -rf folder_do_usuniecia/" }
       ]
     },
     {
-      "id": "7",
-      "title": "7 Praca z treścią plików",
+      "id": "14",
+      "title": "14 Praca z treścią plików",
       "description": "Podglądanie i edycja plików tekstowych bez opuszczania terminala.",
-      "difficulty": "medium",
+      "difficulty": "hard",
       "category": "content",
       "points": 10,
-      "min_wpm": 32,
+      "min_wpm": 38,
       "min_accuracy": 92,
       "commands": [
+        { "text": "cd /home/student/aplikacje_webowe/test/" },
         { "text": "ls -lh" },
         { "text": "cat config.json" },
         { "text": "head -n 5 logs.txt" },
@@ -41,26 +43,28 @@
       ]
     },
     {
-      "id": "8",
-      "title": "8 Zaawansowane operacje plikowe",
+      "id": "15",
+      "title": "15 Zaawansowane operacje plikowe",
       "description": "Przenoszenie z nadpisywaniem oraz tworzenie powiązań między plikami.",
-      "difficulty": "medium",
+      "difficulty": "hard",
       "category": "file-management",
       "points": 10,
-      "min_wpm": 32,
+      "min_wpm": 36,
       "min_accuracy": 92,
       "commands": [
-        { "text": "mv -i file1.txt file2.txt" },
-        { "text": "ln -s target.txt link.txt" },
-        { "text": "ls -l link.txt" },
-        { "text": "cp -r projekty_backup /home/user/archiwum" },
-        { "text": "ls -l /home/user/archiwum" },
+        { "text": "cd warsztat_programisty/" },
+        { "text": "mv -i file1.txt moved_file.txt" },
+        { "text": "ln -s file125.txt link125.txt" },
+        { "text": "ls -l link125.txt" },
+        { "text": "rm -r stare_zadania" },
+        { "text": "ls -l archiwum" },
+        { "text": "cd archiwum" },
         { "text": "rmdir pusty_katalog" }
       ]
     },
     {
-      "id": "9",
-      "title": "9 Inspekcja i statystyki plików",
+      "id": "16",
+      "title": "16 Inspekcja i statystyki plików",
       "description": "Zliczanie linii, słów, sprawdzanie typów plików oraz sum kontrolnych.",
       "difficulty": "hard",
       "category": "content",
@@ -68,31 +72,32 @@
       "min_wpm": 32,
       "min_accuracy": 90,
       "commands": [
+        { "text": "cd warsztat_programisty/"},
         { "text": "wc -l data.csv" },
-        { "text": "wc -w raport.txt" },
+        { "text": "wc -w file1.txt" },
+        { "text": "stat document.docx" },
         { "text": "file nieznany_plik" },
         { "text": "file /usr/bin/bash" },
-        { "text": "md5sum system.iso" },
-        { "text": "md5sum backup.tar.gz" },
-        { "text": "stat document.docx" },
-        { "text": "stat /etc/passwd" }
+        { "text": "cd ~/Downloads"},
+        { "text": "md5sum bigLinux.iso" },
+        { "text": "md5sum bigger_file.tar" }
       ]
     },
     {
-      "id": "10",
-      "title": "10 Filtrowanie strumieni i potoki",
+      "id": "17",
+      "title": "17 Filtrowanie strumieni i potoki",
       "description": "Łączenie komend w celu zaawansowanego przetwarzania tekstu.",
       "difficulty": "hard",
       "category": "content",
-      "points": 15,
-      "min_wpm": 40,
+      "points": 20,
+      "min_wpm": 35,
       "min_accuracy": 90,
       "commands": [
-        { "text": "cat /home/user/dane/names.txt | sort" },
-        { "text": "sort /home/user/dane/sorted.txt | uniq -c" },
-        { "text": "grep -i \"warning\" /var/log/system/system.log" },
-        { "text": "cat /var/log/system/system.log | grep -i \"error\"" },
-        { "text": "cat /home/user/dane/names.txt | sort | uniq" }
+        { "text": "cat warsztat_programisty/file.txt | sort" },
+        { "text": "sort warsztat_programisty/file1.txt | uniq -c" },
+        { "text": "grep -i \"warning\" /var/log/auth.log" },
+        { "text": "tail -f /var/log/error.log | grep -i \"error\"" },
+        { "text": "cat /home/student/warsztat_programisty/file125.txt | sort | uniq" }
       ]
     }
   ]

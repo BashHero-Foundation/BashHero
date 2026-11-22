@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { GlobalStats } from "../types";
-import { getGlobalStats } from "@/components/getGlobalStats";
+import { getGlobalStats } from "@/components/persistentStats";
 
 export function useGlobalStats() {
-  const [stats, setStats] = useState<GlobalStats | null>(null);
+    const [stats, setStats] = useState<GlobalStats | null>(null);
 
-  useEffect(() => {
-    setStats(getGlobalStats());
-  }, []);
+    useEffect(() => {
+        getGlobalStats().then((data) => {
+            setStats(data);
+        });
+    }, []);
 
-  return stats;
+    return stats;
 }

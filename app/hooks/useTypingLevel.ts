@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { Command } from "../types";
-import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches } from "../autocompleteMatches";
-import { mockFileSystem } from "../types/mockFileSystem";
+import { normalizePath, getDirectoryNode, getPrefix, getAutocompleteMatches, getCommandMatches, getCommandContext } from "../autocompleteMatches";
+import { mockFileSystem, homeDirectory } from "../types/mockFileSystem";
 import { pathCommands } from "../commandOptions";
 
-export function useTypingLevel(commands: Command[]) {
+export function useTypingLevel(commands: Command[], autocompleteEnabled = true) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [text, setText] = useState(commands[0]?.initialText ?? "");
     const [startTime, setStartTime] = useState<number | null>(null);
@@ -13,7 +13,7 @@ export function useTypingLevel(commands: Command[]) {
     const [errors, setErrors] = useState(0);
     const [typedChars, setTypedChars] = useState(0);
     const [tabCount, setTabCount] = useState(0);
-    const [currentDirectory, setCurrentDirectory] = useState("/home");
+    const [currentDirectory, setCurrentDirectory] = useState(homeDirectory);
 
     const currentCommand = commands[currentIndex];
     const targetText = currentCommand?.text || "";
@@ -50,11 +50,13 @@ export function useTypingLevel(commands: Command[]) {
 
     // TAB AUTOCOMPLETE
     const handleAutocomplete = () => {
-        if (isFinished || !currentCommand || text.length === 0) return;
+        if (!autocompleteEnabled || isFinished || !currentCommand || text.length === 0) return;
 
         // start of actual word
         const lastSpaceIndex = text.lastIndexOf(" ");
-        const wordStart = lastSpaceIndex + 1;
+        const lastPipeIndex = text.lastIndexOf("|");
+
+        const wordStart = Math.max(lastSpaceIndex, lastPipeIndex) + 1;
         const currentWord = text.slice(wordStart);
 
         // do not complete command arguments
@@ -64,11 +66,11 @@ export function useTypingLevel(commands: Command[]) {
 
         if (currentWord.length === 0) return;
 
-        const isCommand = wordStart === 0;
+        const { isCommand, commandName } = getCommandContext(text);
 
 
         // COMMANDS
-        if (isCommand) {
+        if (isCommand && !currentWord.includes("/")) {
             const matches = getCommandMatches(currentWord);
 
             if (matches.length === 0) return;
@@ -80,8 +82,11 @@ export function useTypingLevel(commands: Command[]) {
                     ? matches[0]
                     : getPrefix(matches);
 
+            // works with pipes (|)        
+            const completedText = text.slice(0, wordStart) + completion;        
+
             if (completion.length > currentWord.length) {
-                setText(completion);
+                setText(completedText);
                 setTabCount(prev => prev + 1);
             }
 
@@ -89,14 +94,7 @@ export function useTypingLevel(commands: Command[]) {
         }
         
         // --- FILE SYSTEM ---
-        // prevent "/" to command bug
-        if (isCommand && (currentWord.startsWith("/") || currentWord.startsWith("."))) {
-            return;
-        }
-
-        const commandName = text.split(" ")[0];
-
-        if (!pathCommands.includes(commandName)) {
+        if (!pathCommands.includes(commandName) && !(isCommand && currentWord.includes("/"))) {
             return;
         }
 
@@ -137,24 +135,24 @@ export function useTypingLevel(commands: Command[]) {
 
     // return matches - current directories and commands
     const getCurrentAutocompleteMatches = () => {
-        if (!text) return [];
+        if (!autocompleteEnabled || !text) return [];
 
         const lastSpaceIndex = text.lastIndexOf(" ");
-        const wordStart = lastSpaceIndex + 1;
+        const lastPipeIndex = text.lastIndexOf("|");
+
+        const wordStart = Math.max(lastSpaceIndex, lastPipeIndex) + 1;
         const currentWord = text.slice(wordStart);
 
         if (!currentWord || currentWord.startsWith("-")) return [];
 
-        const isCommand = wordStart === 0;
+        const { isCommand, commandName } = getCommandContext(text);
 
-        if (isCommand) {
+        if (isCommand && !currentWord.includes("/")) {
             return getCommandMatches(currentWord);
         }
 
-        const commandName = text.split(" ")[0];
-
         // autocomplete for commands allowed to have paths
-        if (!pathCommands.includes(commandName)) {
+        if (!pathCommands.includes(commandName) && !(isCommand && currentWord.includes("/"))) {
             return [];
         }
 
@@ -165,17 +163,17 @@ export function useTypingLevel(commands: Command[]) {
     const handleEnter = () => {
         if (isFinished || !currentCommand) return; //  not allow to change text if finished
 
-        // ------------->  text.trim() will allow spaces at start and end of text <------ to discuss on next meeting
+        // -------  text.trim() will allow spaces at end of text ------
         if (text !== targetText) return; // nothing when not correct 
 
         // check is it cd command
         const cdMatch = targetText.match(/^cd(?:\s+(.+))?$/);
 
         if (cdMatch) {
-        const destination = cdMatch[1] ?? "/home";
+        const destination = cdMatch[1] ?? homeDirectory;
 
         const nextDirectory = normalizePath(
-            destination.startsWith("/")
+            destination.startsWith("/") || destination.startsWith("~")
                 ? destination
                 : `${currentDirectory}/${destination}`
         );
@@ -214,7 +212,7 @@ export function useTypingLevel(commands: Command[]) {
         setErrors(0);
         setTypedChars(0);
         setTabCount(0);
-        setCurrentDirectory("/home");
+        setCurrentDirectory(homeDirectory);
     };
 
     return {

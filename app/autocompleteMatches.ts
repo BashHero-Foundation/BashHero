@@ -1,13 +1,22 @@
 
 import { FileSystemNode } from "./types";
-import { mockFileSystem} from "./types/mockFileSystem";
-import { commands, pathCommands } from "./commandOptions";
+import { mockFileSystem, homeDirectory} from "./types/mockFileSystem";
+import { commands } from "./commandOptions";
 
 // simplify path 
 export function normalizePath(path: string): string {
+    const expandedPath =
+            // ~ is alias for /home/student
+        path === "~"
+            ? homeDirectory
+            : path.startsWith("~/")
+                ? homeDirectory + "/" + path.slice(2)
+                : path;
+
+
     const parts: string[] = [];
 
-    for (const part of path.split("/")) {
+    for (const part of expandedPath.split("/")) {
         if (!part || part === ".") {
             continue;
         }
@@ -74,7 +83,7 @@ export function getPrefix(matches: string[]): string {
 // PATHS
 export function getAutocompleteMatches(
     inputPath: string,
-    currentDirectory = "/home",
+    currentDirectory = homeDirectory,
     fileSystem: FileSystemNode = mockFileSystem
 ): string[] {
 
@@ -91,12 +100,11 @@ export function getAutocompleteMatches(
 
     let directoryPath: string;
 
-    if (fragmentPath.startsWith("/")) {
+    if (fragmentPath.startsWith("/") || fragmentPath.startsWith("~/")) {
         // absolute path
-        directoryPath =
-            lastSlashIndex === 0
-                ? "/"
-                : fragmentPath.slice(0, lastSlashIndex);
+        directoryPath = normalizePath(
+            fragmentPath.slice(0, lastSlashIndex)
+        );
 
     } else {
         // realtive path
@@ -135,4 +143,22 @@ export function getCommandMatches(input: string): string[] {
     return commands.filter(command =>
         command.startsWith(input)
     );
+}
+
+// check is it a pipe or sudo prefix in a command
+export function getCommandContext(text: string) {
+    const lastPipeIndex = text.lastIndexOf("|");
+
+    // text after last pipe
+    const segment = text.slice(lastPipeIndex + 1).trimStart();
+    const words = segment.split(/\s+/);
+
+    // ignore sudo prefix
+    const commandIndex = words[0] === "sudo" ? 1 : 0;
+
+    const commandName = words[commandIndex] ?? "";
+    // check is it still a command 
+    const isCommand = words.length === commandIndex + 1;
+
+    return { isCommand, commandName };
 }

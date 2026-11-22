@@ -3,7 +3,7 @@ export const commands = [
   
     "base64", "bash", "bc", "bg", "bzip2",
   
-    "cat", "cd", "chattr", "chmod", "chown", "cmp", "cp", "curl", "cut",
+    "cat", "cd", "chattr", "chgrp","chmod", "chown", "cmp", "cp", "curl", "cut",
  
     "date", "df", "diff", "dmesg", "du",
 
@@ -23,9 +23,9 @@ export const commands = [
   
     "less", "ln", "locate", "login", "ls", "lsof",
     
-    "make", "man", "md5sum", "mkdir", "mount", "mv",
+    "make", "man", "md5sum", "mkdir", "modinfo", "mount", "mv",
    
-    "nc", "netstat", "nice", "nohup", "nslookup",
+    "nano", "nc", "netstat", "nice", "nohup", "nslookup",
     
     "op", "open", "openssl",
    
@@ -35,11 +35,11 @@ export const commands = [
    
     "rar", "read", "reboot", "rename", "rm", "rmdir", 
 
-    "scp", "sed", "sftp", "sha256sum", "shutdown", "sleep", "sort", "split", "sudo", "sum",
+    "scp", "sed", "sftp", "sha256sum", "shutdown", "sleep", "sort", "split", "stat", "sudo", "sum",
 
     "tail", "time", "touch", "top", "traceroute", "type",
 
-    "umask", "unix2dos", "unrar", "useradd", "userdel", "usermod", "users",
+    "umask", "uniq", "unix2dos", "unrar", "useradd", "userdel", "usermod", "users",
 
     "vi", "vmstat",
 
@@ -54,21 +54,21 @@ export const commands = [
 export const pathCommands = [
     "apt", "apt-get", "awk",
     "base64", "bash", "bzip2",
-    "cat", "cd", "chmod", "chown", "cmp", "cp", "curl", "cut",
-    "diff", "du",
+    "cat", "cd", "chattr", "chmod", "chown", "cmp", "cp", "curl", "cut",
+    "diff", "df", "du",
     "exec",
     "fdisk", "file", "find", "ftp",
     "gawk", "grep", "gzip",
     "head",
     "iconv", "install",
     "less", "ln", "locate", "ls", "lsof",
-    "make", "man", "md5sum", "mkdir", "mount", "mv",
-    "nc", "nohup",
+    "make", "man", "md5sum", "mkdir", "modinfo", "mount", "mv",
+    "nano","nc", "nohup",
     "open", "openssl",
-    "rar", "rename", "rm", "rmdir",
-    "scp", "sed", "sftp", "sha256sum", "sort", "split", "sudo", "sum",
-    "tail", "touch", "traceroute",
-    "unix2dos", "unrar",
+    "rar", "rename", "rm", "rmdir", "rsync",
+    "scp", "sed", "sftp", "sha256sum", "sort", "split", "stat", "sudo", "sum",
+    "tail",  "traceroute",
+    "unix2dos", "unrar", "useradd", "userdel", "usermod", "users",
     "vi",
     "wc", "whereis", "which", "wget",
     "xargs", "xz",
