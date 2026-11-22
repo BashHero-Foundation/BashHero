@@ -14,12 +14,13 @@ export function useLevelStatsState({
   useEffect(() => {
     if (!isFinished || duration <= 0) return;
 
+    const isShortcutLevel = level.category === "shortcuts";
     const stats: LevelStats = {
       levelId: level.id,
       duration,
-      WPM: Math.round(wpm),
-      Errors: errors,
-      Accuracy: accuracy,
+      WPM: isShortcutLevel ? -1 : Math.round(wpm),
+      Errors: isShortcutLevel ? -1 : errors,
+      Accuracy: isShortcutLevel ? -1 : accuracy,
       timestamp: new Date().toISOString()
     };
 
@@ -29,5 +30,5 @@ export function useLevelStatsState({
       `level_${level.id}_stats`,
       JSON.stringify(stats)
     );
-  }, [isFinished, duration, wpm, errors, accuracy, level.id, level.title]);
+  }, [isFinished, duration, wpm, errors, accuracy, level.id, level.category]);
 }

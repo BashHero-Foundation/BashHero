@@ -55,6 +55,7 @@ export interface LevelStatsStateProps {
   level: {
     id: string;
     title: string;
+    category: string;
   };
 };
 

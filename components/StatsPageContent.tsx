@@ -10,6 +10,7 @@ import CalculatePoints from "./CalculatePoints";
 
 export function StatsPageContent({ level }: StatsPageContentProps) {
   const [stats, setStats] = useState<LevelStats | null>(null);
+  const showTypingMetrics = level.category !== "shortcuts";
 
   // settings sidebar
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -55,34 +56,38 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-3xl font-bold text-green-600">{stats.duration.toFixed(2)}s</span>
               </div>
 
-              {/* WPM */}
-              <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-lg font-semibold text-gray-700">WPM</span>
-                  <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
-                </div>
-                <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
-              </div>
+              {showTypingMetrics && (
+                <>
+                  {/* WPM */}
+                  <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex justify-between items-center w-full">
+                      <span className="text-lg font-semibold text-gray-700">WPM</span>
+                      <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
+                    </div>
+                    <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
+                  </div>
 
-              {/* Errors */}
-              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
-                <span className="text-lg font-semibold text-gray-700">Błędy</span>
-                <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
-              </div>
-              
-              {/* Accuracy */}
-              <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-lg font-semibold text-gray-700">Dokładność</span>
-                  <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
-                </div>
-                <span className="text-sm text-gray-500 self-end">wymagana {level.min_accuracy}%</span>
-              </div>
+                  {/* Errors */}
+                  <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
+                    <span className="text-lg font-semibold text-gray-700">Błędy</span>
+                    <span className="text-3xl font-bold text-red-600">{stats.Errors}</span>
+                  </div>
+
+                  {/* Accuracy */}
+                  <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-orange-100 to-amber-50 rounded-lg border border-orange-200">
+                    <div className="flex justify-between items-center w-full">
+                      <span className="text-lg font-semibold text-gray-700">Dokładność</span>
+                      <span className="text-3xl font-bold text-orange-600">{stats.Accuracy}%</span>
+                    </div>
+                    <span className="text-sm text-gray-500 self-end">wymagana {level.min_accuracy}%</span>
+                  </div>
+                </>
+              )}
 
               {/* Points */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-teal-100 to-cyan-50 rounded-lg border border-green-200">
                 <span className="text-lg font-semibold text-gray-700">Punkty</span>
-                <span className="text-3xl font-bold text-teal-700">{CalculatePoints(stats.Accuracy, stats.WPM, stats.Tabs || 0, level.points, level.min_wpm, level.min_accuracy, level.min_tab_count ?? 0)}/{level.points}</span>
+                <span className="text-3xl font-bold text-teal-700">{CalculatePoints(showTypingMetrics ? stats.Accuracy : 0, showTypingMetrics ? stats.WPM : 0, stats.Tabs || 0, level.points, level.min_wpm, level.min_accuracy, level.min_tab_count ?? 0)}/{level.points}</span>
               </div>
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral py-1">

@@ -10,19 +10,22 @@ import { alllevels } from "../levelsUtils";
 * @returns 'true' if no error
 */
 export async function set_level_wpm(id: string, wpm: number) {
-    const objective_number = await objective_number_from_id(id);
+    if (wpm === -1) {
+        await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+    } else {
+        const objective_number = await objective_number_from_id(id);
 
-    if (typeof objective_number !== 'undefined') {
-        const last_wpm = await scorm_get(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)));
+        if (typeof objective_number !== 'undefined') {
+            const last_wpm = await scorm_get(SCORM_FIELDS.OBJECTIVE_SCORE(String(objective_number)));
 
-        if (typeof last_wpm !== 'undefined' && Number(last_wpm) < wpm) {
-            await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
-        } else if (typeof last_wpm === 'undefined') {
+            if (typeof last_wpm !== 'undefined' && Number(last_wpm) < wpm) {
+                await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+            } else if (typeof last_wpm === 'undefined') {
+                await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
+            }
+        } else {
             await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
         }
-    }
-    else {
-        await set_or_update_objective(id, { score: wpm, status: SCORM_STATUS.PASSED });
     }
 
     await update_global_score();

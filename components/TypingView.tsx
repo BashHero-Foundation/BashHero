@@ -120,7 +120,8 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
         Tabs: typing.tabCount,
         level: {
             id: level.id,
-            title: level.title
+            title: level.title,
+            category: level.category
         }
     });
 
@@ -155,14 +156,14 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
             <TutorialPopup
                 storageKey="tutorial-popup"
                 title="Witaj w Bash Hero!"
-                message="Wykonuj zadania, wpisując komendy w terminalu na środku ekranu. 
+                message={`Wykonuj zadania, wpisując komendy w terminalu na środku ekranu. 
                     Twoim celem jest jak najszybsze i poprawne przepisanie wszystkich komend.
                     Po lewej stronie znajdziesz listę poziomów.
                     Możesz ją rozwinąć i wybrać zadanie.
                     Po prawej stronie możesz zmienić motyw.
                     Podczas zadania działa timer - zatrzyma się automatycznie po wpisaniu wszystkich komend.
                     Po ukończeniu zobaczysz swoje statystyki (czas, WPM, liczba błędów, dokładność, zdobyte punkty).
-                    Powodzenia i baw się dobrze!"
+                    Powodzenia i baw się dobrze!`}
             />
 
             {/* LEVEL INFO */}    
@@ -185,15 +186,19 @@ export function TypingView({ level, nextLevelId }: { level: Level; nextLevelId: 
                     <span className="text-text-neutral/30 mx-1 text-md">|</span>
                     
                     
-                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
-                        <span className="opacity-70">WPM: </span>
-                        <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
-                    </span>
+                    {level.category !== "shortcuts" && (
+                        <>
+                            <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                                <span className="opacity-70">WPM: </span>
+                                <span className="font-semibold text-text-secondary">{level.min_wpm}</span>
+                            </span>
 
-                    <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
-                        <span className="opacity-70">ACC: </span>
-                        <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
-                    </span>
+                            <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">
+                                <span className="opacity-70">ACC: </span>
+                                <span className="font-semibold text-text-secondary">{level.min_accuracy}%</span>
+                            </span>
+                        </>
+                    )}
 
                     {level.min_tab_count !== undefined && (
                     <span className="px-3 py-1 rounded-full bg-badge-neutral-bg/40 text-text-secondary border border-badge-neutral-border/20 flex items-center gap-1">

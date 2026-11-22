@@ -23,6 +23,10 @@ export function getGlobalStats(): GlobalStats {
     };
   }
 
+  const statsWithWpm = allStats.filter((stat) => stat.WPM !== -1);
+  const statsWithErrors = allStats.filter((stat) => stat.Errors !== -1);
+  const statsWithAccuracy = allStats.filter((stat) => stat.Accuracy !== -1);
+
   return {
     levelsCompleted: allStats.length,
 
@@ -32,18 +36,18 @@ export function getGlobalStats(): GlobalStats {
     ),
 
     averageWPM: Math.round(
-      allStats.reduce((sum, stat) => sum + stat.WPM, 0) /
-      allStats.length
+      statsWithWpm.reduce((sum, stat) => sum + stat.WPM, 0) /
+      (statsWithWpm.length || 1)
     ),
 
-    totalErrors: allStats.reduce(
+    totalErrors: statsWithErrors.reduce(
       (sum, stat) => sum + stat.Errors,
       0
     ),
 
     averageAccuracy: Math.round(
-      allStats.reduce((sum, stat) => sum + stat.Accuracy, 0) /
-      allStats.length
+      statsWithAccuracy.reduce((sum, stat) => sum + stat.Accuracy, 0) /
+      (statsWithAccuracy.length || 1)
     ),
   };
 }
