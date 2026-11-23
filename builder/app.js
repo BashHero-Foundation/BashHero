@@ -591,28 +591,49 @@ async function buildAppZipFromOPFS() {
   const zip = new JSZip();
   const sourceDir = await getSourceDir();
 
-  async function walk(dirHandle, prefix, isLevels) {
+  async function walk(dirHandle, prefix) {
     for await (const [name, handle] of dirHandle.entries()) {
-      if (name.startsWith(".")) continue;                // skip .version
-      if (handle.kind === "file" && isLevels && name.endsWith(".json")) continue;
+      if (name.startsWith(".")) continue;
 
       const path = prefix ? `${prefix}/${name}` : name;
-      if (handle.kind === "directory") {
-        await walk(handle, path, path === "app/levels");
-      } else {
+
+      if (handle.kind === "file") {
+        // Chapters under app/public/levels/ are replaced by this session's output.
+        if (path.startsWith("public/levels/") && name.endsWith(".json")) {
+          continue;
+        }
+        // The manifest is regenerated below.
+        if (path === "public/levels_manifest.json") {
+          continue;
+        }
         zip.file(path, await handle.getFile());
+      } else if (handle.kind === "directory") {
+        await walk(handle, path);
       }
     }
   }
 
-  await walk(sourceDir, "", false);
+  await walk(sourceDir, "");
 
-  // Replace app/levels/*.json with the current chapters.
+  // Write this session's chapters into app/public/levels/ and build the manifest.
+  const manifest = [];
+
   for (const c of chapters) {
     const data = getExportData(c);
-    const name = `chapter-${safeFilename(data.chapterId)}.json`;
-    zip.file(`app/levels/${name}`, JSON.stringify(data, null, 2) + "\n");
+    const fileName = `chapter${safeFilename(data.chapterId)}.json`;
+
+    zip.file(
+      `public/levels/${fileName}`,
+      JSON.stringify(data, null, 2) + "\n"
+    );
+
+    manifest.push(`./levels/${fileName}`);
   }
+
+  zip.file(
+    "public/levels_manifest.json",
+    JSON.stringify(manifest, null, 2) + "\n"
+  );
 
   return zip.generateAsync({
     type: "blob",
