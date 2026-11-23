@@ -29,7 +29,7 @@ export function StatsPageContent({ level, chapters, navigateFn }: { level: Level
     <div className="flex">
 
       {/* Sidebar menu */}
-        <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={() => {}} />
+        <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={() => {}} currentLevelId={level.id} />
 
       <SettingsSidebar
                   open={settingsOpen}

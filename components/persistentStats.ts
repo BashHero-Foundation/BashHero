@@ -58,8 +58,30 @@ export async function getLevelStats(
     return null;
 }
 
-export function saveLevelStats(stats: LevelStats) {
-    saveScormLevelStats(stats);
+export const LEVEL_PROGRESS_EVENT = "level-progress-changed";
+
+export async function saveLevelStats(stats: LevelStats) {
+    await saveScormLevelStats(stats);
+    window.dispatchEvent(new Event(LEVEL_PROGRESS_EVENT));
+}
+// saved stats keep the best attempt, so a worse retry doesn't remove it
+export function isLevelPassed(
+    level: { id: string; points: number },
+    allStats: Record<string, LevelStats>,
+): boolean {
+    return getLevelStatus(level, allStats) === "passed";
+}
+
+export type LevelStatus = "passed" | "partial" | "none";
+
+export function getLevelStatus(
+    level: { id: string; points: number },
+    allStats: Record<string, LevelStats>,
+): LevelStatus {
+    const stats = allStats[level.id];
+    if (stats === undefined) return "none";
+    if (typeof stats.earnedPoints === "number" && stats.earnedPoints >= level.points) return "passed";
+    return "partial";
 }
 
 export async function getAllLevelStats(): Promise<Record<string, LevelStats>> {
