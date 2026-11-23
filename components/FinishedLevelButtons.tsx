@@ -38,7 +38,7 @@ export default function FinishedLevelButtons({ levelId, nextLevelId, navigateFn,
                         navigateToFn(nextLevelId, false, navigateFn);
                     }}
                     className="flex flex-1 items-center justify-center text-center gap-1
-                rounded-xl border-b-4 border-green-800 bg-green-600 shadow-lg py-4 text-lg text-text-primary normal-case transition hover:bg-green-500 hover:text-white
+                rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg shadow-lg py-4 text-lg text-text-primary normal-case transition hover:bg-btn-primary-bg-hover hover:text-white
                 active:border-b-0 active:translate-y-1">
                     <ArrowBigRightDash size={30} strokeWidth={2} />
 

@@ -2,7 +2,6 @@
 
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useEffect, useRef } from "react";
-import {Bug} from "lucide-react";
 
 type SettingsSidebarProps = {
     open: boolean;

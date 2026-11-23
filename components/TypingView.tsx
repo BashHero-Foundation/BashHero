@@ -397,7 +397,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3>
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
-                    <span className="flex items-baseline gap-2 bg-red-700 bg-clip-text text-transparent"> 
+                    <span className="flex items-baseline gap-2 text-text-secondary"> 
                         <span className=" text-3xl"> {earnedPoints}/{level.points}</span>
                         <span className="text-xl"> punktów</span>
                     </span>
