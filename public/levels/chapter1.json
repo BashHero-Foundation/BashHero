@@ -5,7 +5,6 @@
     {
       "id": "1",
       "title": "1 Podstawowe poruszanie się",
-      "autocomplete": false,
       "description": "Ćwiczymy podstawy komendy cd w różnych sytuacjach systemowych.",
       "difficulty": "easy",
       "category": "navigation",
@@ -25,7 +24,6 @@
       {
       "id": "2",
       "title": "2 Zaawansowana nawigacja",
-      "autocomplete": false,
       "description": "Szybkie przeskakiwanie między katalogami przy użyciu skrótów.",
       "difficulty": "medium",
       "category": "navigation",
@@ -48,7 +46,6 @@
     {
       "id": "3",
       "title": "3 Wyszukiwanie ścieżek i lokalizacja",
-      "autocomplete": false,
       "description": "Lokalizowanie plików wykonywalnych oraz przeszukiwanie drzewa struktury.",
       "difficulty": "easy",
       "category": "navigation",
@@ -67,7 +64,6 @@
     {
       "id": "4",
       "title": "4 Dynamiczna eksploracja katalogów",
-      "autocomplete": false,
       "description": "Wyświetlanie i interpretowanie różnych widoków listingów plików.",
       "difficulty": "easy",
       "category": "navigation",
@@ -88,7 +84,6 @@
     {
       "id": "5",
       "title": "5 Drzewo katalogów i inspekcja",
-      "autocomplete": false,
       "description": "Wizualizacja struktury katalogów i szybka zmiana kontekstu.",
       "difficulty": "hard",
       "category": "navigation",

@@ -156,7 +156,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
     return (
         <div className="flex">
             <a
-                href="https://forms.gle/B2dqfYC1xFTrgpau7"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSePiXV5VF4_8-5J2PwS5nixVkQlk7qmKjtyB3xhX8nZbiJUwQ/viewform?usp=dialog"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Oceń aplikację"

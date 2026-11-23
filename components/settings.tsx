@@ -1,5 +1,6 @@
 "use client";
 
+import { Bug } from "lucide-react";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useEffect, useRef } from "react";
 
@@ -98,6 +99,33 @@ export default function SettingsSidebar({
                             </p>
 
                             <ThemeSwitcher />
+                        </div>
+
+                        <div className="pt-4">
+                             <p className="font-bold mb-2 text-text-neutral">
+                                Report a bug
+                            </p>
+
+                            <a
+                                href="https://forms.gle/B2dqfYC1xFTrgpau7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Report a bug"
+                                title="Report a bug"
+                                className="
+                                    block
+                                    rounded-2xl
+                                    bg-btn-primary-bg
+                                    text-white
+                                    text-center
+                                    py-2
+                                    text-sm
+                                    hover:opacity-70
+                                    transition
+                                "
+                            >
+                                <Bug className="inline " />
+                            </a>
                         </div>
 
                     </div>
