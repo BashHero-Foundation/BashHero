@@ -97,6 +97,7 @@ export default function Home() {
         } else {
             return (
                 <TypingView
+                    key={currentLevel.id}
                     level={currentLevel}
                     nextLevelId={nextLevelId}
                     chapters={chapters}
