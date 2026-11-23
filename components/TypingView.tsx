@@ -11,8 +11,9 @@ import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
-import { Bug, Timer } from "lucide-react";
+import { Bug, Info, Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
+import ScreenPopup from "@/components/ScreenPopup";
 import { navigateToFn } from "@/app/scorm/scorm_utils";
 
 export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level: Level; nextLevelId: string | null, chapters: Chapter[], navigateFn: NavigateFn }) {
@@ -139,6 +140,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+    const [showInfoPopup, setShowInfoPopup] = useState(false);
 
     useEffect(() => {
         textareaRef.current?.focus();
@@ -155,6 +157,28 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
 
     return (
         <div className="flex">
+                <button
+                onClick={() => setShowInfoPopup(true)}
+                className="fixed bottom-8 right-42 z-50
+                    inline-flex items-center justify-center gap-2
+                    rounded-full
+                    bg-bg-tertiary text-text-primary
+                    px-2.5 py-2.5
+                    shadow-xl
+                    hover:opacity-80 hover:scale-105
+                    active:scale-95
+                    transition-all duration-200"
+                >
+                <Info size={24} />
+                </button>
+                  <ScreenPopup
+                isOpen={showInfoPopup}
+                onClose={() => setShowInfoPopup(false)}
+                title="Lorem"
+                message="Ipsum"
+                images={["/images/infoPopupImage.png",
+                    ]}
+                />
             <a
                 href="https://forms.gle/B2dqfYC1xFTrgpau7"
                 target="_blank"
