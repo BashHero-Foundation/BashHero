@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node levelsUtilsGenerator.mjs",
     "dev": "next dev",
+    "prebuild": "node levelsUtilsGenerator.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
