@@ -83,11 +83,15 @@ export function StatsPageContent({ level, chapters, navigateFn }: { level: Level
                 <span className="text-sm text-gray-500 self-end">wymagana {level.min_accuracy}%</span>
               </div>
 
+              </>
+              )}
+
               {/* Points */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-teal-100 to-cyan-50 rounded-lg border border-green-200">
                 <span className="text-lg font-semibold text-gray-700">Punkty</span>
                 <span className="text-3xl font-bold text-teal-700">{stats.earnedPoints}/{level.points}</span>
               </div>
+
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral py-1">
                 {new Date(stats.timestamp).toLocaleDateString('pl-PL', {
@@ -98,8 +102,6 @@ export function StatsPageContent({ level, chapters, navigateFn }: { level: Level
                   minute: '2-digit'
                 })}
               </div>
-              </>
-              )}
             </div>
           ) :
 
