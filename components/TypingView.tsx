@@ -174,8 +174,10 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                   <ScreenPopup
                 isOpen={showInfoPopup}
                 onClose={() => setShowInfoPopup(false)}
-                title="Lorem"
-                message="Ipsum"
+                title="Dodatkowe informacje"
+                message="Uważaj na te grafiki pojawiające się nad poziomem. 
+                Podpowiedź o użyciu skrótu, informuje o jego wymogu by otrzymać czas do zaliczenia poziomu.
+                Licznik TAB informuje o ilości użytych wciśnięć TAB w poziomie."
                 images={["/images/infoPopupImage.png",
                     ]}
                 />
