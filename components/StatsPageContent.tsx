@@ -1,26 +1,27 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Menu } from "./menu";
-import { LevelStats, StatsPageContentProps } from "@/app/types";
+import { Chapter, Level, LevelStats, NavigateFn } from "@/app/types";
 import SettingsSidebar from "./settings";
-import { scormifyPath } from "@/app/scorm/scorm_utils";
+import { navigateToFn, navigateToUrl } from "@/app/scorm/scorm_utils";
 import { ArrowLeft } from 'lucide-react';
-import CalculatePoints from "./CalculatePoints";
 import { getLevelStats } from "./persistentStats";
 
 
-export function StatsPageContent({ level }: StatsPageContentProps) {
+export function StatsPageContent({ level, chapters, navigateFn }: { level: Level, chapters: Chapter[], navigateFn: NavigateFn } ) {
   const [stats, setStats] = useState<LevelStats | null>(null);
+  const showTypingMetrics = level.category !== "shortcuts";
 
   // settings sidebar
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
-    // Get stats from localStorage
-    const savedStats = getLevelStats(level.id);
-    if (savedStats) {
-      setStats(savedStats);
-    }
+    // Get stats from SCORM 
+      getLevelStats(level.id).then((savedStats) => {
+        if (savedStats) {
+          setStats(savedStats);
+        }
+    })
   }, [level.id]);
 
 
@@ -28,7 +29,7 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
     <div className="flex">
 
       {/* Sidebar menu */}
-        <Menu />
+        <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={() => {}} />
 
       <SettingsSidebar
                   open={settingsOpen}
@@ -56,14 +57,16 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                 <span className="text-3xl font-bold text-green-600">{stats.duration.toFixed(2)}s</span>
               </div>
 
-              {/* WPM */}
-              <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-lg font-semibold text-gray-700">WPM</span>
-                  <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
-                </div>
-                <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
-              </div>
+              {showTypingMetrics && (
+                <>
+                  {/* WPM */}
+                  <div className="flex flex-col justify-between items-center p-4 tracking-wider bg-linear-to-r from-blue-100 to-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex justify-between items-center w-full">
+                      <span className="text-lg font-semibold text-gray-700">WPM</span>
+                      <span className="text-3xl font-bold text-blue-600">{stats.WPM}</span>
+                    </div>
+                    <span className="text-sm text-gray-500 self-end">wymagane {level.min_wpm}</span>
+                  </div>
 
               {/* Errors */}
               <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-red-100 to-rose-50 rounded-lg border border-red-200">
@@ -81,9 +84,9 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
               </div>
 
               {/* Points */}
-              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-teal-100 to-cyan-50 border-slate-200 rounded-lg border border-green-200">
+              <div className="flex justify-between items-center p-4 tracking-wider bg-linear-to-r from-teal-100 to-cyan-50 rounded-lg border border-green-200">
                 <span className="text-lg font-semibold text-gray-700">Punkty</span>
-                <span className="text-3xl font-bold text-teal-700">{CalculatePoints(stats.Accuracy, stats.WPM, level.points, level.min_wpm, level.min_accuracy)}/{level.points}</span>
+                <span className="text-3xl font-bold text-teal-700">{stats.earnedPoints}/{level.points}</span>
               </div>
               {/* Timestamp */}
               <div className="text-center text-sm text-text-neutral py-1">
@@ -95,6 +98,8 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
                   minute: '2-digit'
                 })}
               </div>
+              </>
+              )}
             </div>
           ) :
 
@@ -108,7 +113,13 @@ export function StatsPageContent({ level }: StatsPageContentProps) {
 
           {/* Navigation Buttons */}
           <div className="w-full pb-5">
-            <a href={scormifyPath(`/game/${level.id}`)} className="w-full">
+                      <a
+                          href={navigateToUrl(level.id, false)}
+                          onClick={(e) => {
+                              e.preventDefault();
+                              navigateToFn(level.id, false, navigateFn);
+                          }}
+                          className="w-full">
               <button className="w-full rounded-xl border-b-4 border-btn-primary-border bg-btn-primary-bg
               shadow-lg px-6 py-3 text-lg text-text-primary font-bold transition hover:bg-btn-primary-bg-hover
               active:border-b-0 active:translate-y-1">

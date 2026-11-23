@@ -1,10 +1,10 @@
 {
-  "chapterId": "5",
-  "chapterTitle": "Rozdział 5: Sieci komputerowe i diagnostyka",
+  "chapterId": "6",
+  "chapterTitle": "Rozdział 6: Sieci komputerowe i diagnostyka",
   "levels": [
     {
-      "id": "18",
-      "title": "18 Podstawowa diagnostyka sieciowa",
+      "id": "25",
+      "title": "25 Podstawowa diagnostyka sieciowa",
       "description": "Weryfikacja połączeń sieciowych oraz translacji nazw DNS.",
       "difficulty": "easy",
       "category": "network",
@@ -21,8 +21,8 @@
       ]
     },
     {
-      "id": "19",
-      "title": "19 Analiza portów i interfejsów",
+      "id": "26",
+      "title": "26 Analiza portów i interfejsów",
       "description": "Sprawdzanie aktywnych kart sieciowych oraz nasłuchujących gniazd.",
       "difficulty": "medium",
       "category": "network",
@@ -40,18 +40,18 @@
       ]
     },
     {
-      "id": "20",
-      "title": "20 Pobieranie danych i transfer",
+      "id": "27",
+      "title": "27 Pobieranie danych i transfer",
       "description": "Pobieranie zasobów zdalnych oraz synchronizacja plików przez sieć.",
       "difficulty": "hard",
       "category": "network",
-      "points": 20,
-      "min_wpm": 45,
-      "min_accuracy": 94,
+      "points": 25,
+      "min_wpm": 35,
+      "min_accuracy": 90,
       "commands": [
-        { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
-        { "text": "rsync -av /home/user/projects user@remote-server:/var/backups/projects_2026" },
-        { "text": "scp -r /home/user/photos/holiday_2025 user@remote-server:/home/user/backup/photos" }
+          { "text": "wget -c http://example.com/files/backup_archive_v2.zip" },
+          { "text": "rsync -av /home/student/projekt_zaliczeniowy/ student@remote-server:/home/student_wmi/" },
+          { "text": "scp -r /home/student/projekt_zaliczeniowy/docs/ student@remote-server:/home/student_wmi/" }
       ]
     }
   ]

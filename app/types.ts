@@ -1,24 +1,38 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type Command = {
   text: string;
+  initialText?: string;
   hint?: string;
 };
 
 export type Level = {
   id: string;
   title: string;
+  autocomplete?: boolean;
   description: string;
   difficulty: string;
   category: string;
   points: number;
   min_wpm: number;
   min_accuracy: number;
+  min_tab_count?: number;
+  required_shortcuts?: string[];
+  initial_cursor?: "start" | "end";
   commands: Command[];
 };
+
+export type Chapter = {
+  chapterId: string;
+  chapterTitle: string;
+  levels: Level[];
+}
 
 export interface LevelMetricsProps {
   commands: Command[];
   duration: number;
   errors: number;
+  typedChars: number;
 }
 
 export type LevelStats = {
@@ -27,7 +41,19 @@ export type LevelStats = {
   WPM: number;
   Errors: number;
   Accuracy: number;
+  earnedPoints: number;
+  Tabs?: number;
   timestamp: string;
+}
+
+export type LevelStatsShortKeys = {
+  i: string;
+  d: number;
+  w: number;
+  e: number;
+  a: number;
+  p: number;
+  t: string;
 }
 
 export type GlobalStats = {
@@ -44,9 +70,12 @@ export interface LevelStatsStateProps {
   wpm: number;
   errors: number;
   accuracy: number;
+  earnedPoints: number;
+  Tabs?: number;
   level: {
     id: string;
     title: string;
+    category: string;
   };
 };
 
@@ -60,13 +89,38 @@ export interface StatsPageContentProps {
     points: number;
     min_wpm: number;
     min_accuracy: number;
+    min_tab_count?: number;
   };
 }
 
 export interface ScormIframeMessage {
-  type: "SET" | "GET";
+  type: "SET" | "GET" | "LOG";
+  id: string,
   payload: {
     field: string;
     value: string;
   }
+}
+
+export type FileSystemNode = 
+  | {    name: string;
+    type: "directory";
+    children?: FileSystemNode[];
+  }
+  | 
+  { name: string;
+    type: "file";
+    children?: never;
+  }
+
+export type ScormStorageStruct = Record<string, LevelStats>;
+
+export type ScormStorageStructShortKeys = Record<string, LevelStatsShortKeys>;
+
+export type SetLevelIdFn = Dispatch<SetStateAction<string | null>>;
+export type SetStatsPageFn = Dispatch<SetStateAction<boolean>>;
+
+export interface NavigateFn {
+    setLevelIdFn: SetLevelIdFn;
+    setStatsPageFn: SetStatsPageFn;
 }

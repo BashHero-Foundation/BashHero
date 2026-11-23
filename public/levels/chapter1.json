@@ -1,0 +1,115 @@
+{
+  "chapterId": "1",
+  "chapterTitle": "Rozdział 1: Nawigacja i struktura katalogów",
+  "levels": [
+    {
+      "id": "1",
+      "title": "1 Podstawowe poruszanie się",
+      "autocomplete": false,
+      "description": "Ćwiczymy podstawy komendy cd w różnych sytuacjach systemowych.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 5,
+      "min_wpm": 25,
+      "min_accuracy": 80,
+      "commands": [
+        { "text": "echo \"Hello World\"" },
+        { "text": "cd /home/student/programowanie_obiektowe/" },
+        { "text": "cd .." },
+        { "text": "cd projekt_zaliczeniowy/" },
+        { "text": "ls" },
+        { "text": "cd /lib32/modules/" },
+        { "text": "pwd" } 
+      ]
+    },
+      {
+      "id": "2",
+      "title": "2 Zaawansowana nawigacja",
+      "autocomplete": false,
+      "description": "Szybkie przeskakiwanie między katalogami przy użyciu skrótów.",
+      "difficulty": "medium",
+      "category": "navigation",
+      "points": 10,
+      "min_wpm": 30,
+      "min_accuracy": 80,
+      "commands": [
+        { "text": "cd ~" },
+        { "text": "cd -" },
+        { "text": "cd ../../" },
+        { "text": "ls -a" },
+        { "text": "cd ~/Downloads/" },
+        { "text": "ls -la" },
+        { "text": "ls -t" },
+        { "text": "cd /usr/local/bin/../share/" },
+        { "text": "cd ../" },
+        { "text": "pwd" }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "3 Wyszukiwanie ścieżek i lokalizacja",
+      "autocomplete": false,
+      "description": "Lokalizowanie plików wykonywalnych oraz przeszukiwanie drzewa struktury.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 5,
+      "min_wpm": 28,
+      "min_accuracy": 80,
+      "commands": [
+        { "text": "which bash" },
+        { "text": "which ls" },
+        { "text": "whereis bash" },
+        { "text": "ls -F" },
+        { "text": "ls -F /usr/bin/" },
+        { "text": "cd /usr/bin/" }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "4 Dynamiczna eksploracja katalogów",
+      "autocomplete": false,
+      "description": "Wyświetlanie i interpretowanie różnych widoków listingów plików.",
+      "difficulty": "easy",
+      "category": "navigation",
+      "points": 8,
+      "min_wpm": 30,
+      "min_accuracy": 85,
+      "commands": [
+        { "text": "ls -l" },
+        { "text": "ls -lh" },
+        { "text": "cd /host/" },
+        { "text": "ls -lt" },
+        { "text": "cd /var/log/" },
+        { "text": "ls -lS" },
+        { "text": "cd -" },
+        { "text": "pwd" }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "5 Drzewo katalogów i inspekcja",
+      "autocomplete": false,
+      "description": "Wizualizacja struktury katalogów i szybka zmiana kontekstu.",
+      "difficulty": "hard",
+      "category": "navigation",
+      "points": 15,
+      "min_wpm": 40,
+      "min_accuracy": 80,
+      "commands": [
+        { "text": "ls -l /var/log/network/interfaces/" },
+        { "text": "cd /var/log/network/interfaces/" },
+        { "text": "pwd" },
+
+        { "text": "cd /etc/nginx/" },
+        { "text": "ls -l access.log" },
+
+        { "text": "cd /var/log/nginx/archive/" },
+        { "text": "ls -lh error.log.1" },
+        { "text": "pwd" },
+
+        { "text": "cd /usr/local/share/" },
+        { "text": "ls -R" }
+      ]
+        }
+  ]
+}
