@@ -11,7 +11,7 @@ import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
-import { Bug, Timer } from "lucide-react";
+import { UserStar, Timer } from "lucide-react";
 import TutorialPopup from "@/components/TutorialPopup";
 import { navigateToFn } from "@/app/scorm/scorm_utils";
 
@@ -159,8 +159,8 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                 href="https://forms.gle/B2dqfYC1xFTrgpau7"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Report a bug"
-                title="Report a bug"
+                aria-label="Oceń aplikację"
+                title="Oceń aplikację"
                 className="
                     fixed bottom-8 right-4 z-50
                     inline-flex items-center justify-center gap-2
@@ -173,9 +173,9 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     transition-all duration-200
                 "
             >
-                <Bug size={24} />
+                <UserStar size={24} />
                 <span className="text-sm font-semibold">
-                    Report a bug
+                    Oceń aplikację
                 </span>
             </a>
             <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={typing.reset} />
