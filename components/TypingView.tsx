@@ -11,7 +11,9 @@ import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
-import { UserStar, Timer } from "lucide-react";
+import { UserStar, Bug, Timer, CircleCheck, CircleDashed } from "lucide-react";
+import { useLevelProgress } from "@/app/hooks/useLevelProgress";
+import { getLevelStatus } from "./persistentStats";
 import TutorialPopup from "@/components/TutorialPopup";
 import { navigateToFn } from "@/app/scorm/scorm_utils";
 
@@ -137,6 +139,11 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
         }
     });
 
+    // completion status: passed (full points), partial (finished without full points) or none
+    const savedStats = useLevelProgress();
+    const levelStatus = getLevelStatus(level, savedStats);
+    const bestPoints = savedStats[level.id]?.earnedPoints ?? 0;
+
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
 
@@ -178,7 +185,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     Oceń aplikację
                 </span>
             </a>
-            <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={typing.reset} />
+            <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={typing.reset} currentLevelId={level.id} />
 
              <SettingsSidebar
             open={settingsOpen}
@@ -240,6 +247,32 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                         <span className="opacity-70">TAB: </span>
                         <span className="font-semibold text-text-secondary">{level.min_tab_count}</span>
                     </span>
+                    )}
+
+                    {levelStatus === "passed" && (
+                        <>
+                            <span className="text-text-neutral/30 mx-1 text-md">|</span>
+                            <span
+                                className="px-3 py-1 rounded-full bg-terminal-success/10 text-terminal-success border border-terminal-success/40 flex items-center gap-1 font-semibold"
+                                title="Wszystkie warunki poziomu zostały spełnione"
+                            >
+                                <CircleCheck size={14} strokeWidth={2.5} />
+                                Zaliczony
+                            </span>
+                        </>
+                    )}
+
+                    {levelStatus === "partial" && (
+                        <>
+                            <span className="text-text-neutral/30 mx-1 text-md">|</span>
+                            <span
+                                className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/40 flex items-center gap-1 font-semibold"
+                                title="Poziom ukończony, ale nie wszystkie warunki zostały spełnione"
+                            >
+                                <CircleDashed size={14} strokeWidth={2.5} />
+                                Częściowo: {bestPoints}/{level.points} pkt
+                            </span>
+                        </>
                     )}
 
                 </div>
