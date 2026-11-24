@@ -31,7 +31,7 @@
       "min_wpm": 38,
       "min_accuracy": 92,
       "commands": [
-        { "text": "cd /home/student/aplikacje_webowe/test/" },
+        { "text": "cd /home/student/aplikacje_webowe/" },
         { "text": "ls -lh" },
         { "text": "cat config.json" },
         { "text": "head -n 5 logs.txt" },
@@ -39,7 +39,7 @@
         { "text": "tail -f access.log" },
         { "text": "grep \"error\" app.log" },
         { "text": "wc -l app.log" },
-        { "text": "nano README.md" }
+        { "text": "nano access.log" }
       ]
     },
     {
