@@ -11,7 +11,7 @@ import TextCorrecter from "./TextCorrecter";
 import SettingsSidebar from "./settings";
 import CalculatePoints from "@/components/CalculatePoints";
 import { useRef, useState, useEffect } from "react";
-import { Bug, Timer, CircleCheck, CircleDashed } from "lucide-react";
+import { UserStar, Bug, Timer, CircleCheck, CircleDashed } from "lucide-react";
 import { useLevelProgress } from "@/app/hooks/useLevelProgress";
 import { getLevelStatus } from "./persistentStats";
 import TutorialPopup from "@/components/TutorialPopup";
@@ -163,11 +163,11 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
     return (
         <div className="flex">
             <a
-                href="https://forms.gle/B2dqfYC1xFTrgpau7"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSePiXV5VF4_8-5J2PwS5nixVkQlk7qmKjtyB3xhX8nZbiJUwQ/viewform?usp=dialog"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Report a bug"
-                title="Report a bug"
+                aria-label="Oceń aplikację"
+                title="Oceń aplikację"
                 className="
                     fixed bottom-8 right-4 z-50
                     inline-flex items-center justify-center gap-2
@@ -180,9 +180,9 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                     transition-all duration-200
                 "
             >
-                <Bug size={24} />
+                <UserStar size={24} />
                 <span className="text-sm font-semibold">
-                    Report a bug
+                    Oceń aplikację
                 </span>
             </a>
             <Menu chapters={chapters} navigateFn={navigateFn} resetLevelFn={typing.reset} currentLevelId={level.id} />
@@ -430,7 +430,7 @@ export function TypingView({ level, nextLevelId, chapters, navigateFn }: { level
                 <h3 className="font-bold text-2xl text-text-secondary"> Gratulacje !!</h3>
                 {/* Points*/}
                 <div className="mt-5 font-extrabold tracking-wider"> 
-                    <span className="flex items-baseline gap-2 bg-red-700 bg-clip-text text-transparent"> 
+                    <span className="flex items-baseline gap-2 text-text-secondary"> 
                         <span className=" text-3xl"> {earnedPoints}/{level.points}</span>
                         <span className="text-xl"> punktów</span>
                     </span>

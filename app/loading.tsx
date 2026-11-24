@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <div className="flex h-screen">
-        <div className="w-5/6 flex flex-col items-center mt-20">
+        <div className="w-full flex flex-col items-center mt-50">
             <svg fill="#c8c8c8" width="150px" height="150px" viewBox="0 0 399.387 399.387" className="animate-spin">
             <g>
                 <path d="M340.896,58.488C303.18,20.771,253.033,0,199.694,0C146.353,0,96.207,20.771,58.491,58.488
