@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { LevelStats, LevelStatsStateProps } from "../types";
-import { set_level_wpm } from "../scorm/scorm_database";
+import { saveLevelStats } from "@/components/persistentStats";
+import { getScormLevelStats } from "../scorm/scorm_database";
 
 export function useLevelStatsState({
   isFinished,
@@ -8,26 +9,31 @@ export function useLevelStatsState({
   wpm,
   errors,
   accuracy,
+  earnedPoints,
   level
 }: LevelStatsStateProps) {
+    useEffect(() => {
+        if (!isFinished || duration <= 0) return;
 
-  useEffect(() => {
-    if (!isFinished || duration <= 0) return;
+          const isShortcutLevel = level.category === "shortcuts";
+          const stats: LevelStats = {
+            levelId: level.id,
+            duration,
+            WPM: isShortcutLevel ? -1 : Math.round(wpm),
+            Errors: isShortcutLevel ? -1 : errors,
+            Accuracy: isShortcutLevel ? -1 : accuracy,
+            earnedPoints: earnedPoints,
+            timestamp: new Date().toISOString(),
+        };
 
-    const stats: LevelStats = {
-      levelId: level.id,
-      duration,
-      WPM: Math.round(wpm),
-      Errors: errors,
-      Accuracy: accuracy,
-      timestamp: new Date().toISOString()
-    };
-
-    set_level_wpm(level.id, stats.WPM);
-
-    localStorage.setItem(
-      `level_${level.id}_stats`,
-      JSON.stringify(stats)
-    );
-  }, [isFinished, duration, wpm, errors, accuracy, level.id, level.title]);
+        getScormLevelStats(level.id).then((previousStats) => {
+            if (previousStats) {
+                if (previousStats.earnedPoints < stats.earnedPoints) {
+                    saveLevelStats(stats);
+                }
+            } else {
+                saveLevelStats(stats);
+            }
+        });
+    }, [isFinished, duration, wpm, errors, accuracy, earnedPoints, level.id, level.title]);
 }

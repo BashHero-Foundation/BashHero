@@ -39,7 +39,7 @@ export default function TutorialPopup({
 
         <button
           onClick={handleClose}
-          className="rounded-lg border-btn-primary-border bg-btn-primary-bg px-4 py-2 text-white text-lg 
+          className="rounded-lg border-btn-primary-border bg-btn-primary-bg px-4 py-2 text-white text-lg
           text-btn-primary-text tracking-wider transition hover:bg-btn-primary-bg-hover px-6 active:border-b-0"
         >
           Ok
