@@ -56,10 +56,10 @@
         { "text": "mv -i file1.txt moved_file.txt" },
         { "text": "ln -s file125.txt link125.txt" },
         { "text": "ls -l link125.txt" },
-        { "text": "rm -r stare_zadania" },
-        { "text": "ls -l archiwum" },
-        { "text": "cd archiwum" },
-        { "text": "rmdir pusty_katalog" }
+        { "text": "rm -r stare_zadania/" },
+        { "text": "ls -l archiwum/" },
+        { "text": "cd archiwum/" },
+        { "text": "rmdir pusty_katalog/" }
       ]
     },
     {
@@ -78,7 +78,7 @@
         { "text": "stat document.docx" },
         { "text": "file nieznany_plik" },
         { "text": "file /usr/bin/bash" },
-        { "text": "cd ~/Downloads"},
+        { "text": "cd ~/Downloads/"},
         { "text": "md5sum bigLinux.iso" },
         { "text": "md5sum bigger_file.tar" }
       ]
