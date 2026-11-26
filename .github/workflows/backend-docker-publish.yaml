@@ -7,7 +7,7 @@ name: Build Docker LTI backend
 
 on:
   push:
-    branches: [ "main" , "lti-in-docker" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
