@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    # env_file: backend/.env
+    environment:
+      DATABASE_URL: "sqlite:////data/bashhero.db"
+      LTI_PRIVATE_KEY_PATH: "/data/private.pem"
+      PUBLIC_URL: "https://bashhero.example.com"
+      FRONTEND_URL: "https://bashhero.example.com"
+      COOKIE_SAMESITE: "lax"
+      # use COOKIE_SAMESITE=none when frontend and backend run on different domains
+      SECRET_KEY: "replace-with-a-random-secret-key"
+      # generate SECRET_KEY: openssl rand -hex 32
+      # without openssl: python -c "import secrets; print(secrets.token_hex(32))"
+
+      # values are supplied by Moodle when the external tool is registered.
+      LTI_CLIENT_ID: "replace-with-moodle-client-id"
+      LTI_ISSUER: "https://moodle.example.com"
+      LTI_AUTH_LOGIN_URL: "https://moodle.example.com/mod/lti/auth.php"
+      LTI_JWKS_URL: "https://moodle.example.com/mod/lti/certs.php"
+    ports:
+      - "8000:80"
+    volumes:
+      - backend-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "--max-time", "3", "http://127.0.0.1:80/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  backend-data:

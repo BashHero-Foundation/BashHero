@@ -1,8 +1,6 @@
 services:
   backend:
-    build:
-      context: ..
-      dockerfile: backend/Dockerfile
+    image: ghcr.io/bashhero-foundation/bashhero-backend:main
     # env_file: backend/.env
     environment:
       DATABASE_URL: "sqlite:////data/bashhero.db"
@@ -21,11 +19,11 @@ services:
       LTI_AUTH_LOGIN_URL: "https://moodle.example.com/mod/lti/auth.php"
       LTI_JWKS_URL: "https://moodle.example.com/mod/lti/certs.php"
     ports:
-      - "8000:8000"
+      - "8000:80"
     volumes:
       - backend-data:/data
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "--max-time", "3", "http://127.0.0.1:8000/health"]
+      test: ["CMD", "curl", "-fsS", "--max-time", "3", "http://127.0.0.1:80/health"]
       interval: 10s
       timeout: 5s
       retries: 3
