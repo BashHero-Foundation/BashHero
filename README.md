@@ -2,6 +2,16 @@
 
 To deploy BashHero on Moodle, download the latest version of `bashhero_scormpackage.zip` from the [releases page](https://github.com/BashHero-Foundation/BashHero/releases) and proceed to [Deployment on Moodle](#Deployment-on-Moodle). If you want to add new levels or customize existing ones, see [Building the SCORM Package](#Building-the-SCORM-Package).
 
+## Building package with levels
+
+You need to have [Python](https://www.python.org) installed and configured.
+
+From the project root, open `builder/win_launcher.cmd` on Windows, or `builder/launcher.sh` on Linux/macOS.
+
+A web page with a builder interface will open to allow you to create the full package.
+
+Click "Download all" once you're done and download `BashHeroPack.zip` as the finished package.
+
 ## Building SCORM package
 
 Instructions for Debian-based Linux and macOS.

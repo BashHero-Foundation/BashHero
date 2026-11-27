@@ -1,0 +1,65 @@
+{
+  "chapterId": "5",
+  "chapterTitle": "Rozdział 5: Zarządzanie procesami i systemem",
+  "levels": [
+    {
+      "id": "22",
+      "title": "22 Podgląd procesów i zasobów",
+      "description": "Monitorowanie wykorzystania pamięci RAM, procesora oraz listy zadań.",
+      "difficulty": "medium",
+      "category": "system",
+      "points": 10,
+      "min_wpm": 30,
+      "min_accuracy": 95,
+      "commands": [
+      { "text": "ps aux" },
+      { "text": "ps aux | grep bash" },
+      { "text": "top" },
+      { "text": "top -o %CPU" },
+      { "text": "free -m" },
+      { "text": "df -h" },
+      { "text": "df -h /home" }
+      ]
+    },
+    {
+      "id": "23",
+      "title": "23 Kontrola i zabijanie procesów",
+      "description": "Wyszukiwanie konkretnych programów i wysyłanie sygnałów zakończenia.",
+      "difficulty": "medium",
+      "category": "system",
+      "points": 10,
+      "min_wpm": 30,
+      "min_accuracy": 92,
+      "commands": [
+        { "text": "pgrep nginx" },
+        { "text": "pgrep -a nginx" },
+        { "text": "kill 1234" },
+        { "text": "kill -9 1234" },
+        { "text": "killall firefox" },
+        { "text": "pkill firefox" },
+        { "text": "pkill -9 -u student" }
+      ]
+    },
+    {
+      "id": "24",
+      "title": "24 Zarządzanie zadaniami w tle",
+      "description": "Uruchamianie skryptów w tle oraz wznawianie zadań w terminalu.",
+      "difficulty": "hard",
+      "category": "system",
+      "points": 25,
+      "min_wpm": 30,
+      "min_accuracy": 94,
+      "commands": [
+        { "text": "/lib32/security/private/script.sh &" },
+        { "text": "jobs" },
+        { "text": "jobs -l" },
+        { "text": "fg %1" },
+        { "text": "bg %1" },
+        { "text": "kill %1" },
+        { "text": "nohup /lib32/security/private/script.sh &" },
+        { "text": "disown %1" },
+        { "text": "ps -o pid,cmd" }
+      ]
+    }
+  ]
+}
